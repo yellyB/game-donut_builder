@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgtkwht01e514"]
+
+[ext_resource type="Script" path="res://grid_manager.gd" id="1_dadi5"]
+[ext_resource type="PackedScene" uid="uid://co5tlnjxavdlw" path="res://card.tscn" id="2_4cca1"]
+
+[node name="GridManager" type="Node2D"]
+script = ExtResource("1_dadi5")
+card_scene = ExtResource("2_4cca1")
