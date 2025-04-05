@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi40ejkwcc5b2"]
+[gd_scene load_steps=3 format=3 uid="uid://bi40ejkwcc5b2"]
 
-[ext_resource type="PackedScene" uid="uid://co5tlnjxavdlw" path="res://card.tscn" id="1_55lp7"]
+[ext_resource type="Script" path="res://main.gd" id="1_sqydp"]
+[ext_resource type="PackedScene" uid="uid://cgtkwht01e514" path="res://grid_manager.tscn" id="2_76dw7"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_sqydp")
 
-[node name="Card" parent="." instance=ExtResource("1_55lp7")]
+[node name="GridManager" parent="." instance=ExtResource("2_76dw7")]
