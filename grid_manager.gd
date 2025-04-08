@@ -35,7 +35,7 @@ func create_grid():
         col * (SLOT_SIZE.x + SLOT_MARGIN_X),
         row * (SLOT_SIZE.y + SLOT_MARGIN_Y)
       )
-      var add_card = row == 0 and col == 0
+      var add_card = row <= 2 and col <= 2  # todo: 아직은 하드코딩으로 카드 생성. 추후 동적 배치로 변경 필요
       var slot = create_slot(slot_pos, add_card)
       grid_slots.append(slot)
 

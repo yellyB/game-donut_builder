@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0aus"]
 size = Vector2(669, 1041)
 
-[node name="Card" type="Area2D"]
+[node name="Card" type="Area2D" groups=["cards"]]
 script = ExtResource("1_dhcm2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
