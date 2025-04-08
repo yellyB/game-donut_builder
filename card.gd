@@ -18,12 +18,18 @@ func _start_drag(pos: Vector2):
   is_dragging = true
   offset = global_position - pos
   monitoring = false
+  
+  for card in get_tree().get_nodes_in_group("cards"):
+    if card.has_method("clear_highlight"):
+      card.clear_highlight()
 
 
 func _end_drag(pos: Vector2):
   is_dragging = false
   monitoring = true
-  check_overlap()
+  call_deferred("check_overlap")
+  
+  # todo: 1초 뒤 카드 하이라이트 제거
   
   
 func _input_event(viewport, event, shape_idx):
@@ -33,14 +39,13 @@ func _input_event(viewport, event, shape_idx):
       _start_drag(event.position)
     else:
       _end_drag(event.position)
-            
+          
 
-func _input(event):
-  if not is_dragging: return
-  if event is InputEventMouseMotion or event is InputEventScreenDrag:
-    global_position = event.position + offset
+func _process(delta):
+  if is_dragging:
+    global_position = get_global_mouse_position() + offset
     
-
+    
 func is_dragging_now() -> bool:
   return is_dragging
   
@@ -51,3 +56,13 @@ func check_overlap():
     var is_valid = area != self and area.is_in_group("cards") and (not area.has_method("is_dragging_now") or not area.is_dragging_now())
     if is_valid:
       print("겹침 감지! -> ", area.name)
+      if area.has_method("highlight"):
+        area.highlight()
+
+
+func highlight():
+  modulate = Color(1, 0.6, 0.6)
+
+
+func clear_highlight():
+  modulate = Color(1, 1, 1)
