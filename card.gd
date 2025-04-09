@@ -18,12 +18,12 @@ func _start_drag(pos: Vector2):
   is_dragging = true
   offset = global_position - pos
   monitoring = false
-  
+  set_highlight("drag")
   set_z_as_relative(false)
   z_index = 999
   
   for card in get_tree().get_nodes_in_group("cards"):
-    if card.has_method("clear_highlight"):
+    if card != self and card.has_method("clear_highlight"):
       card.clear_highlight()
 
 
@@ -31,8 +31,7 @@ func _end_drag(pos: Vector2):
   is_dragging = false
   monitoring = true
   call_deferred("check_overlap")
-  
-  # todo: 1초 뒤 카드 하이라이트 제거
+  clear_highlight()
   
   
 func _input_event(viewport, event, shape_idx):
@@ -59,12 +58,16 @@ func check_overlap():
     var is_valid = area != self and area.is_in_group("cards") and (not area.has_method("is_dragging_now") or not area.is_dragging_now())
     if is_valid:
       print("겹침 감지! -> ", area.name)
-      if area.has_method("highlight"):
-        area.highlight()
+      if area.has_method("set_highlight"):
+        area.set_highlight("overlap")
 
 
-func highlight():
-  modulate = Color(1, 0.6, 0.6)
+func set_highlight(type := "overlap"):
+  match type:
+    "drag":
+      modulate = Color(0.6, 0.8, 1.0)
+    "overlap":
+      modulate = Color(1, 0.6, 0.6) 
 
 
 func clear_highlight():
