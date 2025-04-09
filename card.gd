@@ -54,13 +54,41 @@ func is_dragging_now() -> bool:
 
 func check_overlap():
   var overlaps = get_overlapping_areas()
+  var max_overlap = 0.0
+  var most_overlapped_card: Area2D = null
+  
   for area in overlaps:
-    var is_valid = area != self and area.is_in_group("cards") and (not area.has_method("is_dragging_now") or not area.is_dragging_now())
-    if is_valid:
-      print("겹침 감지! -> ", area.name)
-      if area.has_method("set_highlight"):
-        area.set_highlight("overlap")
+    if area == self or not area.is_in_group("cards"):
+      continue
+    if area.has_method("is_dragging_now") and area.is_dragging_now():
+      continue
 
+    # 겹친 영역 계산
+    var overlap_rect = get_overlap_rect(self, area)
+    var overlap_area = overlap_rect.size.x * overlap_rect.size.y
+
+    if overlap_area > max_overlap:
+      max_overlap = overlap_area
+      most_overlapped_card = area
+
+  if most_overlapped_card and most_overlapped_card.has_method("set_highlight"):
+    most_overlapped_card.set_highlight("overlap")
+
+
+func get_overlap_rect(a: Area2D, b: Area2D) -> Rect2:
+  var a_rect = a.get_global_rect()
+  var b_rect = b.get_global_rect()
+  return a_rect.intersection(b_rect)
+  
+  
+func get_global_rect() -> Rect2:
+  var sprite = get_node_or_null("Sprite2D")
+  if sprite and sprite.texture:
+    var size = sprite.texture.get_size() * sprite.scale
+    var top_left = global_position - (size * 0.5)
+    return Rect2(top_left, size)
+  return Rect2(global_position, Vector2(100, 130))  # fallback 사이즈
+    
 
 func set_highlight(type := "overlap"):
   match type:
