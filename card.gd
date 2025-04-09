@@ -19,6 +19,9 @@ func _start_drag(pos: Vector2):
   offset = global_position - pos
   monitoring = false
   
+  set_z_as_relative(false)
+  z_index = 999
+  
   for card in get_tree().get_nodes_in_group("cards"):
     if card.has_method("clear_highlight"):
       card.clear_highlight()
