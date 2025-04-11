@@ -19,8 +19,9 @@ func _start_drag(pos: Vector2):
   offset = global_position - pos
   monitoring = false
   set_highlight("drag")
+  
   set_z_as_relative(false)
-  z_index = 999
+  z_index = GameState.get_next_z_index()
   
   for card in get_tree().get_nodes_in_group("cards"):
     if card != self and card.has_method("clear_highlight"):
