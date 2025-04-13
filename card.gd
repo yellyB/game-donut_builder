@@ -54,22 +54,20 @@ func is_dragging_now() -> bool:
   
 
 func check_overlap():
-  var overlaps = get_overlapping_areas()
-  var top_card: Area2D = null
-  var top_z = -INF
-  
-  for area in overlaps:
-    if area == self or not area.is_in_group("cards"):
-      continue
-    if area.has_method("is_dragging_now") and area.is_dragging_now():
+  var max_overlap = 0.0
+  var best_slot: Node = null
+
+  for area in get_tree().get_nodes_in_group("slots"):
+    if not area.has_method("get_overlap_area"):
       continue
 
-    if area.z_index > top_z:
-      top_z = area.z_index
-      top_card = area
-
-  if top_card and top_card.has_method("set_highlight"):
-    top_card.set_highlight("overlap")
+    var overlap = area.get_overlap_area(self)
+    if overlap > max_overlap:
+      max_overlap = overlap
+      best_slot = area
+      
+  if best_slot:
+    global_position = best_slot.global_position
 
 
 func set_highlight(type := "overlap"):
@@ -82,3 +80,13 @@ func set_highlight(type := "overlap"):
 
 func clear_highlight():
   modulate = Color(1, 1, 1)
+
+
+func get_rect() -> Rect2:
+  var size = Vector2.ZERO
+  for child in get_children():
+    if child is Sprite2D:
+      size = child.texture.get_size() * scale
+      break
+  return Rect2(global_position - size / 2, size)
+  
