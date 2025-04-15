@@ -6,6 +6,7 @@ enum CardType { MATERIAL, DONUT, CUSTOMER }
 var is_dragging = false
 var offset = Vector2.ZERO
 var card_type: CardType = CardType.MATERIAL
+var grid_manager: Node = null
 
 
 func _ready():
@@ -33,6 +34,9 @@ func _end_drag(pos: Vector2):
   monitoring = true
   call_deferred("check_overlap")
   clear_highlight()
+  
+  if grid_manager:
+    grid_manager.move_card_to_best_slot(self)
   
   
 func _input_event(viewport, event, shape_idx):
@@ -80,7 +84,7 @@ func set_highlight(type := "overlap"):
 
 func clear_highlight():
   modulate = Color(1, 1, 1)
-
+  
 
 func get_rect() -> Rect2:
   var size = Vector2.ZERO
@@ -90,3 +94,27 @@ func get_rect() -> Rect2:
       break
   return Rect2(global_position - size / 2, size)
   
+  
+func get_card_type() -> CardType:
+  return card_type
+
+
+func can_overlap_with(other_card: Node) -> bool:
+  if not other_card.has_method("get_card_type"):
+    return false
+    
+  var other_type = other_card.get_card_type()
+
+  match card_type:
+    CardType.MATERIAL:
+      return false
+    CardType.CUSTOMER:
+      return other_type == CardType.DONUT
+    CardType.DONUT:
+      return other_type == CardType.CUSTOMER
+      
+  return false
+
+
+func set_grid_manager(manager: Node):
+  grid_manager = manager

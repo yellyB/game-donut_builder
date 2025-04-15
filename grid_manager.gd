@@ -49,6 +49,7 @@ func create_grid():
       grid_slots.append(slot)
 
 
+
 func get_card_size(card: Node2D) -> Vector2:
   for child in card.get_children():
     if child is Sprite2D:
@@ -67,6 +68,7 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
 
   if add_card and card_scene:
     var card = card_scene.instantiate()
+    card.set_grid_manager(self)
     card.position = Vector2.ZERO
     var card_size = get_card_size(card)
     
@@ -78,3 +80,37 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
     slot.add_child(card)
 
   return slot
+  
+  
+func move_card_to_best_slot(card: Node2D):
+  var card_rect = Rect2(card.global_position - (slot_size / 2), slot_size)
+  var best_slot: Node2D = null
+  var max_overlap = -1.0
+
+  for slot in grid_slots:
+    var slot_rect = Rect2(slot.global_position - (slot_size / 2), slot_size)
+    var overlap = card_rect.intersection(slot_rect)
+
+    if overlap and overlap.size.length() > 0:
+      var overlap_area = overlap.size.x * overlap.size.y
+      var overlapping_cards = []
+
+      for child in slot.get_children():
+        if child == card:
+          continue
+        if child.is_in_group("cards"):
+          overlapping_cards.append(child)
+
+      var can_place = true
+      
+      for existing_card in overlapping_cards:
+        if not card.has_method("can_overlap_with") or not card.can_overlap_with(existing_card):
+          can_place = false
+          break
+
+      if can_place and overlap_area > max_overlap:
+        max_overlap = overlap_area
+        best_slot = slot
+
+  if best_slot != null:
+    card.global_position = best_slot.global_position
