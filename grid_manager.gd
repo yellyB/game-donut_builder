@@ -13,6 +13,8 @@ const SLOT_MARGIN_Y = 50
 var grid_slots = []
 var START_POS = Vector2.ZERO
 
+var card_counter: int = 0
+
 
 func _ready():
   set_slot_size_from_scene()
@@ -72,6 +74,9 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
     card.position = Vector2.ZERO
     var card_size = get_card_size(card)
     
+    card.card_id = card_counter  # for debugg
+    card_counter += 1   # for debugg
+    
     if card_size.x > 0 and card_size.y > 0:
       var scale_x = slot_size.x / card_size.x
       var scale_y = slot_size.y / card_size.y
@@ -86,8 +91,12 @@ func move_card_to_best_slot(card: Node2D):
   var card_rect = Rect2(card.global_position - (slot_size / 2), slot_size)
   var best_slot: Node2D = null
   var max_overlap = -1.0
+  var current_slot = card.get_parent()
+
 
   for slot in grid_slots:
+    if slot == current_slot:
+      continue
     var slot_rect = Rect2(slot.global_position - (slot_size / 2), slot_size)
     var overlap = card_rect.intersection(slot_rect)
 
@@ -108,9 +117,17 @@ func move_card_to_best_slot(card: Node2D):
           can_place = false
           break
 
+      if not can_place:
+        print("슬롯에 카드가 있어서 못놓음:", slot.name)
+        continue
+        
       if can_place and overlap_area > max_overlap:
         max_overlap = overlap_area
         best_slot = slot
 
   if best_slot != null:
     card.global_position = best_slot.global_position
+  else:
+    print("🔄 적절한 슬롯이 없어서 제자리 복귀!")
+    if current_slot:
+      card.global_position = current_slot.global_position

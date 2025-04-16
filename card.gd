@@ -7,12 +7,14 @@ var is_dragging = false
 var offset = Vector2.ZERO
 var card_type: CardType = CardType.MATERIAL
 var grid_manager: Node = null
+var card_id: int = -1  # for debugging
 
 
 func _ready():
   add_to_group("cards")
   monitoring = true
   set_deferred("monitorable", true)
+  $Label.text = str(card_id)  # for debugging : 디버깅용 번호 라벨 추가
 
 
 func _start_drag(pos: Vector2):
