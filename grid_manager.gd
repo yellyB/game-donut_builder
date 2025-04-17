@@ -93,7 +93,6 @@ func move_card_to_best_slot(card: Node2D):
   var max_overlap = -1.0
   var current_slot = card.get_parent()
 
-
   for slot in grid_slots:
     if slot == current_slot:
       continue
@@ -126,6 +125,8 @@ func move_card_to_best_slot(card: Node2D):
         best_slot = slot
 
   if best_slot != null:
+    card.get_parent().remove_child(card)
+    best_slot.add_child(card)
     card.global_position = best_slot.global_position
   else:
     print("🔄 적절한 슬롯이 없어서 제자리 복귀!")
