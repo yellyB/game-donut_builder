@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjn6ecipve4xm"]
+[gd_scene load_steps=3 format=3 uid="uid://cjn6ecipve4xm"]
 
+[ext_resource type="Script" path="res://hud.gd" id="1_6uaap"]
 [ext_resource type="PackedScene" uid="uid://d4axhjf88x8dl" path="res://card_pack.tscn" id="1_vslgj"]
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_6uaap")
+cardpack_scene = ExtResource("1_vslgj")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
@@ -25,15 +28,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_constants/separation = 450
-
-[node name="CardPack" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_vslgj")]
-layout_mode = 2
-
-[node name="CardPack2" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_vslgj")]
-layout_mode = 2
-
-[node name="CardPack3" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_vslgj")]
-layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
