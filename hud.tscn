@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjn6ecipve4xm"]
+
+[ext_resource type="PackedScene" uid="uid://d4axhjf88x8dl" path="res://card_pack.tscn" id="1_vslgj"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -315.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/separation = 450
+
+[node name="CardPack" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_vslgj")]
+layout_mode = 2
+
+[node name="CardPack2" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_vslgj")]
+layout_mode = 2
+
+[node name="CardPack3" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("1_vslgj")]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="Description" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "description"
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "TEMP"

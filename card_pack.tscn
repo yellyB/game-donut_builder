@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://d4axhjf88x8dl"]
+
+[ext_resource type="Texture2D" uid="uid://cp0fdmf8sd11l" path="res://images/CardPack.png" id="1_yvkgp"]
+
+[node name="CardPack" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -44.0
+offset_top = -54.0
+offset_right = 398.0
+offset_bottom = 564.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_yvkgp")
