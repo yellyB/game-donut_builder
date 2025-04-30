@@ -1,8 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjn6ecipve4xm"]
+[gd_scene load_steps=9 format=3 uid="uid://cjn6ecipve4xm"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_6uaap"]
 [ext_resource type="PackedScene" uid="uid://d4axhjf88x8dl" path="res://card_pack.tscn" id="1_vslgj"]
+[ext_resource type="Texture2D" uid="uid://d1i0s0jl1xjf5" path="res://images/hourglass.png" id="3_qlpow"]
 [ext_resource type="Texture2D" uid="uid://ccovrgman033m" path="res://images/coin.png" id="3_v40vp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_58vxo"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_dluk8"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_t38bl"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_74x0t"]
+font_size = 24
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_6uaap")
@@ -11,27 +24,52 @@ cardpack_scene = ExtResource("1_vslgj")
 [node name="TopBar" type="MarginContainer" parent="."]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 115.0
+offset_bottom = 63.0
 grow_horizontal = 2
-theme_override_constants/margin_left = 50
-theme_override_constants/margin_top = 50
-theme_override_constants/margin_right = 50
-theme_override_constants/margin_bottom = 50
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
+[node name="TimerContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 size_flags_horizontal = 10
+size_flags_vertical = 4
 
-[node name="TextureRect" type="TextureRect" parent="TopBar/HBoxContainer/HBoxContainer"]
+[node name="Hourglass" type="TextureRect" parent="TopBar/HBoxContainer/TimerContainer"]
+layout_mode = 2
+texture = ExtResource("3_qlpow")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="TimerLabel" type="Label" parent="TopBar/HBoxContainer/TimerContainer"]
+layout_mode = 2
+text = "0:0"
+label_settings = SubResource("LabelSettings_58vxo")
+
+[node name="CountdownTimer" type="Timer" parent="TopBar/HBoxContainer/TimerContainer"]
+autostart = true
+
+[node name="MoneyContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="Coin" type="TextureRect" parent="TopBar/HBoxContainer/MoneyContainer"]
 layout_mode = 2
 texture = ExtResource("3_v40vp")
+expand_mode = 2
+stretch_mode = 5
 
-[node name="Label" type="Label" parent="TopBar/HBoxContainer/HBoxContainer"]
+[node name="MoneyLabel" type="Label" parent="TopBar/HBoxContainer/MoneyContainer"]
 layout_mode = 2
 text = "1,000"
+label_settings = SubResource("LabelSettings_dluk8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
@@ -55,19 +93,25 @@ size_flags_horizontal = 4
 size_flags_vertical = 3
 theme_override_constants/separation = 450
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="FooterContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/FooterContainer"]
 layout_mode = 2
 text = "카드  팩:"
+label_settings = SubResource("LabelSettings_t38bl")
 
-[node name="Description" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Description" type="Label" parent="MarginContainer/VBoxContainer/FooterContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "description"
+label_settings = SubResource("LabelSettings_74x0t")
 
-[node name="PurchaseButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="PurchaseButton" type="Button" parent="MarginContainer/VBoxContainer/FooterContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 48
 text = "구매"
+
+[connection signal="timeout" from="TopBar/HBoxContainer/TimerContainer/CountdownTimer" to="." method="_on_countdown_timer_timeout"]
