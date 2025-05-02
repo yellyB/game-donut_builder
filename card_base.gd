@@ -5,7 +5,7 @@ enum CardType { MATERIAL, DONUT, CUSTOMER }
 
 var is_dragging = false
 var offset = Vector2.ZERO
-var card_type: CardType = CardType.MATERIAL
+var card_type
 var grid_manager: Node = null
 
 
@@ -97,23 +97,6 @@ func get_rect() -> Rect2:
   
 func get_card_type() -> CardType:
   return card_type
-
-
-func can_overlap_with(other_card: Node) -> bool:
-  if not other_card.has_method("get_card_type"):
-    return false
-    
-  var other_type = other_card.get_card_type()
-
-  match card_type:
-    CardType.MATERIAL:
-      return false
-    CardType.CUSTOMER:
-      return other_type == CardType.DONUT
-    CardType.DONUT:
-      return other_type == CardType.CUSTOMER
-      
-  return false
 
 
 func set_grid_manager(manager: Node):

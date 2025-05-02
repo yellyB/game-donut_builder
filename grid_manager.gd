@@ -3,7 +3,9 @@ extends Node2D
 
 @export var grid_rows: int = 4
 @export var grid_cols: int = 7
-@export var card_scene: PackedScene
+@export var card_scene_meterial: PackedScene
+@export var card_scene_donut: PackedScene
+@export var card_scene_customer: PackedScene
 @export var slot_scene: PackedScene
 
 var slot_size = Vector2(100, 150)  # todo: 아래에서 설정되기 때문에 아무값이나 넣어둠. 나중엔 제대로 된 값으로 수정필요
@@ -68,8 +70,8 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
   slot.position = pos
   add_child(slot)
 
-  if add_card and card_scene:
-    var card = card_scene.instantiate()
+  if add_card:
+    var card = card_scene_meterial.instantiate()
     card.set_grid_manager(self)
     card.position = Vector2.ZERO
     var card_size = get_card_size(card)
