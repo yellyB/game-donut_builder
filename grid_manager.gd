@@ -74,8 +74,11 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
     card.position = Vector2.ZERO
     var card_size = get_card_size(card)
     
-    card.card_id = card_counter  # for debugg
-    card_counter += 1   # for debugg
+    # for debugg
+    var label = card.get_node("Label")
+    if label and label is Label:
+      label.text = str(card_counter)
+      card_counter += 1
     
     if card_size.x > 0 and card_size.y > 0:
       var scale_x = slot_size.x / card_size.x

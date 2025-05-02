@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://co5tlnjxavdlw"]
 
-[ext_resource type="Script" path="res://card.gd" id="1_dhcm2"]
-[ext_resource type="Texture2D" uid="uid://bhlwurx2yepqw" path="res://images/card.png" id="1_wcudb"]
+[ext_resource type="Script" path="res://card_base.gd" id="1_s5qbc"]
+[ext_resource type="Texture2D" uid="uid://bhlwurx2yepqw" path="res://images/card_1_meterial.png" id="2_k7681"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0aus"]
 size = Vector2(669, 1041)
@@ -10,11 +10,11 @@ size = Vector2(669, 1041)
 font_size = 1000
 font_color = Color(1, 0.0862745, 1, 1)
 
-[node name="Card" type="Area2D" groups=["cards"]]
-script = ExtResource("1_dhcm2")
+[node name="CardBase" type="Area2D" groups=["cards"]]
+script = ExtResource("1_s5qbc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_wcudb")
+texture = ExtResource("2_k7681")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 3.5)
