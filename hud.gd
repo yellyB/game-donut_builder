@@ -2,9 +2,11 @@ extends CanvasLayer
 
 
 @onready var card_pack_grid = $MarginContainer/VBoxContainer/CardPackContainer
-@onready var label = $MarginContainer/VBoxContainer/FooterContainer/Description
+@onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
+@onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
 @export var cardpack_scene: PackedScene
-@export var remaining_seconds := 300 # 5분
+@export var remaining_seconds := 60
+
 var card_data = [
   { "image": preload("res://images/card_pack_1.png"), "price": 1000, "description": "첫 번째 카드 설명: 123 123 123" },
   { "image": preload("res://images/card_pack_2.png"), "price": 3000, "description": "두 번째 카드 설명: 라라라 라라라랄" },
@@ -13,6 +15,7 @@ var card_data = [
 
 
 func _ready() -> void:
+  update_money_display()
   update_timer_label()
   for data in card_data:
     var card_pack = cardpack_scene.instantiate()
@@ -23,7 +26,7 @@ func _ready() -> void:
 
 
 func _on_card_pack_gui_input(description) -> void:
-  label.text = description
+  description_label.text = description
 
 
 func _on_countdown_timer_timeout() -> void:
@@ -36,8 +39,14 @@ func _on_countdown_timer_timeout() -> void:
   update_timer_label()
 
 
+func _on_card_clicked():
+  GameState.add_money(1)
+  update_money_display()
+  
+
 func on_timer_finished() -> void:
   # todo: 타이머 종료 시 이벤트 작성
+  print('타이머 종료됨')
   pass
 
 
@@ -46,3 +55,7 @@ func update_timer_label() -> void:
   var minutes = remaining_seconds / 60
   var seconds = remaining_seconds % 60
   timer_label.text = "%02d:%02d" % [minutes, seconds]
+
+
+func update_money_display():
+  money_label.text = str(GameState.money)

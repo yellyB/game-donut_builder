@@ -1,26 +1,24 @@
 extends Node2D
 
 
+const SLOT_MARGIN_X = 10
+const SLOT_MARGIN_Y = 50
+
 @export var grid_rows: int = 4
 @export var grid_cols: int = 7
 @export var card_scene_meterial: PackedScene
 @export var card_scene_donut: PackedScene
 @export var card_scene_customer: PackedScene
 @export var slot_scene: PackedScene
-
+var hud: Node = null  # Main에서 할당
 var slot_size = Vector2(100, 150)  # todo: 아래에서 설정되기 때문에 아무값이나 넣어둠. 나중엔 제대로 된 값으로 수정필요
-const SLOT_MARGIN_X = 10
-const SLOT_MARGIN_Y = 50
-
 var grid_slots = []
 var START_POS = Vector2.ZERO
-
 var card_counter: int = 0
 
 
 func _ready():
   set_slot_size_from_scene()
-  create_grid()
 
 
 func set_slot_size_from_scene():
@@ -65,16 +63,19 @@ func get_card_size(card: Node2D) -> Vector2:
   return Vector2(100, 130)
 
 
+
 func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
   var slot = slot_scene.instantiate()
   slot.position = pos
   add_child(slot)
 
   if add_card:
-    var card = card_scene_meterial.instantiate()
+    var card = card_scene_donut.instantiate()
+    var card_size = get_card_size(card)
+    
     card.set_grid_manager(self)
     card.position = Vector2.ZERO
-    var card_size = get_card_size(card)
+    card.connect("card_clicked", Callable(hud, "_on_card_clicked"))
     
     # for debugg
     var label = card.get_node("Label")
@@ -137,3 +138,14 @@ func move_card_to_best_slot(card: Node2D):
     print("🔄 적절한 슬롯이 없어서 제자리 복귀!")
     if current_slot:
       card.global_position = current_slot.global_position
+
+
+## NOTE:: hud를 연결해주는 main의 _ready 보다 grid_manager의 ready가 먼저 실행되어버려서 순서 제어용 처리를 추가.
+func initialize(hud_node: Node) -> void:
+  hud = hud_node
+  create_initial_slots()
+
+
+func create_initial_slots():
+  create_grid()
+    

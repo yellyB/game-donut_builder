@@ -9,3 +9,5 @@ script = ExtResource("2_cxd0y")
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("3_ehmxw")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

@@ -7,6 +7,6 @@
 [node name="Main" type="Node"]
 script = ExtResource("1_sqydp")
 
-[node name="GridManager" parent="." instance=ExtResource("2_76dw7")]
-
 [node name="HUD" parent="." instance=ExtResource("3_hiluj")]
+
+[node name="GridManager" parent="." instance=ExtResource("2_76dw7")]
