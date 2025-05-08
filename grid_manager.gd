@@ -51,7 +51,6 @@ func create_grid():
       grid_slots.append(slot)
 
 
-
 func get_card_size(card: Node2D) -> Vector2:
   for child in card.get_children():
     if child is Sprite2D:
@@ -63,32 +62,15 @@ func get_card_size(card: Node2D) -> Vector2:
   return Vector2(100, 130)
 
 
-
 func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
   var slot = slot_scene.instantiate()
   slot.position = pos
   add_child(slot)
 
   if add_card:
-    var card = card_scene_donut.instantiate()
-    var card_size = get_card_size(card)
-    
-    card.set_grid_manager(self)
-    card.position = Vector2.ZERO
-    card.connect("card_clicked", Callable(hud, "_on_card_clicked"))
-    
-    # for debugg
-    var label = card.get_node("Label")
-    if label and label is Label:
-      label.text = str(card_counter)
-      card_counter += 1
-    
-    if card_size.x > 0 and card_size.y > 0:
-      var scale_x = slot_size.x / card_size.x
-      var scale_y = slot_size.y / card_size.y
-      card.scale = Vector2(scale_x, scale_y)
-    
-    slot.add_child(card)
+    var card = create_card_for_slot("DONUT")
+    if card:
+      slot.add_child(card)
 
   return slot
   
@@ -149,3 +131,51 @@ func initialize(hud_node: Node) -> void:
 func create_initial_slots():
   create_grid()
     
+
+func spawn_cards(card_type: String, count: int = 2) -> void:
+  var created = 0
+  for slot in grid_slots:
+    var has_card := false
+    for child in slot.get_children():
+      if child.is_in_group("cards"):
+        has_card = true
+        break
+
+    if not has_card:
+      var card = create_card_for_slot(card_type)
+      if card:
+        slot.add_child(card)
+        created += 1
+        if created >= count:
+          break
+
+
+func create_card_for_slot(card_type: String) -> Node2D:
+  var card: Node2D
+  match card_type:
+    "DONUT":
+      card = card_scene_donut.instantiate()
+    "MATERIAL":
+      card = card_scene_meterial.instantiate()
+    "CUSTOMER":
+      card = card_scene_customer.instantiate()
+    _:
+      return null
+
+  card.set_grid_manager(self)
+  card.position = Vector2.ZERO
+  card.connect("card_clicked", Callable(hud, "_on_card_clicked"))
+
+  var card_size = get_card_size(card)
+  if card_size.x > 0 and card_size.y > 0:
+    var scale_x = slot_size.x / card_size.x
+    var scale_y = slot_size.y / card_size.y
+    card.scale = Vector2(scale_x, scale_y)
+
+  # for debugg - todo: 추후 삭제필요
+  var label = card.get_node("Label")
+  if label and label is Label:
+    label.text = str(card_counter)
+    card_counter += 1
+
+  return card
