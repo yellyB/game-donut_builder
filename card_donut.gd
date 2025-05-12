@@ -5,7 +5,7 @@ signal card_clicked
 
 
 func _ready():
-  card_type = "DONUT"
+  card_type = Constants.CardType.DONUT
     
 
 func can_overlap_with(other_card: Node) -> bool:

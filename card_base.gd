@@ -1,8 +1,6 @@
 extends Area2D
 
 
-enum CardType { MATERIAL, DONUT, CUSTOMER }
-
 var is_dragging = false
 var offset = Vector2.ZERO
 var card_type
@@ -95,7 +93,7 @@ func get_rect() -> Rect2:
   return Rect2(global_position - size / 2, size)
   
   
-func get_card_type() -> CardType:
+func get_card_type() -> Constants.CardType:
   return card_type
 
 
