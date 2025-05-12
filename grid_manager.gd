@@ -164,7 +164,7 @@ func create_card_for_slot(card_type: String) -> Node2D:
 
   card.set_grid_manager(self)
   card.position = Vector2.ZERO
-  card.connect("card_clicked", Callable(hud, "_on_card_clicked"))
+  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
 
   var card_size = get_card_size(card)
   if card_size.x > 0 and card_size.y > 0:

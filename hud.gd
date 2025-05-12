@@ -38,7 +38,7 @@ func _on_countdown_timer_timeout() -> void:
   update_timer_label()
 
 
-func _on_card_clicked():
+func _on_moeny_increase():
   GameState.add_money(1)
   update_money_display()
   

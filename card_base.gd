@@ -1,5 +1,6 @@
 extends Area2D
 
+signal increase_money
 
 var is_dragging = false
 var offset = Vector2.ZERO
@@ -35,6 +36,24 @@ func _end_drag(pos: Vector2):
   
   if grid_manager:
     grid_manager.move_card_to_best_slot(self)
+    
+  # 도넛 카드 드래그 후 손님 카드 위에 있는지 확인
+  if card_type == Constants.CardType.CUSTOMER:
+    var overlapped_cards := get_overlapping_cards()
+    for other in overlapped_cards:
+      if other.has_method("get_card_type") and other.get_card_type() == Constants.CardType.DONUT:
+        increase_money.emit()
+        other.queue_free()
+  
+  
+func get_overlapping_cards() -> Array:
+  var result = []
+  for area in get_overlapping_areas():
+    if area == self:
+      continue
+    if area.is_in_group("cards"):
+      result.append(area)
+  return result
   
   
 func _input_event(viewport, event, shape_idx):
