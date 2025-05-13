@@ -33,17 +33,15 @@ func _end_drag(pos: Vector2):
   monitoring = true
   call_deferred("check_overlap")
   clear_highlight()
-  
+  on_drag_ended()
   if grid_manager:
     grid_manager.move_card_to_best_slot(self)
     
-  # 도넛 카드 드래그 후 손님 카드 위에 있는지 확인
-  if card_type == Constants.CardType.CUSTOMER:
-    var overlapped_cards := get_overlapping_cards()
-    for other in overlapped_cards:
-      if other.has_method("get_card_type") and other.get_card_type() == Constants.CardType.DONUT:
-        increase_money.emit()
-        other.queue_free()
+    
+# Called when drag ends. Intended to be overridden.
+func on_drag_ended() -> void:
+  assert(false, "자식 클래스에서 on_drag_ended()를 오버라이드해야 합니다.")
+  return
   
   
 func get_overlapping_cards() -> Array:
