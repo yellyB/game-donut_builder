@@ -48,11 +48,8 @@ stretch_mode = 5
 
 [node name="TimerLabel" type="Label" parent="TopBar/HBoxContainer/TimerContainer"]
 layout_mode = 2
-text = "0:0"
+text = "00:00"
 label_settings = SubResource("LabelSettings_58vxo")
-
-[node name="CountdownTimer" type="Timer" parent="TopBar/HBoxContainer/TimerContainer"]
-autostart = true
 
 [node name="MoneyContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
 custom_minimum_size = Vector2(10, 10)
@@ -140,7 +137,6 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 48
 text = "구매"
 
-[connection signal="timeout" from="TopBar/HBoxContainer/TimerContainer/CountdownTimer" to="." method="_on_countdown_timer_timeout"]
 [connection signal="pressed" from="ForDebugging/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ForDebugging/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="ForDebugging/Button3" to="." method="_on_button_3_pressed"]

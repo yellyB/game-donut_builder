@@ -18,9 +18,14 @@ var card_counter: int = 0
 
 
 func _ready():
+  TimerManager.time_finished.connect(_on_timer_finished)
   set_slot_size_from_scene()
 
 
+func _on_timer_finished():
+  spawn_cards("CUSTOMER", 1)
+  
+  
 func set_slot_size_from_scene():
   var temp_slot = slot_scene.instantiate()
   if temp_slot.has_method("get_size"):
