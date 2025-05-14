@@ -27,8 +27,8 @@ func _on_card_pack_gui_input(description) -> void:
   description_label.text = description
 
 
-func _on_moeny_increase():
-  GameState.add_money(1)
+func _on_moeny_increase(price: int):
+  GameState.add_money(price)
   update_money_display()
   
   

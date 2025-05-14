@@ -1,6 +1,5 @@
 extends Area2D
 
-signal increase_money
 
 var is_dragging = false
 var offset = Vector2.ZERO
@@ -40,8 +39,7 @@ func _end_drag(pos: Vector2):
     
 # Called when drag ends. Intended to be overridden.
 func on_drag_ended() -> void:
-  assert(false, "자식 클래스에서 on_drag_ended()를 오버라이드해야 합니다.")
-  return
+  pass
   
   
 func get_overlapping_cards() -> Array:
