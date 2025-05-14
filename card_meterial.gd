@@ -7,4 +7,7 @@ func _ready():
     
 
 func can_overlap_with(other_card: Node) -> bool:
-  return true
+  if other_card.get_card_type() == Constants.CardType.MATERIAL:
+    return true
+  else:
+    return false
