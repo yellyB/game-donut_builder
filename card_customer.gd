@@ -10,7 +10,7 @@ func _ready():
 
 func can_overlap_with(other_card: Node) -> bool:
   return false
-
+  
 
 func on_drag_ended():
   var overlapped_cards := get_overlapping_cards()
@@ -18,3 +18,5 @@ func on_drag_ended():
     if other.has_method("get_card_type") and other.get_card_type() == Constants.CardType.DONUT:
       increase_money.emit(other.price)
       other.queue_free()
+      queue_free()
+
