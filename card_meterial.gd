@@ -5,15 +5,15 @@ var material_type: Constants.MaterialType = Constants.MaterialType.MILK
 var material_data = {
   Constants.MaterialType.MILK: {
     "name": "우유",
-    "texture": preload("res://images/card_meterial.png")
+    "texture": preload("res://images/card_meterial_milk.png")
   },
   Constants.MaterialType.SUGAR: {
     "name": "설탕",
-    "texture": preload("res://images/card_meterial.png")
+    "texture": preload("res://images/card_meterial_sugar.png")
   },
   Constants.MaterialType.FLOUR: {
     "name": "밀가루",
-    "texture": preload("res://images/card_meterial.png")
+    "texture": preload("res://images/card_meterial_flour.png")
   }
 }
 
