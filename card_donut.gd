@@ -6,15 +6,19 @@ var donut_type: Constants.DonutType = Constants.DonutType.MILK
 var donut_data = {
   Constants.DonutType.MILK: {
     "name": "우유도넛",
-    "texture": preload("res://images/card_donut.png")
+    "texture": preload("res://images/card/donut/card_donut_milk.png")
   },
   Constants.DonutType.STRAWBERRY: {
     "name": "딸기도넛",
-    "texture": preload("res://images/card_donut.png")
+    "texture": preload("res://images/card/donut/card_donut_strawberry.png")
   },
   Constants.DonutType.CHOCOLATE: {
     "name": "초코도넛",
-    "texture": preload("res://images/card_donut.png")
+    "texture": preload("res://images/card/donut/card_donut_chocolate.png")
+  },
+  Constants.DonutType.MINT: {
+    "name": "민트도넛",
+    "texture": preload("res://images/card/donut/card_donut_mint.png")
   }
 }
 
