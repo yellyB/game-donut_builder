@@ -1,0 +1,10 @@
+{
+  "godot_tools.gdscript_lsp_server_enabled": false,
+  "godot_tools.scene_file_config": false,
+  "[gdscript]": {
+    "editor.formatOnSave": false,
+    "editor.formatOnPaste": false,
+    "editor.formatOnType": false,
+    "editor.defaultFormatter": null
+  }
+} 
