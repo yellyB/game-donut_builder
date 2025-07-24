@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1c8hakqffyot"
-path="res://.godot/imported/card_meterial.png-cb4dcadb311c66d4aa8d1152e223fbbd.ctex"
+uid="uid://b3nd5d0htc26k"
+path="res://.godot/imported/card_meterial_flour.png-f0e7957839bd2a02377afcf80b2ce28d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card_meterial.png"
-dest_files=["res://.godot/imported/card_meterial.png-cb4dcadb311c66d4aa8d1152e223fbbd.ctex"]
+source_file="res://images/card/meterial/card_meterial_flour.png"
+dest_files=["res://.godot/imported/card_meterial_flour.png-f0e7957839bd2a02377afcf80b2ce28d.ctex"]
 
 [params]
 
