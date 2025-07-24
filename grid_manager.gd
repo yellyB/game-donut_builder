@@ -51,7 +51,7 @@ func create_grid():
         col * (slot_size.x + SLOT_MARGIN_X),
         row * (slot_size.y + SLOT_MARGIN_Y)
       )
-      var add_card = row <= 2 and col <= 2  # todo: 아직은 하드코딩으로 카드 생성. 추후 동적 배치로 변경 필요
+      var add_card = false  # todo: 아직은 하드코딩으로 카드 생성. 추후 동적 배치로 변경 필요
       var slot = create_slot(slot_pos, add_card)
       grid_slots.append(slot)
 
@@ -137,6 +137,7 @@ func create_initial_slots():
   create_grid()
 
 
+# todo: 카드 타입별로 생성 시에 속성들이 추가되게 되면서 카드 생성 메서드 분리하게됨. 아직 속성이 없는 손님 카드를 위해 남겨둠. 추후 삭제
 func spawn_cards(card_type: String, count: int = 2) -> void:
   var created = 0
   for slot in grid_slots:
@@ -160,6 +161,7 @@ func create_card_for_slot(card_type: String) -> Node2D:
   match card_type:
     "DONUT":
       card = card_scene_donut.instantiate()
+      card.set_donut_type(Constants.DonutType.MILK)
     "MATERIAL":
       card = card_scene_meterial.instantiate()
     "CUSTOMER":
@@ -226,4 +228,48 @@ func spawn_material_cards(material_type: Constants.MaterialType, count: int = 2)
         slot.add_child(card)
         created += 1
         if created >= count:
+          break
+
+# 테스트용: 특정 도넛 타입의 카드를 생성하는 메서드
+func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
+  var card = card_scene_donut.instantiate()
+  
+  card.set_donut_type(donut_type)
+  
+  card.set_grid_manager(self)
+  card.position = Vector2.ZERO
+  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
+
+  var card_size = get_card_size(card)
+  if card_size.x > 0 and card_size.y > 0:
+    var scale_x = slot_size.x / card_size.x
+    var scale_y = slot_size.y / card_size.y
+    card.scale = Vector2(scale_x, scale_y)
+
+  var number_label = card.get_node("NumberLabel")
+  if number_label and number_label is Label:
+    number_label.text = str(card_counter)
+    card_counter += 1
+
+  return card
+
+
+# 테스트용: 모든 도넛 타입을 하나씩 생성하는 메서드
+func spawn_all_donut_types() -> void:
+  var donut_types = [Constants.DonutType.MILK, Constants.DonutType.STRAWBERRY, Constants.DonutType.CHOCOLATE]
+  var created = 0
+  
+  for donut_type in donut_types:
+    for slot in grid_slots:
+      var has_card := false
+      for child in slot.get_children():
+        if child.is_in_group("cards"):
+          has_card = true
+          break
+
+      if not has_card:
+        var card = create_donut_card_for_slot(donut_type)
+        if card:
+          slot.add_child(card)
+          created += 1
           break

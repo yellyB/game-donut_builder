@@ -48,11 +48,11 @@ func update_money_display():
 
 
 func _on_button_pressed() -> void:
-  grid_manager.spawn_cards("MATERIAL")
+  grid_manager.spawn_material_cards(Constants.MaterialType.MILK, 1)
 
 
 func _on_button_2_pressed() -> void:
-  grid_manager.spawn_cards("DONUT")
+  grid_manager.spawn_all_donut_types()
 
 
 func _on_button_3_pressed() -> void:
