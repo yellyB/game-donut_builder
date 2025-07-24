@@ -2,6 +2,7 @@ extends Node
 
 
 enum CardType { MATERIAL, DONUT, CUSTOMER }
+enum MaterialType { MILK, SUGAR, FLOUR }
 
 
 # Called when the node enters the scene tree for the first time.

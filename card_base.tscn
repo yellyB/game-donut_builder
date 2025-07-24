@@ -7,7 +7,7 @@
 size = Vector2(669, 1041)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xhrud"]
-font_size = 1000
+font_size = 300
 font_color = Color(1, 0.0862745, 1, 1)
 
 [node name="CardBase" type="Area2D" groups=["cards"]]
@@ -20,11 +20,23 @@ texture = ExtResource("2_k7681")
 position = Vector2(0.5, 3.5)
 shape = SubResource("RectangleShape2D_n0aus")
 
-[node name="Label" type="Label" parent="."]
-offset_right = 571.0
-offset_bottom = 1362.0
+[node name="NumberLabel" type="Label" parent="."]
+offset_left = -352.0
+offset_top = 352.0
+offset_right = -86.0
+offset_bottom = 761.0
 size_flags_vertical = 6
 text = "0"
+label_settings = SubResource("LabelSettings_xhrud")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+offset_left = -69.0
+offset_top = 358.0
+offset_right = 197.0
+offset_bottom = 767.0
+size_flags_vertical = 6
 label_settings = SubResource("LabelSettings_xhrud")
 horizontal_alignment = 1
 vertical_alignment = 1

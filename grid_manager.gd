@@ -24,8 +24,8 @@ func _ready():
 
 func _on_timer_finished():
   spawn_cards("CUSTOMER", 1)
-  
-  
+
+
 func set_slot_size_from_scene():
   var temp_slot = slot_scene.instantiate()
   if temp_slot.has_method("get_size"):
@@ -78,8 +78,8 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
       slot.add_child(card)
 
   return slot
-  
-  
+
+
 func move_card_to_best_slot(card: Node2D):
   var card_rect = Rect2(card.global_position - (slot_size / 2), slot_size)
   var best_slot: Node2D = null
@@ -135,7 +135,7 @@ func initialize(hud_node: Node) -> void:
 
 func create_initial_slots():
   create_grid()
-    
+
 
 func spawn_cards(card_type: String, count: int = 2) -> void:
   var created = 0
@@ -178,9 +178,52 @@ func create_card_for_slot(card_type: String) -> Node2D:
     card.scale = Vector2(scale_x, scale_y)
 
   # for debugg - todo: 추후 삭제필요
-  var label = card.get_node("Label")
+  var label = card.get_node("NumberLabel")
   if label and label is Label:
     label.text = str(card_counter)
     card_counter += 1
 
   return card
+
+
+# 테스트용: 특정 재료 타입의 카드를 생성하는 메서드
+func create_material_card_for_slot(material_type: Constants.MaterialType) -> Node2D:
+  var card = card_scene_meterial.instantiate()
+  
+  card.set_material_type(material_type)
+  
+  card.set_grid_manager(self)
+  card.position = Vector2.ZERO
+  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
+
+  var card_size = get_card_size(card)
+  if card_size.x > 0 and card_size.y > 0:
+    var scale_x = slot_size.x / card_size.x
+    var scale_y = slot_size.y / card_size.y
+    card.scale = Vector2(scale_x, scale_y)
+
+  var number_label = card.get_node("NumberLabel")
+  if number_label and number_label is Label:
+    number_label.text = str(card_counter)
+    card_counter += 1
+
+  return card
+
+
+# 테스트용: 특정 재료 타입의 카드들을 스폰하는 메서드
+func spawn_material_cards(material_type: Constants.MaterialType, count: int = 2) -> void:
+  var created = 0
+  for slot in grid_slots:
+    var has_card := false
+    for child in slot.get_children():
+      if child.is_in_group("cards"):
+        has_card = true
+        break
+
+    if not has_card:
+      var card = create_material_card_for_slot(material_type)
+      if card:
+        slot.add_child(card)
+        created += 1
+        if created >= count:
+          break
