@@ -49,6 +49,5 @@ func update_appearance():
 
 func can_overlap_with(other_card: Node) -> bool:
   if other_card.get_card_type() == Constants.CardType.MATERIAL:
-    return true
-  else:
-    return false
+    return other_card.material_type == material_type
+  return false
