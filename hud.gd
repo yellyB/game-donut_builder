@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var card_pack_grid = $MarginContainer/VBoxContainer/CardPackContainer
 @onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
+@onready var craft_list_container = $CraftListContainer
 @export var cardpack_scene: PackedScene
 var grid_manager: Node = null  # Main에서 할당
 var card_data = [
@@ -56,7 +57,11 @@ func _on_button_2_pressed() -> void:
 
 
 func _on_button_3_pressed() -> void:
-  grid_manager.spawn_cards("CUSTOMER")
+  grid_manager.spawn_cards(Constants.CustomerType.BASIC)
+
+
+func _on_craft_button_pressed() -> void:
+  craft_list_container.visible = not craft_list_container.visible
 
 
 func initialize(grid_manager_node: Node) -> void:
