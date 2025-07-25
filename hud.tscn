@@ -94,6 +94,52 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Customer"
 
+[node name="CraftButtonContainer" type="MarginContainer" parent="."]
+anchors_preset = -1
+anchor_left = 0.7
+anchor_top = 0.855
+anchor_right = 1.0
+anchor_bottom = 0.92
+offset_top = -140.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_right = 50
+
+[node name="CraftButton" type="Button" parent="CraftButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "제작"
+
+[node name="CraftListContainer" type="ScrollContainer" parent="."]
+visible = false
+anchors_preset = -1
+anchor_left = 0.7
+anchor_top = 0.6
+anchor_right = 1.0
+anchor_bottom = 0.85
+offset_right = -50.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CraftListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CraftItem1" type="Button" parent="CraftListContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "우유도넛 (우유 + 밀가루 + 설탕)"
+
+[node name="CraftItem2" type="Button" parent="CraftListContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "딸기도넛 (딸기 + 밀가루 + 설탕)"
+
+[node name="CraftItem3" type="Button" parent="CraftListContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "초코도넛 (초코 + 밀가루 + 설탕)"
+
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
@@ -140,3 +186,4 @@ text = "구매"
 [connection signal="pressed" from="ForDebugging/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="ForDebugging/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="ForDebugging/Button3" to="." method="_on_button_3_pressed"]
+[connection signal="pressed" from="CraftButtonContainer/CraftButton" to="." method="_on_craft_button_pressed"]
