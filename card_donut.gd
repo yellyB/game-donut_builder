@@ -1,9 +1,6 @@
 extends "res://card_base.gd"
 
-var price: int = 250
-var donut_type: Constants.DonutType = Constants.DonutType.MILK
-
-var donut_data = {
+static var donut_data = {
   Constants.DonutType.MILK: {
     "name": "우유도넛",
     "texture": preload("res://images/card/donut/card_donut_milk.png")
@@ -22,6 +19,12 @@ var donut_data = {
   }
 }
 
+static func get_all_donut_data() -> Dictionary:
+  return donut_data
+
+var price: int = 250
+var donut_type: Constants.DonutType = Constants.DonutType.MILK
+
 var current_donut_name: String
 var current_donut_texture: Texture2D
 
@@ -32,17 +35,17 @@ func _ready():
 
 func set_donut_type(type: Constants.DonutType):
   donut_type = type
-  update_donut_data()
-  update_appearance()
+  _setup_donut_data()
+  _setup_appearance()
 
 
-func update_donut_data():
+func _setup_donut_data():
   var data = donut_data[donut_type]
   current_donut_name = data["name"]
   current_donut_texture = data["texture"]
 
 
-func update_appearance():
+func _setup_appearance():
   var sprite_node = get_node("Sprite2D")
   if sprite_node:
     sprite_node.texture = current_donut_texture
