@@ -17,67 +17,18 @@ var START_POS = Vector2.ZERO
 var card_counter: int = 0
 
 
+#region Godot's built-in functions
 func _ready():
   TimerManager.time_finished.connect(_on_timer_finished)
   set_slot_size_from_scene()
+#endregion
 
 
-func _on_timer_finished():
-  spawn_cards("CUSTOMER", 1)
-
-
-func set_slot_size_from_scene():
-  var temp_slot = slot_scene.instantiate()
-  if temp_slot.has_method("get_size"):
-    slot_size = temp_slot.get_size()
-  temp_slot.queue_free()
-
-
-func create_grid():
-  grid_slots.clear()
-
-  var total_width = grid_cols * slot_size.x + (grid_cols - 1) * SLOT_MARGIN_X
-  var total_height = grid_rows * slot_size.y + (grid_rows - 1) * SLOT_MARGIN_Y
-  var screen_size = get_viewport_rect().size
-
-  START_POS = Vector2(
-    (screen_size.x - total_width) / 2,
-    (screen_size.y - total_height) / 2
-  )
-
-  for row in range(grid_rows):
-    for col in range(grid_cols):
-      var slot_pos = START_POS + Vector2(
-        col * (slot_size.x + SLOT_MARGIN_X),
-        row * (slot_size.y + SLOT_MARGIN_Y)
-      )
-      var add_card = false  # todo: 아직은 하드코딩으로 카드 생성. 추후 동적 배치로 변경 필요
-      var slot = create_slot(slot_pos, add_card)
-      grid_slots.append(slot)
-
-
-func get_card_size(card: Node2D) -> Vector2:
-  for child in card.get_children():
-    if child is Sprite2D:
-      return child.texture.get_size()
-    elif child is TextureRect:
-      return child.texture.get_size()
-    elif child is Control:
-      return child.size
-  return Vector2(100, 130)
-
-
-func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
-  var slot = slot_scene.instantiate()
-  slot.position = pos
-  add_child(slot)
-
-  if add_card:
-    var card = create_card_for_slot("DONUT")
-    if card:
-      slot.add_child(card)
-
-  return slot
+#region Public functions
+## NOTE:: hud를 연결해주는 main의 _ready 보다 grid_manager의 ready가 먼저 실행되어버려서 순서 제어용 처리를 추가.
+func initialize(hud_node: Node) -> void:
+  hud = hud_node
+  create_initial_slots()
 
 
 func move_card_to_best_slot(card: Node2D):
@@ -127,16 +78,25 @@ func move_card_to_best_slot(card: Node2D):
       card.global_position = current_slot.global_position
 
 
-## NOTE:: hud를 연결해주는 main의 _ready 보다 grid_manager의 ready가 먼저 실행되어버려서 순서 제어용 처리를 추가.
-func initialize(hud_node: Node) -> void:
-  hud = hud_node
-  create_initial_slots()
+func get_current_material_counts() -> Dictionary:
+    var counts = {}
+    # 모든 MaterialType을 0으로 초기화
+    for type_name in Constants.MaterialType.keys():
+        var type_enum = Constants.MaterialType[type_name]
+        counts[type_enum] = 0
+    
+    # 그리드를 순회하며 재료 카드 개수 카운트
+    for slot in grid_slots:
+        for child in slot.get_children():
+            if child.is_in_group("cards") and child.get_card_type() == Constants.CardType.MATERIAL:
+                var material_type = child.material_type
+                if counts.has(material_type):
+                    counts[material_type] += 1
+    return counts
+#endregion
 
 
-func create_initial_slots():
-  create_grid()
-
-
+#region Card Spawning
 # todo: 카드 타입별로 생성 시에 속성들이 추가되게 되면서 카드 생성 메서드 분리하게됨. 아직 속성이 없는 손님 카드를 위해 남겨둠. 추후 삭제
 func spawn_cards(card_type: String, count: int = 2) -> void:
   var created = 0
@@ -153,6 +113,47 @@ func spawn_cards(card_type: String, count: int = 2) -> void:
         slot.add_child(card)
         created += 1
         if created >= count:
+          break
+
+
+# 테스트용: 특정 재료 타입의 카드들을 스폰하는 메서드
+func spawn_material_cards(material_type: Constants.MaterialType, count: int = 2) -> void:
+  var created = 0
+  for slot in grid_slots:
+    var has_card := false
+    for child in slot.get_children():
+      if child.is_in_group("cards"):
+        has_card = true
+        break
+
+    if not has_card:
+      var card = create_material_card_for_slot(material_type)
+      if card:
+        slot.add_child(card)
+        created += 1
+        if created >= count:
+          break
+
+
+# 테스트용: 모든 도넛 타입을 하나씩 생성하는 메서드
+func spawn_all_donut_types() -> void:
+  var CardDonut = preload("res://card_donut.gd")
+  var donut_types = CardDonut.get_all_donut_data().keys()
+  var created = 0
+  
+  for donut_type in donut_types:
+    for slot in grid_slots:
+      var has_card := false
+      for child in slot.get_children():
+        if child.is_in_group("cards"):
+          has_card = true
+          break
+
+      if not has_card:
+        var card = create_donut_card_for_slot(donut_type)
+        if card:
+          slot.add_child(card)
+          created += 1
           break
 
 
@@ -212,24 +213,6 @@ func create_material_card_for_slot(material_type: Constants.MaterialType) -> Nod
   return card
 
 
-# 테스트용: 특정 재료 타입의 카드들을 스폰하는 메서드
-func spawn_material_cards(material_type: Constants.MaterialType, count: int = 2) -> void:
-  var created = 0
-  for slot in grid_slots:
-    var has_card := false
-    for child in slot.get_children():
-      if child.is_in_group("cards"):
-        has_card = true
-        break
-
-    if not has_card:
-      var card = create_material_card_for_slot(material_type)
-      if card:
-        slot.add_child(card)
-        created += 1
-        if created >= count:
-          break
-
 # 테스트용: 특정 도넛 타입의 카드를 생성하는 메서드
 func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
   var card = card_scene_donut.instantiate()
@@ -252,42 +235,72 @@ func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
     card_counter += 1
 
   return card
+#endregion
 
 
-# 테스트용: 모든 도넛 타입을 하나씩 생성하는 메서드
-func spawn_all_donut_types() -> void:
-  var CardDonut = preload("res://card_donut.gd")
-  var donut_types = CardDonut.get_all_donut_data().keys()
-  var created = 0
-  
-  for donut_type in donut_types:
-    for slot in grid_slots:
-      var has_card := false
-      for child in slot.get_children():
-        if child.is_in_group("cards"):
-          has_card = true
-          break
-
-      if not has_card:
-        var card = create_donut_card_for_slot(donut_type)
-        if card:
-          slot.add_child(card)
-          created += 1
-          break
+#region Grid Management
+func create_initial_slots():
+  create_grid()
 
 
-func get_current_material_counts() -> Dictionary:
-    var counts = {}
-    # 모든 MaterialType을 0으로 초기화
-    for type_name in Constants.MaterialType.keys():
-        var type_enum = Constants.MaterialType[type_name]
-        counts[type_enum] = 0
-    
-    # 그리드를 순회하며 재료 카드 개수 카운트
-    for slot in grid_slots:
-        for child in slot.get_children():
-            if child.is_in_group("cards") and child.get_card_type() == Constants.CardType.MATERIAL:
-                var material_type = child.material_type
-                if counts.has(material_type):
-                    counts[material_type] += 1
-    return counts
+func create_grid():
+  grid_slots.clear()
+
+  var total_width = grid_cols * slot_size.x + (grid_cols - 1) * SLOT_MARGIN_X
+  var total_height = grid_rows * slot_size.y + (grid_rows - 1) * SLOT_MARGIN_Y
+  var screen_size = get_viewport_rect().size
+
+  START_POS = Vector2(
+    (screen_size.x - total_width) / 2,
+    (screen_size.y - total_height) / 2
+  )
+
+  for row in range(grid_rows):
+    for col in range(grid_cols):
+      var slot_pos = START_POS + Vector2(
+        col * (slot_size.x + SLOT_MARGIN_X),
+        row * (slot_size.y + SLOT_MARGIN_Y)
+      )
+      var add_card = false  # todo: 아직은 하드코딩으로 카드 생성. 추후 동적 배치로 변경 필요
+      var slot = create_slot(slot_pos, add_card)
+      grid_slots.append(slot)
+
+
+func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
+  var slot = slot_scene.instantiate()
+  slot.position = pos
+  add_child(slot)
+
+  if add_card:
+    var card = create_card_for_slot("DONUT")
+    if card:
+      slot.add_child(card)
+
+  return slot
+#endregion
+
+
+#region Signal handlers
+func _on_timer_finished():
+  spawn_cards("CUSTOMER", 1)
+#endregion
+
+
+#region Helper functions
+func set_slot_size_from_scene():
+  var temp_slot = slot_scene.instantiate()
+  if temp_slot.has_method("get_size"):
+    slot_size = temp_slot.get_size()
+  temp_slot.queue_free()
+
+
+func get_card_size(card: Node2D) -> Vector2:
+  for child in card.get_children():
+    if child is Sprite2D:
+      return child.texture.get_size()
+    elif child is TextureRect:
+      return child.texture.get_size()
+    elif child is Control:
+      return child.size
+  return Vector2(100, 130)
+#endregion
