@@ -117,9 +117,11 @@ anchors_preset = -1
 anchor_left = 0.7
 anchor_top = 0.6
 anchor_right = 1.0
-anchor_bottom = 0.85
+anchor_bottom = 0.775
 offset_right = -50.0
+offset_bottom = -0.00012207
 grow_horizontal = 2
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CraftListContainer"]
 layout_mode = 2
