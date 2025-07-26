@@ -19,3 +19,12 @@ func _input(event):
       KEY_3:
         $GridManager.spawn_material_cards(Constants.MaterialType.FLOUR, 1)
         print("밀가루 카드 생성됨")
+      KEY_4:
+        $GridManager.spawn_material_cards(Constants.MaterialType.STRAWBERRY, 1)
+        print("딸기 카드 생성됨")
+      KEY_5:
+        $GridManager.spawn_material_cards(Constants.MaterialType.CHOCOLATE, 1)
+        print("초콜릿 카드 생성됨")
+      KEY_6:
+        $GridManager.spawn_material_cards(Constants.MaterialType.MINT, 1)
+        print("민트 카드 생성됨")

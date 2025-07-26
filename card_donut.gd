@@ -3,19 +3,23 @@ extends "res://card_base.gd"
 static var donut_data = {
   Constants.DonutType.MILK: {
     "name": "우유도넛",
-    "texture": preload("res://images/card/donut/card_donut_milk.png")
+    "texture": preload("res://images/card/donut/card_donut_milk.png"),
+    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR]
   },
   Constants.DonutType.STRAWBERRY: {
     "name": "딸기도넛",
-    "texture": preload("res://images/card/donut/card_donut_strawberry.png")
+    "texture": preload("res://images/card/donut/card_donut_strawberry.png"),
+    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR, Constants.MaterialType.STRAWBERRY]
   },
   Constants.DonutType.CHOCOLATE: {
     "name": "초코도넛",
-    "texture": preload("res://images/card/donut/card_donut_chocolate.png")
+    "texture": preload("res://images/card/donut/card_donut_chocolate.png"),
+    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR, Constants.MaterialType.CHOCOLATE]
   },
   Constants.DonutType.MINT: {
     "name": "민트도넛",
-    "texture": preload("res://images/card/donut/card_donut_mint.png")
+    "texture": preload("res://images/card/donut/card_donut_mint.png"),
+    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR, Constants.MaterialType.MINT]
   }
 }
 

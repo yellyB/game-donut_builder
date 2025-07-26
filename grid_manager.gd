@@ -256,7 +256,8 @@ func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
 
 # 테스트용: 모든 도넛 타입을 하나씩 생성하는 메서드
 func spawn_all_donut_types() -> void:
-  var donut_types = [Constants.DonutType.MILK, Constants.DonutType.STRAWBERRY, Constants.DonutType.CHOCOLATE]
+  var CardDonut = preload("res://card_donut.gd")
+  var donut_types = CardDonut.get_all_donut_data().keys()
   var created = 0
   
   for donut_type in donut_types:
@@ -273,3 +274,20 @@ func spawn_all_donut_types() -> void:
           slot.add_child(card)
           created += 1
           break
+
+
+func get_current_material_counts() -> Dictionary:
+    var counts = {}
+    # 모든 MaterialType을 0으로 초기화
+    for type_name in Constants.MaterialType.keys():
+        var type_enum = Constants.MaterialType[type_name]
+        counts[type_enum] = 0
+    
+    # 그리드를 순회하며 재료 카드 개수 카운트
+    for slot in grid_slots:
+        for child in slot.get_children():
+            if child.is_in_group("cards") and child.get_card_type() == Constants.CardType.MATERIAL:
+                var material_type = child.material_type
+                if counts.has(material_type):
+                    counts[material_type] += 1
+    return counts
