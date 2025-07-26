@@ -127,21 +127,6 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CraftItem1" type="Button" parent="CraftListContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-text = "우유도넛 (우유 + 밀가루 + 설탕)"
-
-[node name="CraftItem2" type="Button" parent="CraftListContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-text = "딸기도넛 (딸기 + 밀가루 + 설탕)"
-
-[node name="CraftItem3" type="Button" parent="CraftListContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 80)
-layout_mode = 2
-text = "초코도넛 (초코 + 밀가루 + 설탕)"
-
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 12
 anchor_top = 1.0
