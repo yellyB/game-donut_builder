@@ -1,37 +1,7 @@
 extends "res://card_base.gd"
 
+
 var material_type: Constants.MaterialType = Constants.MaterialType.MILK
-
-static var material_data = {
-  Constants.MaterialType.MILK: {
-    "name": "우유",
-    "texture": preload("res://images/card/meterial/card_meterial_milk.png")
-  },
-  Constants.MaterialType.SUGAR: {
-    "name": "설탕",
-    "texture": preload("res://images/card/meterial/card_meterial_sugar.png")
-  },
-  Constants.MaterialType.FLOUR: {
-    "name": "밀가루",
-    "texture": preload("res://images/card/meterial/card_meterial_flour.png")
-  },
-  Constants.MaterialType.STRAWBERRY: {
-    "name": "딸기",
-    "texture": preload("res://images/card/meterial/card_meterial_strawberry.png")
-  },
-  Constants.MaterialType.CHOCOLATE: {
-    "name": "초콜릿",
-    "texture": preload("res://images/card/meterial/card_meterial_chocolate.png")
-  },
-  Constants.MaterialType.MINT: {
-    "name": "민트",
-    "texture": preload("res://images/card/meterial/card_meterial_mint.png")
-  }
-}
-
-static func get_all_material_data() -> Dictionary:
-  return material_data
-
 var current_material_name: String
 var current_material_texture: Texture2D
 
@@ -47,7 +17,7 @@ func set_material_type(type: Constants.MaterialType):
 
 
 func update_material_data():
-  var data = material_data[material_type]
+  var data = Constants.MATERIAL_DATA[material_type]
   current_material_name = data["name"]
   current_material_texture = data["texture"]
 

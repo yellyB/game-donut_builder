@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-const CardMaterial = preload("res://card_meterial.gd")
 @onready var card_pack_grid = $MarginContainer/VBoxContainer/CardPackContainer
 @onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
@@ -121,7 +120,7 @@ func _get_recipe_text(donut_info: Dictionary, current_materials: Dictionary) -> 
     required_materials[material_enum] = required_materials.get(material_enum, 0) + 1
     
   for material_enum in required_materials:
-    var material_name = CardMaterial.get_all_material_data()[material_enum]["name"]
+    var material_name = Constants.MATERIAL_DATA[material_enum]["name"]
     var have_count = current_materials.get(material_enum, 0)
     var need_count = required_materials[material_enum]
     recipe_text_parts.append("%s: %d/%d" % [material_name, have_count, need_count])

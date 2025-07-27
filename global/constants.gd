@@ -46,6 +46,33 @@ const DONUT_DATA = {
   }
 }
 
+const MATERIAL_DATA = {
+  MaterialType.MILK: {
+    "name": "우유",
+    "texture": preload("res://images/card/meterial/card_meterial_milk.png")
+  },
+  MaterialType.SUGAR: {
+    "name": "설탕",
+    "texture": preload("res://images/card/meterial/card_meterial_sugar.png")
+  },
+  MaterialType.FLOUR: {
+    "name": "밀가루",
+    "texture": preload("res://images/card/meterial/card_meterial_flour.png")
+  },
+  MaterialType.STRAWBERRY: {
+    "name": "딸기",
+    "texture": preload("res://images/card/meterial/card_meterial_strawberry.png")
+  },
+  MaterialType.CHOCOLATE: {
+    "name": "초콜릿",
+    "texture": preload("res://images/card/meterial/card_meterial_chocolate.png")
+  },
+  MaterialType.MINT: {
+    "name": "민트",
+    "texture": preload("res://images/card/meterial/card_meterial_mint.png")
+  }
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
   pass # Replace with function body.
