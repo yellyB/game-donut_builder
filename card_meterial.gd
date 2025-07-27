@@ -4,6 +4,7 @@ extends "res://card_base.gd"
 var material_type: Constants.MaterialType = Constants.MaterialType.MILK
 var current_material_name: String
 var current_material_texture: Texture2D
+var price: int = 0
 
 
 func _ready():
@@ -20,6 +21,7 @@ func update_material_data():
   var data = Constants.MATERIAL_DATA[material_type]
   current_material_name = data["name"]
   current_material_texture = data["texture"]
+  price = data["price"]
 
 
 func update_appearance():
