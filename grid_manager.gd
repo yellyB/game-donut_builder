@@ -96,9 +96,9 @@ func get_current_material_counts() -> Dictionary:
 
 
 func craft_donut(donut_type: Constants.DonutType):
-    var CardDonut = preload("res://card_donut.gd")
-    var recipe = CardDonut.get_all_donut_data()[donut_type]["recipe"]
+    var recipe = Constants.DONUT_DATA[donut_type]["recipe"]
 
+    # 1. Check if materials are sufficient
     var current_materials = get_current_material_counts()
     var required_materials = {}
     for material in recipe:
@@ -107,11 +107,12 @@ func craft_donut(donut_type: Constants.DonutType):
     for material in required_materials:
         if current_materials.get(material, 0) < required_materials[material]:
             print("Error: Not enough materials to craft donut.")
-            # todo: 재료 부족 알려주는 ui or effect 추가 필요
             return
 
+    # 2. Consume materials
     consume_materials_for_recipe(recipe)
 
+    # 3. Find an empty slot and create the donut card
     var slot = _find_empty_slot()
     if slot:
         var card = create_donut_card_for_slot(donut_type)
@@ -163,24 +164,16 @@ func spawn_material_cards(material_type: Constants.MaterialType, count: int = 2)
 
 # 테스트용: 모든 도넛 타입을 하나씩 생성하는 메서드
 func spawn_all_donut_types() -> void:
-  var CardDonut = preload("res://card_donut.gd")
-  var donut_types = CardDonut.get_all_donut_data().keys()
-  var created = 0
+  var donut_types = Constants.DONUT_DATA.keys()
   
   for donut_type in donut_types:
-    for slot in grid_slots:
-      var has_card := false
-      for child in slot.get_children():
-        if child.is_in_group("cards"):
-          has_card = true
-          break
-
-      if not has_card:
-        var card = create_donut_card_for_slot(donut_type)
-        if card:
-          slot.add_child(card)
-          created += 1
-          break
+    var slot = _find_empty_slot()
+    if not slot:
+      print("No more empty slots to spawn donut card.")
+      break
+    var card = create_donut_card_for_slot(donut_type)
+    if card:
+      slot.add_child(card)
 
 
 func create_card_for_slot(card_type: String) -> Node2D:

@@ -1,32 +1,7 @@
 extends "res://card_base.gd"
 
-static var donut_data = {
-  Constants.DonutType.MILK: {
-    "name": "우유도넛",
-    "texture": preload("res://images/card/donut/card_donut_milk.png"),
-    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR]
-  },
-  Constants.DonutType.STRAWBERRY: {
-    "name": "딸기도넛",
-    "texture": preload("res://images/card/donut/card_donut_strawberry.png"),
-    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR, Constants.MaterialType.STRAWBERRY]
-  },
-  Constants.DonutType.CHOCOLATE: {
-    "name": "초코도넛",
-    "texture": preload("res://images/card/donut/card_donut_chocolate.png"),
-    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR, Constants.MaterialType.CHOCOLATE]
-  },
-  Constants.DonutType.MINT: {
-    "name": "민트도넛",
-    "texture": preload("res://images/card/donut/card_donut_mint.png"),
-    "recipe": [Constants.MaterialType.MILK, Constants.MaterialType.SUGAR, Constants.MaterialType.FLOUR, Constants.MaterialType.MINT]
-  }
-}
 
-static func get_all_donut_data() -> Dictionary:
-  return donut_data
-
-var price: int = 250
+var price: int = 0 # Will be set by donut type
 var donut_type: Constants.DonutType = Constants.DonutType.MILK
 
 var current_donut_name: String
@@ -44,9 +19,10 @@ func set_donut_type(type: Constants.DonutType):
 
 
 func _setup_donut_data():
-  var data = donut_data[donut_type]
+  var data = Constants.DONUT_DATA[donut_type]
   current_donut_name = data["name"]
   current_donut_texture = data["texture"]
+  price = data["price"]
 
 
 func _setup_appearance():

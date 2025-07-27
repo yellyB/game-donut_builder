@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-const CardDonut = preload("res://card_donut.gd")
 const CardMaterial = preload("res://card_meterial.gd")
 @onready var card_pack_grid = $MarginContainer/VBoxContainer/CardPackContainer
 @onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
@@ -86,7 +85,7 @@ func _on_craft_item_pressed(donut_type_string: String) -> void:
   var donut_type_enum = Constants.DonutType.get(donut_type_string)
   
   var current_materials = grid_manager.get_current_material_counts()
-  var recipe = CardDonut.get_all_donut_data()[donut_type_enum]["recipe"]
+  var recipe = Constants.DONUT_DATA[donut_type_enum]["recipe"]
   if _is_craftable(recipe, current_materials):
     grid_manager.craft_donut(donut_type_enum)
     _refresh_craft_list()
@@ -99,7 +98,7 @@ func _on_craft_item_pressed(donut_type_string: String) -> void:
 
 #region Helper functions
 func _add_craft_item_nodes_to_list() -> void:
-  var all_donut_data = CardDonut.get_all_donut_data()
+  var all_donut_data = Constants.DONUT_DATA
   for donut_type_enum in all_donut_data:
     var donut_info = all_donut_data[donut_type_enum]
     var button = Button.new()
@@ -108,7 +107,7 @@ func _add_craft_item_nodes_to_list() -> void:
     button.custom_minimum_size = Vector2(0, 80)
     
     var donut_type_string = Constants.DonutType.find_key(donut_type_enum)
-    button.set_meta("donut_type_string", donut_type_string) # 버튼에 데이터 저장
+    button.set_meta("donut_type_string", donut_type_string)
     button.pressed.connect(_on_craft_item_pressed.bind(donut_type_string))
     
     craft_list_vbox.add_child(button)
@@ -136,7 +135,7 @@ func _refresh_craft_list() -> void:
   for button in craft_list_vbox.get_children():
     var donut_type_string = button.get_meta("donut_type_string")
     var donut_type_enum = Constants.DonutType.get(donut_type_string)
-    var donut_info = CardDonut.get_all_donut_data()[donut_type_enum]
+    var donut_info = Constants.DONUT_DATA[donut_type_enum]
     var recipe = donut_info["recipe"]
     
     button.text = _get_recipe_text(donut_info, current_materials)
