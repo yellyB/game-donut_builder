@@ -6,6 +6,7 @@ signal increase_money(price: int)
 var order_type: Constants.OrderType
 var order_value
 var patience: int
+var is_showing_wrong_order_effect = false
 
 
 func _ready():
@@ -60,6 +61,32 @@ func on_drag_ended():
       other.queue_free()
       queue_free()
       return
+    else:
+      show_wrong_order_effect()
+
+
+func show_wrong_order_effect():
+  if is_showing_wrong_order_effect:
+    return
+    
+  is_showing_wrong_order_effect = true
+  
+  # 빨간색 깜박임 효과
+  var tween = create_tween()
+  tween.set_loops(3)
+  tween.tween_property(self, "modulate", Color.RED, 0.1)
+  tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+  
+  # 좌우 흔들림 효과
+  var shake_tween = create_tween()
+  shake_tween.set_loops(3)
+  shake_tween.tween_property(self, "position:x", position.x + 10, 0.05)
+  shake_tween.tween_property(self, "position:x", position.x - 10, 0.05)
+  shake_tween.tween_property(self, "position:x", position.x, 0.05)
+  
+  # 효과 완료 후 상태 초기화
+  await tween.finished
+  is_showing_wrong_order_effect = false
 
 
 func _on_patience_timer_timeout():
