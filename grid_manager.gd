@@ -6,7 +6,7 @@ const SLOT_MARGIN_Y = 50
 
 @export var grid_rows: int = 4
 @export var grid_cols: int = 7
-@export var card_scene_meterial: PackedScene
+@export var card_scene_material: PackedScene
 @export var card_scene_donut: PackedScene
 @export var card_scene_customer: PackedScene
 @export var slot_scene: PackedScene
@@ -124,56 +124,34 @@ func craft_donut(donut_type: Constants.DonutType):
 
 
 #region Card Spawning
-# todo: 카드 타입별로 생성 시에 속성들이 추가되게 되면서 카드 생성 메서드 분리하게됨. 아직 속성이 없는 손님 카드를 위해 남겨둠. 추후 삭제
-func spawn_cards(card_type: String, count: int = 2) -> void:
-  var created = 0
-  for slot in grid_slots:
-    var has_card := false
-    for child in slot.get_children():
-      if child.is_in_group("cards"):
-        has_card = true
-        break
-
-    if not has_card:
-      var card = create_card_for_slot(card_type)
-      if card:
-        slot.add_child(card)
-        created += 1
-        if created >= count:
-          break
+func spawn_customer_cards() -> void:
+  _spawn_card(Callable(self, "create_customer_card_for_slot"))
 
 
-# 테스트용: 특정 재료 타입의 카드들을 스폰하는 메서드
-func spawn_material_cards(material_type: Constants.MaterialType, count: int = 2) -> void:
-  var created = 0
-  for slot in grid_slots:
-    var has_card := false
-    for child in slot.get_children():
-      if child.is_in_group("cards"):
-        has_card = true
-        break
-
-    if not has_card:
-      var card = create_material_card_for_slot(material_type)
-      if card:
-        slot.add_child(card)
-        created += 1
-        if created >= count:
-          break
+func spawn_material_cards(material_type: Constants.MaterialType) -> void:
+  _spawn_card(Callable(self, "create_material_card_for_slot").bind(material_type))
 
 
-# 테스트용: 모든 도넛 타입을 하나씩 생성하는 메서드
+func spawn_donut_card(donut_type: Constants.DonutType) -> void:
+  _spawn_card(Callable(self, "create_donut_card_for_slot").bind(donut_type))
+
+
+# for test. 나중에 삭제필요
 func spawn_all_donut_types() -> void:
   var donut_types = Constants.DONUT_DATA.keys()
-  
   for donut_type in donut_types:
-    var slot = _find_empty_slot()
-    if not slot:
-      print("No more empty slots to spawn donut card.")
-      break
-    var card = create_donut_card_for_slot(donut_type)
-    if card:
-      slot.add_child(card)
+    spawn_donut_card(donut_type)
+
+
+func _spawn_card(create_card_func: Callable):
+  var slot = _find_empty_slot()
+  if not slot:
+    print("No more empty slots to spawn card.")
+    # todo: game over
+    return
+  var card = create_card_func.call()
+  if card:
+    slot.add_child(card)
 
 
 func create_card_for_slot(card_type: String) -> Node2D:
@@ -183,15 +161,37 @@ func create_card_for_slot(card_type: String) -> Node2D:
       card = card_scene_donut.instantiate()
       card.set_donut_type(Constants.DonutType.MILK)
     "MATERIAL":
-      card = card_scene_meterial.instantiate()
-    "CUSTOMER":
-      card = card_scene_customer.instantiate()
+      card = card_scene_material.instantiate()
     _:
       return null
 
+  if card == null:
+    return null
+  
+  return _finalize_card_creation(card)
+
+
+func create_material_card_for_slot(material_type: Constants.MaterialType) -> Node2D:
+  var card = card_scene_material.instantiate()
+  card.set_material_type(material_type)
+  return _finalize_card_creation(card)
+
+
+func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
+  var card = card_scene_donut.instantiate()
+  card.set_donut_type(donut_type)
+  return _finalize_card_creation(card)
+
+
+func create_customer_card_for_slot() -> Node2D:
+  var card = card_scene_customer.instantiate()
+  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
+  return _finalize_card_creation(card)
+
+
+func _finalize_card_creation(card: Node2D) -> Node2D:
   card.set_grid_manager(self)
   card.position = Vector2.ZERO
-  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
 
   var card_size = get_card_size(card)
   if card_size.x > 0 and card_size.y > 0:
@@ -203,54 +203,6 @@ func create_card_for_slot(card_type: String) -> Node2D:
   var label = card.get_node("NumberLabel")
   if label and label is Label:
     label.text = str(card_counter)
-    card_counter += 1
-
-  return card
-
-
-# 테스트용: 특정 재료 타입의 카드를 생성하는 메서드
-func create_material_card_for_slot(material_type: Constants.MaterialType) -> Node2D:
-  var card = card_scene_meterial.instantiate()
-  
-  card.set_material_type(material_type)
-  
-  card.set_grid_manager(self)
-  card.position = Vector2.ZERO
-  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
-
-  var card_size = get_card_size(card)
-  if card_size.x > 0 and card_size.y > 0:
-    var scale_x = slot_size.x / card_size.x
-    var scale_y = slot_size.y / card_size.y
-    card.scale = Vector2(scale_x, scale_y)
-
-  var number_label = card.get_node("NumberLabel")
-  if number_label and number_label is Label:
-    number_label.text = str(card_counter)
-    card_counter += 1
-
-  return card
-
-
-# 테스트용: 특정 도넛 타입의 카드를 생성하는 메서드
-func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
-  var card = card_scene_donut.instantiate()
-  
-  card.set_donut_type(donut_type)
-  
-  card.set_grid_manager(self)
-  card.position = Vector2.ZERO
-  card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
-
-  var card_size = get_card_size(card)
-  if card_size.x > 0 and card_size.y > 0:
-    var scale_x = slot_size.x / card_size.x
-    var scale_y = slot_size.y / card_size.y
-    card.scale = Vector2(scale_x, scale_y)
-
-  var number_label = card.get_node("NumberLabel")
-  if number_label and number_label is Label:
-    number_label.text = str(card_counter)
     card_counter += 1
 
   return card
@@ -280,20 +232,14 @@ func create_grid():
         col * (slot_size.x + SLOT_MARGIN_X),
         row * (slot_size.y + SLOT_MARGIN_Y)
       )
-      var add_card = false  # todo: 아직은 하드코딩으로 카드 생성. 추후 동적 배치로 변경 필요
-      var slot = create_slot(slot_pos, add_card)
+      var slot = create_slot(slot_pos)
       grid_slots.append(slot)
 
 
-func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
+func create_slot(pos: Vector2) -> Node2D:
   var slot = slot_scene.instantiate()
   slot.position = pos
   add_child(slot)
-
-  if add_card:
-    var card = create_card_for_slot("DONUT")
-    if card:
-      slot.add_child(card)
 
   return slot
 #endregion
@@ -301,7 +247,7 @@ func create_slot(pos: Vector2, add_card: bool = false) -> Node2D:
 
 #region Signal handlers
 func _on_timer_finished():
-  spawn_cards("CUSTOMER", 1)
+  spawn_customer_cards()
 #endregion
 
 

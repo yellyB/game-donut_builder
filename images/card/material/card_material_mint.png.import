@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v560gv0gdvop"
-path="res://.godot/imported/card_meterial_strawberry.png-cea28d7cd70d61a4b3aaf6ecc46c14c5.ctex"
+uid="uid://jg77nkxir036"
+path="res://.godot/imported/card_material_mint.png-a83d2037e825e06dbea739e9722e12f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card/meterial/card_meterial_strawberry.png"
-dest_files=["res://.godot/imported/card_meterial_strawberry.png-cea28d7cd70d61a4b3aaf6ecc46c14c5.ctex"]
+source_file="res://images/card/material/card_material_mint.png"
+dest_files=["res://.godot/imported/card_material_mint.png-a83d2037e825e06dbea739e9722e12f0.ctex"]
 
 [params]
 

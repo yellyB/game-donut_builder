@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cxdswx7t4e87t"]
 
 [ext_resource type="PackedScene" uid="uid://co5tlnjxavdlw" path="res://card_base.tscn" id="1_24l0b"]
-[ext_resource type="Script" path="res://card_meterial.gd" id="2_dw4fj"]
-[ext_resource type="Texture2D" uid="uid://1c8hakqffyot" path="res://images/card_meterial.png" id="3_i3526"]
+[ext_resource type="Script" path="res://card_material.gd" id="2_dw4fj"]
+[ext_resource type="Texture2D" uid="uid://brbismn60u218" path="res://images/card/material/card_material_milk.png" id="3_i3526"]
 
 [node name="CardMeterial" instance=ExtResource("1_24l0b")]
 script = ExtResource("2_dw4fj")

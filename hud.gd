@@ -61,7 +61,7 @@ func _on_time_updated(new_time: int) -> void:
 
 
 func _on_button_pressed() -> void:
-  grid_manager.spawn_material_cards(Constants.MaterialType.MILK, 1)
+  grid_manager.spawn_material_cards(Constants.MaterialType.MILK)
 
 
 func _on_button_2_pressed() -> void:
@@ -69,7 +69,7 @@ func _on_button_2_pressed() -> void:
 
 
 func _on_button_3_pressed() -> void:
-  grid_manager.spawn_cards("CUSTOMER", 1)
+  grid_manager.spawn_customer_cards()
 
 
 func _on_craft_button_pressed() -> void:

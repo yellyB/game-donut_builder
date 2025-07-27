@@ -52,32 +52,32 @@ const DONUT_DATA = {
 const MATERIAL_DATA = {
   MaterialType.MILK: {
     "name": "우유",
-    "texture": preload("res://images/card/meterial/card_meterial_milk.png"),
+    "texture": preload("res://images/card/material/card_material_milk.png"),
     "price": 10
   },
   MaterialType.SUGAR: {
     "name": "설탕",
-    "texture": preload("res://images/card/meterial/card_meterial_sugar.png"),
+    "texture": preload("res://images/card/material/card_material_sugar.png"),
     "price": 10
   },
   MaterialType.FLOUR: {
     "name": "밀가루",
-    "texture": preload("res://images/card/meterial/card_meterial_flour.png"),
+    "texture": preload("res://images/card/material/card_material_flour.png"),
     "price": 15
   },
   MaterialType.STRAWBERRY: {
     "name": "딸기",
-    "texture": preload("res://images/card/meterial/card_meterial_strawberry.png"),
+    "texture": preload("res://images/card/material/card_material_strawberry.png"),
     "price": 30
   },
   MaterialType.CHOCOLATE: {
     "name": "초콜릿",
-    "texture": preload("res://images/card/meterial/card_meterial_chocolate.png"),
+    "texture": preload("res://images/card/material/card_material_chocolate.png"),
     "price": 35
   },
   MaterialType.MINT: {
     "name": "민트",
-    "texture": preload("res://images/card/meterial/card_meterial_mint.png"),
+    "texture": preload("res://images/card/material/card_material_mint.png"),
     "price": 50
   }
 }

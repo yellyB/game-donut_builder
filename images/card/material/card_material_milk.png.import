@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dfiqvq54nao7c"
-path="res://.godot/imported/card_meterial_chocolate.png-35293bd0fc9d3514f08beebccb89d6a2.ctex"
+uid="uid://ceaoktj2prtxk"
+path="res://.godot/imported/card_material_milk.png-4bc27d76474a8bcd2486120f8967c5db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card/meterial/card_meterial_chocolate.png"
-dest_files=["res://.godot/imported/card_meterial_chocolate.png-35293bd0fc9d3514f08beebccb89d6a2.ctex"]
+source_file="res://images/card/material/card_material_milk.png"
+dest_files=["res://.godot/imported/card_material_milk.png-4bc27d76474a8bcd2486120f8967c5db.ctex"]
 
 [params]
 
