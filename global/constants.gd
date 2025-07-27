@@ -2,13 +2,14 @@ extends Node
 
 
 enum CardType { MATERIAL, DONUT, CUSTOMER }
-enum MaterialType { MILK, SUGAR, FLOUR, STRAWBERRY, CHOCOLATE, MINT }
+enum MaterialType { MILK, SUGAR, FLOUR, STRAWBERRY, CHOCOLATE, MINT, RAINBOW }
 enum DonutType { MILK, STRAWBERRY, CHOCOLATE, MINT }
 enum DonutRarity { COMMON, RARE, EPIC }
 enum DonutTag { BASIC, SWEET, FRUITY, CHOCOLATE, MINTY, FRESH }
 
 enum CustomerType { WOMAN, MAN }
 enum OrderType { DONUT_TYPE, DONUT_TAG }
+enum MaterialGrade { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
 
 const DONUT_DATA = {
   DonutType.MILK: {
@@ -53,32 +54,44 @@ const MATERIAL_DATA = {
   MaterialType.MILK: {
     "name": "우유",
     "texture": preload("res://images/card/material/card_material_milk.png"),
-    "price": 10
+    "price": 10,
+    "grade": MaterialGrade.COMMON
   },
   MaterialType.SUGAR: {
     "name": "설탕",
     "texture": preload("res://images/card/material/card_material_sugar.png"),
-    "price": 10
+    "price": 10,
+    "grade": MaterialGrade.COMMON
   },
   MaterialType.FLOUR: {
     "name": "밀가루",
     "texture": preload("res://images/card/material/card_material_flour.png"),
-    "price": 15
+    "price": 15,
+    "grade": MaterialGrade.COMMON
   },
   MaterialType.STRAWBERRY: {
     "name": "딸기",
     "texture": preload("res://images/card/material/card_material_strawberry.png"),
-    "price": 30
+    "price": 30,
+    "grade": MaterialGrade.UNCOMMON
   },
   MaterialType.CHOCOLATE: {
     "name": "초콜릿",
     "texture": preload("res://images/card/material/card_material_chocolate.png"),
-    "price": 35
+    "price": 35,
+    "grade": MaterialGrade.RARE
   },
   MaterialType.MINT: {
     "name": "민트",
     "texture": preload("res://images/card/material/card_material_mint.png"),
-    "price": 50
+    "price": 50,
+    "grade": MaterialGrade.EPIC
+  },
+  MaterialType.RAINBOW: {
+    "name": "무지개",
+    "texture": preload("res://images/card/material/card_material_rainbow.png"),
+    "price": 40,
+    "grade": MaterialGrade.LEGENDARY
   }
 }
 

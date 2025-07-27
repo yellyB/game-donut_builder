@@ -9,10 +9,12 @@ extends CanvasLayer
 @export var cardpack_scene: PackedScene
 var grid_manager: Node = null  # Main에서 할당
 var selected_card_pack_index = -1  # 선택된 카드 팩 인덱스
-var card_data = [
-  { "image": preload("res://images/card_pack_1.png"), "price": 1, "description": "기본 재료 팩: 랜덤 재료 3개" },
-  { "image": preload("res://images/card_pack_2.png"), "price": 2, "description": "고급 재료 팩: 랜덤 재료 3개" },
-  { "image": preload("res://images/card_pack_3.png"), "price": 3, "description": "프리미엄 재료 팩: 랜덤 재료 3개" }
+var card_packs_data = [
+  { "image": preload("res://images/card_pack_1.png"), "price": 1, "description": "일반 재료 팩: 일반 등급 재료 3개", "grade": Constants.MaterialGrade.COMMON },
+  { "image": preload("res://images/card_pack_2.png"), "price": 2, "description": "고급 재료 팩: 고급 등급 재료 3개", "grade": Constants.MaterialGrade.UNCOMMON },
+  { "image": preload("res://images/card_pack_3.png"), "price": 3, "description": "희귀 재료 팩: 희귀 등급 재료 3개", "grade": Constants.MaterialGrade.RARE },
+  { "image": preload("res://images/card_pack_1.png"), "price": 5, "description": "전설 재료 팩: 전설 등급 재료 3개", "grade": Constants.MaterialGrade.EPIC },
+  { "image": preload("res://images/card_pack_2.png"), "price": 10, "description": "신화 재료 팩: 신화 등급 재료 3개", "grade": Constants.MaterialGrade.LEGENDARY }
 ]
 
 
@@ -26,11 +28,23 @@ func _ready() -> void:
   purchase_button.disabled = true
   description_label.text = "카드 팩을 선택하세요"
   
-  for data in card_data:
+  # 동적 카드 팩 레이아웃 설정
+  # 컨테이너가 수평으로 확장되도록 설정
+  card_pack_grid.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_FILL
+  
+  # GridContainer의 경우 열 수를 카드 수에 맞게 동적으로 설정
+  if card_pack_grid is GridContainer:
+    card_pack_grid.columns = card_packs_data.size()
+  
+  for data in card_packs_data:
     var card_pack = cardpack_scene.instantiate()
     card_pack.card_texture = data["image"]
     card_pack.description_text = data["description"]
     card_pack.card_pack_clicked.connect(_on_card_pack_gui_input)
+    
+    # 각 카드 팩이 컨테이너의 공간을 균등하게 채우도록 설정
+    card_pack.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_FILL
+    
     card_pack_grid.add_child(card_pack)
 #endregion
 
@@ -58,10 +72,10 @@ func _on_card_pack_gui_input(description) -> void:
   description_label.text = description
   
   # 카드 팩 선택 로직
-  for i in range(card_data.size()):
-    if card_data[i]["description"] == description:
+  for i in range(card_packs_data.size()):
+    if card_packs_data[i]["description"] == description:
       selected_card_pack_index = i
-      var pack_price = card_data[i]["price"]
+      var pack_price = card_packs_data[i]["price"]
       description_label.text = "%s (가격: %d원)" % [description, pack_price]
       purchase_button.disabled = false
       break
@@ -71,14 +85,17 @@ func _on_purchase_button_pressed() -> void:
   if selected_card_pack_index == -1:
     return
     
-  var pack_price = card_data[selected_card_pack_index]["price"]
+  var pack_price = card_packs_data[selected_card_pack_index]["price"]
+  var pack_grade = card_packs_data[selected_card_pack_index]["grade"]
+  
   if GameState.money >= pack_price:
     GameState.add_money(-pack_price)
     update_money_display()
     
-    grid_manager.spawn_random_material_cards(3)
+    # 선택된 등급의 재료 카드 3개 생성
+    grid_manager.spawn_material_cards_by_grade(3, pack_grade)
     
-    description_label.text = "구매 완료! 랜덤 재료 3개가 추가되었습니다."  # todo: 알림 ui 추가하여 대체
+    description_label.text = "구매 완료! %s 등급 재료 3개가 추가되었습니다." % _get_grade_name(pack_grade)
     purchase_button.disabled = true
     selected_card_pack_index = -1
   else:
@@ -189,4 +206,20 @@ func _is_craftable(recipe: Array, available_materials: Dictionary) -> bool:
       return false
       
   return true
+
+
+func _get_grade_name(grade: Constants.MaterialGrade) -> String:
+  match grade:
+    Constants.MaterialGrade.COMMON:
+      return "일반"
+    Constants.MaterialGrade.UNCOMMON:
+      return "고급"
+    Constants.MaterialGrade.RARE:
+      return "희귀"
+    Constants.MaterialGrade.EPIC:
+      return "전설"
+    Constants.MaterialGrade.LEGENDARY:
+      return "신화"
+    _:
+      return "알 수 없음"
 #endregion

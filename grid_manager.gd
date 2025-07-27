@@ -189,13 +189,26 @@ func create_customer_card_for_slot() -> Node2D:
   return _finalize_card_creation(card)
 
 
-func spawn_random_material_cards(count: int) -> void:
+func spawn_material_cards_by_grade(count: int, grade: Constants.MaterialGrade) -> void:
+  # 해당 등급의 재료들만 필터링
+  var materials_of_grade = []
+  for material_type in Constants.MaterialType.values():
+    var material_data = Constants.MATERIAL_DATA[material_type]
+    if material_data["grade"] == grade:
+      materials_of_grade.append(material_type)
+  
+  # 랜덤으로 생성할 재료들을 미리 정함
+  var materials_to_spawn = []
   for i in range(count):
+    if not materials_of_grade.is_empty():
+      var random_material = materials_of_grade[randi() % materials_of_grade.size()]
+      materials_to_spawn.append(random_material)
+  
+  # 정해진 재료들로 카드 생성
+  for material_type in materials_to_spawn:
     var empty_slot = _find_empty_slot()
     if empty_slot:
-      var material_types = Constants.MaterialType.values()
-      var random_material = material_types[randi() % material_types.size()]
-      var card = create_material_card_for_slot(random_material)
+      var card = create_material_card_for_slot(material_type)
       empty_slot.add_child(card)
 
 
