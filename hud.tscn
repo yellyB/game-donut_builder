@@ -176,3 +176,4 @@ text = "구매"
 [connection signal="pressed" from="ForDebugging/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="ForDebugging/Button3" to="." method="_on_button_3_pressed"]
 [connection signal="pressed" from="CraftButtonContainer/CraftButton" to="." method="_on_craft_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/FooterContainer/PurchaseButton" to="." method="_on_purchase_button_pressed"]

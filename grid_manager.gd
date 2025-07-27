@@ -189,6 +189,16 @@ func create_customer_card_for_slot() -> Node2D:
   return _finalize_card_creation(card)
 
 
+func spawn_random_material_cards(count: int) -> void:
+  for i in range(count):
+    var empty_slot = _find_empty_slot()
+    if empty_slot:
+      var material_types = Constants.MaterialType.values()
+      var random_material = material_types[randi() % material_types.size()]
+      var card = create_material_card_for_slot(random_material)
+      empty_slot.add_child(card)
+
+
 func _finalize_card_creation(card: Node2D) -> Node2D:
   card.set_grid_manager(self)
   card.position = Vector2.ZERO

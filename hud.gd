@@ -5,12 +5,14 @@ extends CanvasLayer
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
 @onready var craft_list_container = $CraftListContainer
 @onready var craft_list_vbox = $CraftListContainer/VBoxContainer
+@onready var purchase_button = $MarginContainer/VBoxContainer/FooterContainer/PurchaseButton
 @export var cardpack_scene: PackedScene
 var grid_manager: Node = null  # Main에서 할당
+var selected_card_pack_index = -1  # 선택된 카드 팩 인덱스
 var card_data = [
-  { "image": preload("res://images/card_pack_1.png"), "price": 1000, "description": "첫 번째 카드 설명: 123 123 123" },
-  { "image": preload("res://images/card_pack_2.png"), "price": 3000, "description": "두 번째 카드 설명: 라라라 라라라랄" },
-  { "image": preload("res://images/card_pack_3.png"), "price": 8000, "description": "세 번째 카드 설명: There is no harm." }
+  { "image": preload("res://images/card_pack_1.png"), "price": 1, "description": "기본 재료 팩: 랜덤 재료 3개" },
+  { "image": preload("res://images/card_pack_2.png"), "price": 2, "description": "고급 재료 팩: 랜덤 재료 3개" },
+  { "image": preload("res://images/card_pack_3.png"), "price": 3, "description": "프리미엄 재료 팩: 랜덤 재료 3개" }
 ]
 
 
@@ -19,6 +21,11 @@ func _ready() -> void:
   _add_craft_item_nodes_to_list()
   TimerManager.time_updated.connect(_on_time_updated)
   update_money_display()
+  
+  # 구매 버튼 초기 상태 설정
+  purchase_button.disabled = true
+  description_label.text = "카드 팩을 선택하세요"
+  
   for data in card_data:
     var card_pack = cardpack_scene.instantiate()
     card_pack.card_texture = data["image"]
@@ -49,6 +56,33 @@ func update_timer_label(new_time) -> void:
 #region Signal handlers
 func _on_card_pack_gui_input(description) -> void:
   description_label.text = description
+  
+  # 카드 팩 선택 로직
+  for i in range(card_data.size()):
+    if card_data[i]["description"] == description:
+      selected_card_pack_index = i
+      var pack_price = card_data[i]["price"]
+      description_label.text = "%s (가격: %d원)" % [description, pack_price]
+      purchase_button.disabled = false
+      break
+
+
+func _on_purchase_button_pressed() -> void:
+  if selected_card_pack_index == -1:
+    return
+    
+  var pack_price = card_data[selected_card_pack_index]["price"]
+  if GameState.money >= pack_price:
+    GameState.add_money(-pack_price)
+    update_money_display()
+    
+    grid_manager.spawn_random_material_cards(3)
+    
+    description_label.text = "구매 완료! 랜덤 재료 3개가 추가되었습니다."  # todo: 알림 ui 추가하여 대체
+    purchase_button.disabled = true
+    selected_card_pack_index = -1
+  else:
+    description_label.text = "돈이 부족합니다!"
 
 
 func _on_moeny_increase(price: int):
