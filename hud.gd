@@ -82,11 +82,18 @@ func _on_craft_button_pressed() -> void:
     craft_list_container.visible = true
 
 
-func _on_craft_item_pressed(donut_type: String) -> void:
+func _on_craft_item_pressed(donut_type_string: String) -> void:
+  var donut_type_enum = Constants.DonutType.get(donut_type_string)
+  
+  var current_materials = grid_manager.get_current_material_counts()
+  var recipe = CardDonut.get_all_donut_data()[donut_type_enum]["recipe"]
+  if _is_craftable(recipe, current_materials):
+    grid_manager.craft_donut(donut_type_enum)
+    _refresh_craft_list()
+  else:
+    print("Cannot craft %s, not enough materials." % donut_type_string)
+  
   craft_list_container.visible = false
-  var donut_enum_val = Constants.DonutType.get(donut_type)
-  # todo: 실제 제작 로직 추가 (예: grid_manager.craft_item(donut_enum_val))
-  print("제작 아이템 클릭됨: ", donut_type, " (", donut_enum_val, ")")
 #endregion
 
 

@@ -93,6 +93,32 @@ func get_current_material_counts() -> Dictionary:
                 if counts.has(material_type):
                     counts[material_type] += 1
     return counts
+
+
+func craft_donut(donut_type: Constants.DonutType):
+    var CardDonut = preload("res://card_donut.gd")
+    var recipe = CardDonut.get_all_donut_data()[donut_type]["recipe"]
+
+    var current_materials = get_current_material_counts()
+    var required_materials = {}
+    for material in recipe:
+        required_materials[material] = required_materials.get(material, 0) + 1
+    
+    for material in required_materials:
+        if current_materials.get(material, 0) < required_materials[material]:
+            print("Error: Not enough materials to craft donut.")
+            # todo: 재료 부족 알려주는 ui or effect 추가 필요
+            return
+
+    consume_materials_for_recipe(recipe)
+
+    var slot = _find_empty_slot()
+    if slot:
+        var card = create_donut_card_for_slot(donut_type)
+        if card:
+            slot.add_child(card)
+    else:
+        print("Error: No empty slot to place the crafted donut.")
 #endregion
 
 
@@ -287,6 +313,35 @@ func _on_timer_finished():
 
 
 #region Helper functions
+func _find_empty_slot() -> Node2D:
+  for slot in grid_slots:
+    var has_card = false
+    for child in slot.get_children():
+      if child.is_in_group("cards"):
+        has_card = true
+        break
+    if not has_card:
+      return slot
+  return null
+
+
+func consume_materials_for_recipe(recipe: Array) -> void:
+    var materials_to_consume = {}
+    for material in recipe:
+        materials_to_consume[material] = materials_to_consume.get(material, 0) + 1
+
+    for slot in grid_slots:
+        for card in slot.get_children():
+            if not card.is_in_group("cards") or card.get_card_type() != Constants.CardType.MATERIAL:
+                continue
+
+            var material_type = card.material_type
+            if materials_to_consume.get(material_type, 0) > 0:
+                materials_to_consume[material_type] -= 1
+                card.queue_free()
+                break
+
+
 func set_slot_size_from_scene():
   var temp_slot = slot_scene.instantiate()
   if temp_slot.has_method("get_size"):
