@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://co5tlnjxavdlw"]
+[gd_scene load_steps=6 format=3 uid="uid://co5tlnjxavdlw"]
 
 [ext_resource type="Script" path="res://card_base.gd" id="1_s5qbc"]
 [ext_resource type="Texture2D" uid="uid://bhlwurx2yepqw" path="res://images/card_slot.png" id="2_k7681"]
@@ -9,6 +9,10 @@ size = Vector2(669, 1041)
 [sub_resource type="LabelSettings" id="LabelSettings_xhrud"]
 font_size = 300
 font_color = Color(1, 0.0862745, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x36kq"]
+font_size = 50
+font_color = Color(0, 0, 0, 1)
 
 [node name="CardBase" type="Area2D" groups=["cards"]]
 script = ExtResource("1_s5qbc")
@@ -40,3 +44,11 @@ size_flags_vertical = 6
 label_settings = SubResource("LabelSettings_xhrud")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Property" type="Label" parent="."]
+offset_left = -259.0
+offset_top = -429.0
+offset_right = 237.0
+offset_bottom = 409.0
+size_flags_vertical = 6
+label_settings = SubResource("LabelSettings_x36kq")
