@@ -115,7 +115,7 @@ func craft_donut(donut_type: Constants.DonutType):
     # 3. Find an empty slot and create the donut card
     var slot = _find_empty_slot()
     if slot:
-        var card = create_donut_card_for_slot(donut_type)
+        var card = instantiate_donut_card(donut_type)
         if card:
             slot.add_child(card)
     else:
@@ -125,15 +125,15 @@ func craft_donut(donut_type: Constants.DonutType):
 
 #region Card Spawning
 func spawn_customer_cards() -> void:
-  _spawn_card(Callable(self, "create_customer_card_for_slot"))
+  _spawn_card(Callable(self, "instantiate_customer_card"))
 
 
 func spawn_material_cards(material_type: Constants.MaterialType) -> void:
-  _spawn_card(Callable(self, "create_material_card_for_slot").bind(material_type))
+  _spawn_card(Callable(self, "instantiate_material_card").bind(material_type))
 
 
 func spawn_donut_card(donut_type: Constants.DonutType) -> void:
-  _spawn_card(Callable(self, "create_donut_card_for_slot").bind(donut_type))
+  _spawn_card(Callable(self, "instantiate_donut_card").bind(donut_type))
 
 
 # for test. 나중에 삭제필요
@@ -154,7 +154,7 @@ func _spawn_card(create_card_func: Callable):
     slot.add_child(card)
 
 
-func create_card_for_slot(card_type: String) -> Node2D:
+func instantiate_card_for_slot(card_type: String) -> Node2D:
   var card: Node2D
   match card_type:
     "DONUT":
@@ -168,25 +168,25 @@ func create_card_for_slot(card_type: String) -> Node2D:
   if card == null:
     return null
   
-  return _finalize_card_creation(card)
+  return _setup_card_properties(card)
 
 
-func create_material_card_for_slot(material_type: Constants.MaterialType) -> Node2D:
+func instantiate_material_card(material_type: Constants.MaterialType) -> Node2D:
   var card = card_scene_material.instantiate()
   card.set_material_type(material_type)
-  return _finalize_card_creation(card)
+  return _setup_card_properties(card)
 
 
-func create_donut_card_for_slot(donut_type: Constants.DonutType) -> Node2D:
+func instantiate_donut_card(donut_type: Constants.DonutType) -> Node2D:
   var card = card_scene_donut.instantiate()
   card.set_donut_type(donut_type)
-  return _finalize_card_creation(card)
+  return _setup_card_properties(card)
 
 
-func create_customer_card_for_slot() -> Node2D:
+func instantiate_customer_card() -> Node2D:
   var card = card_scene_customer.instantiate()
   card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
-  return _finalize_card_creation(card)
+  return _setup_card_properties(card)
 
 
 func spawn_material_cards_by_grade(count: int, grade: Constants.MaterialGrade) -> void:
@@ -208,11 +208,11 @@ func spawn_material_cards_by_grade(count: int, grade: Constants.MaterialGrade) -
   for material_type in materials_to_spawn:
     var empty_slot = _find_empty_slot()
     if empty_slot:
-      var card = create_material_card_for_slot(material_type)
+      var card = instantiate_material_card(material_type)
       empty_slot.add_child(card)
 
 
-func _finalize_card_creation(card: Node2D) -> Node2D:
+func _setup_card_properties(card: Node2D) -> Node2D:
   card.set_grid_manager(self)
   card.position = Vector2.ZERO
 
