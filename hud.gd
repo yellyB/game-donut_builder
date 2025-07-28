@@ -137,8 +137,8 @@ func show_game_over_screen():
 
 
 func _on_restart_button_pressed():
-  # todo: 재시작 기능 추가
-  pass
+  get_tree().paused = false
+  get_tree().reload_current_scene()
 
 
 func _on_craft_item_pressed(donut_type_string: String) -> void:
