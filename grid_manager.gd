@@ -98,7 +98,11 @@ func get_current_material_counts() -> Dictionary:
 func craft_donut(donut_type: Constants.DonutType):
     var recipe = Constants.DONUT_DATA[donut_type]["recipe"]
 
-    # 1. Check if materials are sufficient
+    var slot = _find_empty_slot()
+    if not slot:
+        print("Error: No empty slot to place the crafted donut.")
+        return
+
     var current_materials = get_current_material_counts()
     var required_materials = {}
     for material in recipe:
@@ -109,23 +113,24 @@ func craft_donut(donut_type: Constants.DonutType):
             print("Error: Not enough materials to craft donut.")
             return
 
-    # 2. Consume materials
     consume_materials_for_recipe(recipe)
 
-    # 3. Find an empty slot and create the donut card
-    var slot = _find_empty_slot()
-    if slot:
-        var card = instantiate_donut_card(donut_type)
-        if card:
-            slot.add_child(card)
-    else:
-        print("Error: No empty slot to place the crafted donut.")
+    var card = instantiate_donut_card(donut_type)
+    if card:
+        slot.add_child(card)
 #endregion
 
 
 #region Card Spawning
 func spawn_customer_cards() -> void:
-  _spawn_card(Callable(self, "instantiate_customer_card"))
+  var slot = _find_empty_slot()
+  if not slot:
+    _game_over()
+    return
+
+  var card = instantiate_customer_card()
+  if card:
+    slot.add_child(card)
 
 
 func spawn_material_cards(material_type: Constants.MaterialType) -> void:
@@ -147,7 +152,6 @@ func _spawn_card(create_card_func: Callable):
   var slot = _find_empty_slot()
   if not slot:
     print("No more empty slots to spawn card.")
-    # todo: game over
     return
   var card = create_card_func.call()
   if card:
@@ -210,6 +214,10 @@ func spawn_material_cards_by_grade(count: int, grade: Constants.MaterialGrade) -
     if empty_slot:
       var card = instantiate_material_card(material_type)
       empty_slot.add_child(card)
+    else:
+      # 빈 슬롯이 없으면, 남은 카드 생성을 중단
+      print("슬롯이 가득 차서 일부 카드를 생성하지 못했습니다.")
+      break
 
 
 func _setup_card_properties(card: Node2D) -> Node2D:
@@ -271,6 +279,13 @@ func create_slot(pos: Vector2) -> Node2D:
 #region Signal handlers
 func _on_timer_finished():
   spawn_customer_cards()
+
+
+func _game_over():
+  print("GAME OVER: No more empty slots!")
+  get_tree().paused = true
+  if hud:
+    hud.show_game_over_screen()
 #endregion
 
 

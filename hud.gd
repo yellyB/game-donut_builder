@@ -16,6 +16,7 @@ var card_packs_data = [
   { "image": preload("res://images/card_pack_1.png"), "price": 5, "description": "전설 재료 팩: 전설 등급 재료 3개", "grade": Constants.MaterialGrade.EPIC },
   { "image": preload("res://images/card_pack_2.png"), "price": 10, "description": "신화 재료 팩: 신화 등급 재료 3개", "grade": Constants.MaterialGrade.LEGENDARY }
 ]
+@onready var game_over_screen = $GameOverScreen
 
 
 #region Godot's built-in functions
@@ -129,6 +130,15 @@ func _on_craft_button_pressed() -> void:
   else:
     _refresh_craft_list()
     craft_list_container.visible = true
+
+
+func show_game_over_screen():
+  game_over_screen.visible = true
+
+
+func _on_restart_button_pressed():
+  # todo: 재시작 기능 추가
+  pass
 
 
 func _on_craft_item_pressed(donut_type_string: String) -> void:

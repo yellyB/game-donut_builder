@@ -2,7 +2,8 @@ extends Node
 
 
 var z_counter = 100
-var money: int = 100
+var money: int = 0
+var current_time: int = 180
 
 
 func get_next_z_index() -> int:
