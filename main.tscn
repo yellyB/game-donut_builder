@@ -10,3 +10,27 @@ script = ExtResource("1_sqydp")
 [node name="HUD" parent="." instance=ExtResource("3_hiluj")]
 
 [node name="GridManager" parent="." instance=ExtResource("2_76dw7")]
+
+[node name="StartScreen" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="CenterContainer" type="CenterContainer" parent="StartScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="StartScreen/CenterContainer"]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Start"
+
+[connection signal="pressed" from="StartScreen/CenterContainer/StartButton" to="." method="_on_start_button_pressed"]
