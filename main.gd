@@ -27,6 +27,9 @@ func game_start():
 
 # 테스트용: 키보드 입력으로 재료 카드 생성
 func _input(event):
+  if event.is_action_pressed("ui_accept") and start_screen.visible:
+    game_start()
+
   if event is InputEventKey and event.pressed:
     match event.keycode:
       KEY_1:
