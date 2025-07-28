@@ -1,11 +1,107 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhycrqvxvoey5"]
+[gd_scene load_steps=11 format=3 uid="uid://bhycrqvxvoey5"]
 
-[ext_resource type="PackedScene" uid="uid://co5tlnjxavdlw" path="res://card_base.tscn" id="1_2g3bp"]
-[ext_resource type="Script" path="res://card_donut.gd" id="2_cxd0y"]
-[ext_resource type="Texture2D" uid="uid://crbmigdad8g4p" path="res://images/card/donut/card_donut_milk.png" id="3_ehmxw"]
+[ext_resource type="Script" path="res://card_donut.gd" id="1_5w2vy"]
+[ext_resource type="Texture2D" uid="uid://crbmigdad8g4p" path="res://images/card/donut/card_donut_milk.png" id="2_4cfqo"]
+[ext_resource type="Shader" path="res://sparkle.gdshader" id="3_v2s1w"]
 
-[node name="CardDonut" instance=ExtResource("1_2g3bp")]
-script = ExtResource("2_cxd0y")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjblp"]
+shader = ExtResource("3_v2s1w")
+shader_parameter/active = true
+shader_parameter/sparkle_speed = 0.5
+shader_parameter/sparkle_density = 0.95
+shader_parameter/sparkle_intensity = 3.0
 
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("3_ehmxw")
+[sub_resource type="Gradient" id="Gradient_qahg1"]
+offsets = PackedFloat32Array(0, 0.514286, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2w05s"]
+gradient = SubResource("Gradient_qahg1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4jchc"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(335, 520, 1)
+initial_velocity_min = 50.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 6.0
+color_ramp = SubResource("GradientTexture1D_2w05s")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n0aus"]
+size = Vector2(669, 1041)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xhrud"]
+font_size = 300
+font_color = Color(1, 0.0862745, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tcax3"]
+font_size = 200
+font_color = Color(0.728811, 0.250234, 0.282948, 1)
+
+[node name="CardDonut" type="Area2D" groups=["cards"]]
+script = ExtResource("1_5w2vy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_qjblp")
+texture = ExtResource("2_4cfqo")
+
+[node name="SparkleEffect" type="GPUParticles2D" parent="."]
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_4jchc")
+lifetime = 0.6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 3.5)
+shape = SubResource("RectangleShape2D_n0aus")
+
+[node name="NumberLabel" type="Label" parent="."]
+offset_left = -352.0
+offset_top = 352.0
+offset_right = -86.0
+offset_bottom = 761.0
+size_flags_vertical = 6
+text = "0"
+label_settings = SubResource("LabelSettings_xhrud")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuName" type="Label" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -287.0
+offset_top = 62.0
+offset_right = 285.0
+offset_bottom = 471.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 6
+label_settings = SubResource("LabelSettings_tcax3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FreshLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -294.0
+offset_top = -480.0
+offset_right = -32.0
+offset_bottom = -275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.329412, 0.8, 0.290196, 1)
+theme_override_font_sizes/font_size = 150
+text = "신선"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FreshnessTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="FreshnessTimer" to="." method="_on_freshness_timer_timeout"]

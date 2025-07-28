@@ -18,7 +18,6 @@ const DONUT_DATA = {
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR],
     "price": 100,
     "rarity": DonutRarity.COMMON,
-    "shelf_life": 60,
     "tags": [DonutTag.BASIC, DonutTag.SWEET]
   },
   DonutType.STRAWBERRY: {
@@ -27,7 +26,6 @@ const DONUT_DATA = {
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.STRAWBERRY],
     "price": 250,
     "rarity": DonutRarity.COMMON,
-    "shelf_life": 45,
     "tags": [DonutTag.FRUITY, DonutTag.SWEET]
   },
   DonutType.CHOCOLATE: {
@@ -36,7 +34,6 @@ const DONUT_DATA = {
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.CHOCOLATE],
     "price": 250,
     "rarity": DonutRarity.COMMON,
-    "shelf_life": 50,
     "tags": [DonutTag.CHOCOLATE, DonutTag.SWEET]
   },
   DonutType.MINT: {
@@ -45,7 +42,6 @@ const DONUT_DATA = {
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.MINT],
     "price": 400,
     "rarity": DonutRarity.RARE,
-    "shelf_life": 40,
     "tags": [DonutTag.MINTY, DonutTag.FRESH]
   }
 }

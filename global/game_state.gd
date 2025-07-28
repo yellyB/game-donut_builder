@@ -1,8 +1,9 @@
 extends Node
 
 
+const STAGE_1_MONEY = 100
 var z_counter = 100
-var money: int = 0
+var money: int = STAGE_1_MONEY
 var current_time: int = 180
 
 
@@ -20,4 +21,4 @@ func add_money(amount: int):
 
 
 func reset():
-  money = 0
+  money = STAGE_1_MONEY

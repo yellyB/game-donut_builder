@@ -27,14 +27,14 @@ func setup_order():
     order_value = donut_types[randi() % donut_types.size()]
     
     var donut_name = Constants.DONUT_DATA[order_value]["name"]
-    $Property.text = donut_name
+    $OrderedMenu.text = donut_name
   else:
     order_type = Constants.OrderType.DONUT_TAG
     var donut_tags = Constants.DonutTag.values()
     order_value = donut_tags[randi() % donut_tags.size()]
     
     var tag_name = Constants.DonutTag.keys()[order_value].capitalize()
-    $Property.text = tag_name + " 도넛!"
+    $OrderedMenu.text = tag_name + " 도넛!"
 
 
 func can_overlap_with(_other_card: Node) -> bool:
@@ -57,7 +57,11 @@ func on_drag_ended():
         order_fulfilled = true
 
     if order_fulfilled:
-      increase_money.emit(other.price)
+      var money_to_receive = other.price
+      if other.is_fresh:
+        var fresh_bonus = 5  # todo: 신선 도넛일때 추가금 얼마 붙을지? 고민 필요
+        money_to_receive += fresh_bonus
+      increase_money.emit(money_to_receive)
       other.queue_free()
       queue_free()
       return
