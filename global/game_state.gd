@@ -17,3 +17,7 @@ func get_next_z_index() -> int:
 
 func add_money(amount: int):
   money += amount
+
+
+func reset():
+  money = 0

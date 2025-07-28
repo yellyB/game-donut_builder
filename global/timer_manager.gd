@@ -25,6 +25,11 @@ func start():
   _timer.start()
 
 
+func stop():
+  _timer.stop()
+  remaining_seconds = timer_duration
+
+
 func _on_timer_tick() -> void:
   remaining_seconds -= 1
 
