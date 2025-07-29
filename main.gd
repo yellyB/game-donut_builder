@@ -3,11 +3,13 @@ extends Node
 @onready var grid_manager = $GridManager
 @onready var hud = $HUD
 @onready var start_screen = $StartScreen
+@onready var trash_can = $TrashCan
 
 
 func _ready():
   grid_manager.visible = false
   hud.visible = false
+  trash_can.visible = false
   start_screen.visible = true
 
 
@@ -18,6 +20,7 @@ func _on_start_button_pressed():
 func game_start():
   grid_manager.visible = true
   hud.visible = true
+  trash_can.visible = true
   start_screen.visible = false
   
   grid_manager.initialize(hud)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://bi40ejkwcc5b2"]
+[gd_scene load_steps=8 format=3 uid="uid://bi40ejkwcc5b2"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_sqydp"]
 [ext_resource type="PackedScene" uid="uid://cgtkwht01e514" path="res://grid_manager.tscn" id="2_76dw7"]
 [ext_resource type="PackedScene" uid="uid://cjn6ecipve4xm" path="res://hud.tscn" id="3_hiluj"]
+[ext_resource type="PackedScene" uid="uid://c6w8f7g6q5k1x" path="res://trash_can.tscn" id="4_trash"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
 bg_color = Color(1, 1, 1, 1)
@@ -31,6 +32,10 @@ script = ExtResource("1_sqydp")
 [node name="HUD" parent="." instance=ExtResource("3_hiluj")]
 
 [node name="GridManager" parent="." instance=ExtResource("2_76dw7")]
+
+[node name="TrashCan" parent="." instance=ExtResource("4_trash")]
+visible = false
+position = Vector2(930, 1750)
 
 [node name="StartScreen" type="ColorRect" parent="."]
 anchors_preset = 15
