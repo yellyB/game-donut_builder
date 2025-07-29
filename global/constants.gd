@@ -10,6 +10,7 @@ enum DonutTag { BASIC, SWEET, FRUITY, CHOCOLATE, MINTY, FRESH }
 enum CustomerType { WOMAN, MAN }
 enum OrderType { DONUT_TYPE, DONUT_TAG }
 enum MaterialGrade { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
+enum DonutGrade { BASIC, PREMIUM, PRESTIGE }
 
 const DONUT_DATA = {
   DonutType.MILK: {
@@ -17,7 +18,6 @@ const DONUT_DATA = {
     "texture": preload("res://images/card/donut/card_donut_milk.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR],
     "price": 100,
-    "rarity": DonutRarity.COMMON,
     "tags": [DonutTag.BASIC, DonutTag.SWEET]
   },
   DonutType.STRAWBERRY: {
@@ -25,7 +25,6 @@ const DONUT_DATA = {
     "texture": preload("res://images/card/donut/card_donut_strawberry.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.STRAWBERRY],
     "price": 250,
-    "rarity": DonutRarity.COMMON,
     "tags": [DonutTag.FRUITY, DonutTag.SWEET]
   },
   DonutType.CHOCOLATE: {
@@ -33,7 +32,6 @@ const DONUT_DATA = {
     "texture": preload("res://images/card/donut/card_donut_chocolate.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.CHOCOLATE],
     "price": 250,
-    "rarity": DonutRarity.COMMON,
     "tags": [DonutTag.CHOCOLATE, DonutTag.SWEET]
   },
   DonutType.MINT: {
@@ -41,7 +39,6 @@ const DONUT_DATA = {
     "texture": preload("res://images/card/donut/card_donut_mint.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.MINT],
     "price": 400,
-    "rarity": DonutRarity.RARE,
     "tags": [DonutTag.MINTY, DonutTag.FRESH]
   }
 }

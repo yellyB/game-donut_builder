@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhycrqvxvoey5"]
+[gd_scene load_steps=12 format=3 uid="uid://bhycrqvxvoey5"]
 
 [ext_resource type="Script" path="res://card_donut.gd" id="1_5w2vy"]
 [ext_resource type="Texture2D" uid="uid://crbmigdad8g4p" path="res://images/card/donut/card_donut_milk.png" id="2_4cfqo"]
@@ -6,10 +6,11 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qjblp"]
 shader = ExtResource("3_v2s1w")
-shader_parameter/active = true
+shader_parameter/active = false
 shader_parameter/sparkle_speed = 0.5
 shader_parameter/sparkle_density = 0.95
 shader_parameter/sparkle_intensity = 3.0
+shader_parameter/sparkle_size = 80.0
 
 [sub_resource type="Gradient" id="Gradient_qahg1"]
 offsets = PackedFloat32Array(0, 0.514286, 1)
@@ -32,13 +33,17 @@ color_ramp = SubResource("GradientTexture1D_2w05s")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0aus"]
 size = Vector2(669, 1041)
 
-[sub_resource type="LabelSettings" id="LabelSettings_xhrud"]
+[sub_resource type="LabelSettings" id="LabelSettings_number"]
 font_size = 300
 font_color = Color(1, 0.0862745, 1, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_tcax3"]
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
 font_size = 200
 font_color = Color(0.728811, 0.250234, 0.282948, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_grade"]
+font_size = 120
+font_color = Color(0.262745, 0.262745, 0.262745, 1)
 
 [node name="CardDonut" type="Area2D" groups=["cards"]]
 script = ExtResource("1_5w2vy")
@@ -62,8 +67,7 @@ offset_top = 352.0
 offset_right = -86.0
 offset_bottom = 761.0
 size_flags_vertical = 6
-text = "0"
-label_settings = SubResource("LabelSettings_xhrud")
+label_settings = SubResource("LabelSettings_number")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -78,7 +82,7 @@ offset_bottom = 471.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 6
-label_settings = SubResource("LabelSettings_tcax3")
+label_settings = SubResource("LabelSettings_name")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -97,6 +101,15 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(0.329412, 0.8, 0.290196, 1)
 theme_override_font_sizes/font_size = 150
 text = "신선"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GradeLabel" type="Label" parent="."]
+offset_left = 21.0
+offset_top = -470.0
+offset_right = 308.0
+offset_bottom = -305.0
+label_settings = SubResource("LabelSettings_grade")
 horizontal_alignment = 1
 vertical_alignment = 1
 

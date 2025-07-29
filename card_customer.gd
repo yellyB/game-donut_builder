@@ -57,10 +57,16 @@ func on_drag_ended():
         order_fulfilled = true
 
     if order_fulfilled:
+      var fresh_bonus = 0
+      var grade_bonus = 0
       var money_to_receive = other.price
       if other.is_fresh:
-        var fresh_bonus = 5  # todo: 신선 도넛일때 추가금 얼마 붙을지? 고민 필요
-        money_to_receive += fresh_bonus
+        fresh_bonus = 5  # todo: 신선 도넛일때 추가금 얼마 붙을지? 고민 필요
+      if other.grade == Constants.DonutGrade.PREMIUM:
+        grade_bonus = 15  # todo: 고급 도넛일때 추가금 얼마 붙을지?
+      if other.grade == Constants.DonutGrade.PRESTIGE:
+        grade_bonus = 50  # todo: 명품 도넛일때 추가금 얼마 붙을지?
+        money_to_receive = money_to_receive + fresh_bonus + grade_bonus
       increase_money.emit(money_to_receive)
       other.queue_free()
       queue_free()
