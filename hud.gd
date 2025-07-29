@@ -10,11 +10,11 @@ extends CanvasLayer
 var grid_manager: Node = null  # Main에서 할당
 var selected_card_pack_index = -1  # 선택된 카드 팩 인덱스
 var card_packs_data = [
-  { "image": preload("res://images/card_pack_1.png"), "price": 1, "description": "일반 재료 팩: 일반 등급 재료 3개", "grade": Constants.MaterialGrade.COMMON },
-  { "image": preload("res://images/card_pack_2.png"), "price": 2, "description": "고급 재료 팩: 고급 등급 재료 3개", "grade": Constants.MaterialGrade.UNCOMMON },
-  { "image": preload("res://images/card_pack_3.png"), "price": 3, "description": "희귀 재료 팩: 희귀 등급 재료 3개", "grade": Constants.MaterialGrade.RARE },
-  { "image": preload("res://images/card_pack_1.png"), "price": 5, "description": "전설 재료 팩: 전설 등급 재료 3개", "grade": Constants.MaterialGrade.EPIC },
-  { "image": preload("res://images/card_pack_2.png"), "price": 10, "description": "신화 재료 팩: 신화 등급 재료 3개", "grade": Constants.MaterialGrade.LEGENDARY }
+  { "image": preload("res://images/card/pack/card_pack_1.png"), "price": 1, "description": "일반 재료 팩: 일반 등급 재료 3개", "grade": Constants.MaterialGrade.COMMON },
+  { "image": preload("res://images/card/pack/card_pack_2.png"), "price": 2, "description": "고급 재료 팩: 고급 등급 재료 3개", "grade": Constants.MaterialGrade.UNCOMMON },
+  { "image": preload("res://images/card/pack/card_pack_3.png"), "price": 3, "description": "희귀 재료 팩: 희귀 등급 재료 3개", "grade": Constants.MaterialGrade.RARE },
+  { "image": preload("res://images/card/pack/card_pack_1.png"), "price": 5, "description": "전설 재료 팩: 전설 등급 재료 3개", "grade": Constants.MaterialGrade.EPIC },
+  { "image": preload("res://images/card/pack/card_pack_2.png"), "price": 10, "description": "신화 재료 팩: 신화 등급 재료 3개", "grade": Constants.MaterialGrade.LEGENDARY }
 ]
 @onready var game_over_screen = $GameOverScreen
 
