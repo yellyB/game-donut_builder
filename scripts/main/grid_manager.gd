@@ -177,13 +177,13 @@ func instantiate_card_for_slot(card_type: String) -> Node2D:
 
 func instantiate_material_card(material_type: Constants.MaterialType) -> Node2D:
   var card = card_scene_material.instantiate()
-  card.set_material_type(material_type)
+  card.initialize(material_type)
   return _setup_card_properties(card)
 
 
 func instantiate_donut_card(donut_type: Constants.DonutType) -> Node2D:
   var card = card_scene_donut.instantiate()
-  card.set_donut_type(donut_type)
+  card.initialize(donut_type)
   return _setup_card_properties(card)
 
 

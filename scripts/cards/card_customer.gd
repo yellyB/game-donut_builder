@@ -16,10 +16,9 @@ func _ready():
   var customer_data = Constants.CUSTOMER_DATA[customer_type]
 
   patience = customer_data["patience"]
-  $CoreSprite.texture = customer_data["texture"]
-
-  $PatienceLabel.text = str(patience)
+  set_core_image(customer_data["texture"])
   setup_order()
+  $PatienceLabel.text = str(patience)
   $PatienceTimer.connect("timeout", self._on_patience_timer_timeout)
 
 

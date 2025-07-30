@@ -16,7 +16,7 @@ func _ready():
   $FreshnessTimer.start()
 
 
-func set_donut_type(type: Constants.DonutType):
+func initialize(type: Constants.DonutType):
   donut_type = type
   _set_random_grade()
   _setup_donut_data()
@@ -38,10 +38,10 @@ func _setup_donut_data():
   current_donut_name = data["name"]
   flavor_texture = data["texture"]
   price = data["price"]
-
+  
 
 func _setup_appearance():
-  $CoreSprite.texture = flavor_texture
+  set_core_image(flavor_texture)
   
   $MenuName.text = current_donut_name
   $GradeLabel.text = _get_grade_name(grade)

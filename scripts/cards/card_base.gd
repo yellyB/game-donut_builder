@@ -114,3 +114,7 @@ func get_card_type() -> Constants.CardType:
 
 func set_grid_manager(manager: Node):
   grid_manager = manager
+
+
+func set_core_image(core_texture):
+  $CoreSprite.texture = core_texture

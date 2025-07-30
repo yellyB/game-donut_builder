@@ -2,8 +2,8 @@ extends "res://scripts/cards/card_base.gd"
 
 
 var material_type: Constants.MaterialType = Constants.MaterialType.MILK
-var current_material_name: String
-var current_material_texture: Texture2D
+var material_name: String
+var material_texture: Texture2D
 var price: int = 0
 var grade: Constants.MaterialGrade = Constants.MaterialGrade.COMMON
 
@@ -12,30 +12,26 @@ func _ready():
   card_type = Constants.CardType.MATERIAL
 
 
-func set_material_type(type: Constants.MaterialType):
+func initialize(type: Constants.MaterialType):
   material_type = type
-  update_material_data()
-  update_appearance()
+  _setup_material_data()
+  _setup_appearance()
 
 
-func update_material_data():
+func _setup_material_data():
   var data = Constants.MATERIAL_DATA[material_type]
-  current_material_name = data["name"]
-  current_material_texture = data["texture"]
+  material_name = data["name"]
+  material_texture = data["texture"]
   price = data["price"]
   grade = data["grade"]
 
 
-func update_appearance():
-  $CoreSprite.texture = current_material_texture
-
-  # var sprite_node = get_node("Sprite2D")
-  # if sprite_node:
-  #   sprite_node.texture = current_material_texture
+func _setup_appearance():
+  set_core_image(material_texture)
   
   var label_node = get_node("Label")
   if label_node:
-    label_node.text = current_material_name
+    label_node.text = material_name
 
 
 func _get_grade_name(grade: Constants.MaterialGrade) -> String:
