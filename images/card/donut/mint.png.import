@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jg77nkxir036"
-path="res://.godot/imported/card_material_mint.png-a83d2037e825e06dbea739e9722e12f0.ctex"
+uid="uid://bqmld1ik0n700"
+path="res://.godot/imported/mint.png-862c59cf88ab61a5da015aa450061295.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card/material/card_material_mint.png"
-dest_files=["res://.godot/imported/card_material_mint.png-a83d2037e825e06dbea739e9722e12f0.ctex"]
+source_file="res://images/card/donut/mint.png"
+dest_files=["res://.godot/imported/mint.png-862c59cf88ab61a5da015aa450061295.ctex"]
 
 [params]
 

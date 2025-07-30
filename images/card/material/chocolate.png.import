@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jsyt5oe8ioug"
-path="res://.godot/imported/card_donut_mint.png-ac55605e8fd82bc3c63acfca525706de.ctex"
+uid="uid://2uidr0djirx7"
+path="res://.godot/imported/chocolate.png-f20a4343f02394979859c27e3e79e064.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card/donut/card_donut_mint.png"
-dest_files=["res://.godot/imported/card_donut_mint.png-ac55605e8fd82bc3c63acfca525706de.ctex"]
+source_file="res://images/card/material/chocolate.png"
+dest_files=["res://.godot/imported/chocolate.png-f20a4343f02394979859c27e3e79e064.ctex"]
 
 [params]
 

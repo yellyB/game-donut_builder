@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnyoacjn086dt"
-path="res://.godot/imported/card_donut_strawberry.png-f736914221041f99567af2e770fd3a19.ctex"
+uid="uid://dqd0jcvxbkhix"
+path="res://.godot/imported/background.png-00424c57b832bf436da7d4da5223169f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card/donut/card_donut_strawberry.png"
-dest_files=["res://.godot/imported/card_donut_strawberry.png-f736914221041f99567af2e770fd3a19.ctex"]
+source_file="res://images/card/material/background.png"
+dest_files=["res://.godot/imported/background.png-00424c57b832bf436da7d4da5223169f.ctex"]
 
 [params]
 

@@ -5,7 +5,7 @@ var price: int = 0 # Will be set by donut type
 var donut_type: Constants.DonutType = Constants.DonutType.MILK
 
 var current_donut_name: String
-var current_donut_texture: Texture2D
+var flavor_texture: Texture2D
 
 var is_fresh: bool = true
 var grade: Constants.DonutGrade
@@ -36,34 +36,33 @@ func _set_random_grade():
 func _setup_donut_data():
   var data = Constants.DONUT_DATA[donut_type]
   current_donut_name = data["name"]
-  current_donut_texture = data["texture"]
+  flavor_texture = data["texture"]
   price = data["price"]
 
 
 func _setup_appearance():
-  var sprite_node = get_node("Sprite2D")
-  if sprite_node:
-    sprite_node.texture = current_donut_texture
+  $CoreSprite.texture = flavor_texture
+  
   $MenuName.text = current_donut_name
   $GradeLabel.text = _get_grade_name(grade)
   
   _setup_border()
   
   # Ensure the material is unique to this instance
-  $Sprite2D.material = $Sprite2D.material.duplicate()
+  $CoreSprite.material = $CoreSprite.material.duplicate()
   
   # Activate shader only for PRESTIGE grade donuts
   var is_prestige = grade == Constants.DonutGrade.PRESTIGE
-  ($Sprite2D.material as ShaderMaterial).set_shader_parameter("active", is_prestige)
+  ($CoreSprite.material as ShaderMaterial).set_shader_parameter("active", is_prestige)
   
   _update_freshness_visuals()
 
 
 func _setup_border():
-  var sprite_node = get_node("Sprite2D")
-  var border_panel = get_node("BorderPanel")
-  if border_panel and sprite_node and sprite_node.texture:
-    var texture_size = sprite_node.texture.get_size()
+  var background_sprite = $BackgroundSprite
+  var border_panel = $BorderPanel
+  if border_panel and background_sprite and background_sprite.texture:
+    var texture_size = background_sprite.texture.get_size()
     border_panel.size = texture_size
     border_panel.position = -texture_size / 2
     

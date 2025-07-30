@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlhn4emb8ee1t"
-path="res://.godot/imported/card_material_flour.png-69cdf6974fe3fb3ad8173c6ce5ebe50e.ctex"
+uid="uid://di21pwjfnwnk5"
+path="res://.godot/imported/rainbow.png-21acbad92e1c5ee0a150ecd335aff1f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/card/material/card_material_flour.png"
-dest_files=["res://.godot/imported/card_material_flour.png-69cdf6974fe3fb3ad8173c6ce5ebe50e.ctex"]
+source_file="res://images/card/material/rainbow.png"
+dest_files=["res://.godot/imported/rainbow.png-21acbad92e1c5ee0a150ecd335aff1f0.ctex"]
 
 [params]
 

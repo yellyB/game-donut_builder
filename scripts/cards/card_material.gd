@@ -27,9 +27,11 @@ func update_material_data():
 
 
 func update_appearance():
-  var sprite_node = get_node("Sprite2D")
-  if sprite_node:
-    sprite_node.texture = current_material_texture
+  $CoreSprite.texture = current_material_texture
+
+  # var sprite_node = get_node("Sprite2D")
+  # if sprite_node:
+  #   sprite_node.texture = current_material_texture
   
   var label_node = get_node("Label")
   if label_node:

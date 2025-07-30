@@ -1,16 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://bhycrqvxvoey5"]
+[gd_scene load_steps=10 format=3 uid="uid://bhycrqvxvoey5"]
 
-[ext_resource type="Script" path="res://scripts/cards/card_donut.gd" id="1_5w2vy"]
-[ext_resource type="Texture2D" uid="uid://crbmigdad8g4p" path="res://images/card/donut/card_donut_milk.png" id="2_4cfqo"]
-[ext_resource type="Shader" path="res://sparkle.gdshader" id="3_v2s1w"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qjblp"]
-shader = ExtResource("3_v2s1w")
-shader_parameter/active = false
-shader_parameter/sparkle_speed = 0.5
-shader_parameter/sparkle_density = 0.95
-shader_parameter/sparkle_intensity = 3.0
-shader_parameter/sparkle_size = 80.0
+[ext_resource type="PackedScene" uid="uid://co5tlnjxavdlw" path="res://scenes/cards/card_base.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://dmheej82wb3c3" path="res://images/card/donut/background.png" id="2_4cfqo"]
+[ext_resource type="Script" path="res://scripts/cards/card_donut.gd" id="2_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_border"]
 bg_color = Color(0, 0, 0, 0)
@@ -38,13 +30,6 @@ scale_min = 2.0
 scale_max = 6.0
 color_ramp = SubResource("GradientTexture1D_2w05s")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_n0aus"]
-size = Vector2(669, 1041)
-
-[sub_resource type="LabelSettings" id="LabelSettings_number"]
-font_size = 300
-font_color = Color(1, 0.0862745, 1, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_name"]
 font_size = 200
 font_color = Color(0.728811, 0.250234, 0.282948, 1)
@@ -53,14 +38,14 @@ font_color = Color(0.728811, 0.250234, 0.282948, 1)
 font_size = 120
 font_color = Color(0.262745, 0.262745, 0.262745, 1)
 
-[node name="CardDonut" type="Area2D" groups=["cards"]]
-script = ExtResource("1_5w2vy")
+[node name="CardDonut" instance=ExtResource("1_base")]
+script = ExtResource("2_script")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_qjblp")
+[node name="BackgroundSprite" parent="." index="0"]
+position = Vector2(-2, -1)
 texture = ExtResource("2_4cfqo")
 
-[node name="BorderPanel" type="Panel" parent="."]
+[node name="BorderPanel" type="Panel" parent="." index="3"]
 offset_left = -334.0
 offset_top = -520.0
 offset_right = 334.0
@@ -68,26 +53,12 @@ offset_bottom = 520.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_border")
 
-[node name="SparkleEffect" type="GPUParticles2D" parent="."]
+[node name="SparkleEffect" type="GPUParticles2D" parent="." index="4"]
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_4jchc")
 lifetime = 0.6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 3.5)
-shape = SubResource("RectangleShape2D_n0aus")
-
-[node name="NumberLabel" type="Label" parent="."]
-offset_left = -352.0
-offset_top = 352.0
-offset_right = -86.0
-offset_bottom = 761.0
-size_flags_vertical = 6
-label_settings = SubResource("LabelSettings_number")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="MenuName" type="Label" parent="."]
+[node name="MenuName" type="Label" parent="." index="5"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -102,7 +73,7 @@ label_settings = SubResource("LabelSettings_name")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FreshLabel" type="Label" parent="."]
+[node name="FreshLabel" type="Label" parent="." index="6"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -120,7 +91,7 @@ text = "신선"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GradeLabel" type="Label" parent="."]
+[node name="GradeLabel" type="Label" parent="." index="7"]
 offset_left = 21.0
 offset_top = -470.0
 offset_right = 308.0
@@ -129,7 +100,7 @@ label_settings = SubResource("LabelSettings_grade")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="FreshnessTimer" type="Timer" parent="."]
+[node name="FreshnessTimer" type="Timer" parent="." index="8"]
 wait_time = 2.0
 one_shot = true
 

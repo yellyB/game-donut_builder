@@ -1,30 +1,42 @@
-[gd_scene load_steps=5 format=3 uid="uid://co5tlnjxavdlw"]
+[gd_scene load_steps=7 format=3 uid="uid://co5tlnjxavdlw"]
 
 [ext_resource type="Script" path="res://scripts/cards/card_base.gd" id="1_s5qbc"]
 [ext_resource type="Texture2D" uid="uid://bhlwurx2yepqw" path="res://images/card/slot/card_slot.png" id="2_k7681"]
+[ext_resource type="Shader" path="res://sparkle.gdshader" id="3_15q1s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4o2ic"]
+shader = ExtResource("3_15q1s")
+shader_parameter/active = false
+shader_parameter/sparkle_speed = 0.5
+shader_parameter/sparkle_density = 0.95
+shader_parameter/sparkle_intensity = 3.0
+shader_parameter/sparkle_size = 80.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n0aus"]
 size = Vector2(669, 1041)
 
 [sub_resource type="LabelSettings" id="LabelSettings_xhrud"]
-font_size = 300
+font_size = 200
 font_color = Color(1, 0.0862745, 1, 1)
 
 [node name="CardBase" type="Area2D" groups=["cards"]]
 script = ExtResource("1_s5qbc")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="BackgroundSprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_k7681")
+
+[node name="CoreSprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_4o2ic")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 3.5)
 shape = SubResource("RectangleShape2D_n0aus")
 
 [node name="NumberLabel" type="Label" parent="."]
-offset_left = -352.0
-offset_top = 352.0
-offset_right = -86.0
-offset_bottom = 761.0
+offset_left = -334.0
+offset_top = 276.0
+offset_right = -220.0
+offset_bottom = 549.0
 size_flags_vertical = 6
 text = "0"
 label_settings = SubResource("LabelSettings_xhrud")
