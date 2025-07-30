@@ -91,13 +91,13 @@ const MATERIAL_DATA = {
 const CUSTOMER_DATA = {
   CustomerType.WOMAN: {
     "name": "여자 손님",
-    "texture": preload("res://images/card/customer/card_customer.png"),
+    "texture": preload("res://images/card/customer/woman.png"),
     "patience": 60,
     "order": null
   },
   CustomerType.MAN: {
     "name": "남자 손님",
-    "texture": preload("res://images/card/customer/card_customer.png"),
+    "texture": preload("res://images/card/customer/man.png"),
     "patience": 50,
     "order": null
   }

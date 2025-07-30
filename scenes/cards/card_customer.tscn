@@ -2,11 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://co5tlnjxavdlw" path="res://scenes/cards/card_base.tscn" id="1_pu0vu"]
 [ext_resource type="Script" path="res://scripts/cards/card_customer.gd" id="2_ucatu"]
-[ext_resource type="Texture2D" uid="uid://bfj1yg3rrly4h" path="res://images/card/customer/card_customer_background.png" id="3_ddycu"]
+[ext_resource type="Texture2D" uid="uid://dghvdvdpbupeq" path="res://images/card/customer/background.png" id="3_ddycu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4jwxj"]
 font_size = 170
-font_color = Color(0.356846, 0.308953, 0.891672, 1)
+font_color = Color(0.0403653, 0.910827, 0.710031, 1)
 
 [node name="CardCustomer" instance=ExtResource("1_pu0vu")]
 script = ExtResource("2_ucatu")
@@ -29,8 +29,8 @@ autostart = true
 
 [node name="OrderedMenu" type="Label" parent="." index="5"]
 offset_left = -259.0
-offset_top = 128.0
+offset_top = 231.0
 offset_right = 237.0
-offset_bottom = 409.0
+offset_bottom = 470.0
 size_flags_vertical = 6
 label_settings = SubResource("LabelSettings_4jwxj")

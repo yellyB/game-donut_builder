@@ -13,7 +13,11 @@ func _ready():
   card_type = Constants.CardType.CUSTOMER
   var customer_types = Constants.CUSTOMER_DATA.keys()
   var customer_type = customer_types[randi() % customer_types.size()]
-  patience = Constants.CUSTOMER_DATA[customer_type]["patience"]
+  var customer_data = Constants.CUSTOMER_DATA[customer_type]
+
+  patience = customer_data["patience"]
+  $CoreSprite.texture = customer_data["texture"]
+
   $PatienceLabel.text = str(patience)
   setup_order()
   $PatienceTimer.connect("timeout", self._on_patience_timer_timeout)
