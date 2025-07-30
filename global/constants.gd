@@ -1,7 +1,7 @@
 extends Node
 
 
-enum CardType { MATERIAL, DONUT, CUSTOMER }
+enum CardType { MATERIAL, DONUT, CUSTOMER, SPECIAL }
 enum MaterialType { MILK, SUGAR, FLOUR, STRAWBERRY, CHOCOLATE, MINT, RAINBOW }
 enum DonutType { MILK, STRAWBERRY, CHOCOLATE, MINT }
 enum DonutRarity { COMMON, RARE, EPIC }
