@@ -1,4 +1,4 @@
-extends "res://card_base.gd"
+extends "res://scripts/cards/card_base.gd"
 
 
 signal increase_money(price: int)

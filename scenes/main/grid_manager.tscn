@@ -1,0 +1,14 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgtkwht01e514"]
+
+[ext_resource type="Script" path="res://scripts/main/grid_manager.gd" id="1_dadi5"]
+[ext_resource type="PackedScene" uid="uid://bhycrqvxvoey5" path="res://scenes/cards/card_donut.tscn" id="2_egs4i"]
+[ext_resource type="PackedScene" uid="uid://c0aajuspdrjgp" path="res://scenes/cards/card_customer.tscn" id="2_g7nlk"]
+[ext_resource type="PackedScene" uid="uid://cxdswx7t4e87t" path="res://scenes/cards/card_material.tscn" id="2_tmafm"]
+[ext_resource type="PackedScene" uid="uid://bcjyge5ei7cj2" path="res://scenes/cards/slot.tscn" id="3_cv2rs"]
+
+[node name="GridManager" type="Node2D"]
+script = ExtResource("1_dadi5")
+card_scene_material = ExtResource("2_tmafm")
+card_scene_donut = ExtResource("2_egs4i")
+card_scene_customer = ExtResource("2_g7nlk")
+slot_scene = ExtResource("3_cv2rs")

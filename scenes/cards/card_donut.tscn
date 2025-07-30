@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://bhycrqvxvoey5"]
 
-[ext_resource type="Script" path="res://card_donut.gd" id="1_5w2vy"]
+[ext_resource type="Script" path="res://scripts/cards/card_donut.gd" id="1_5w2vy"]
 [ext_resource type="Texture2D" uid="uid://crbmigdad8g4p" path="res://images/card/donut/card_donut_milk.png" id="2_4cfqo"]
 [ext_resource type="Shader" path="res://sparkle.gdshader" id="3_v2s1w"]
 

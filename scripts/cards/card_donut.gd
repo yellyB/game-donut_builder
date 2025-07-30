@@ -1,4 +1,4 @@
-extends "res://card_base.gd"
+extends "res://scripts/cards/card_base.gd"
 
 
 var price: int = 0 # Will be set by donut type

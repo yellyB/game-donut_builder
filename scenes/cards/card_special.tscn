@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://xxxxxxxxxxxxx"]
 
-[ext_resource type="Script" path="res://card_special.gd" id="1_xxxxx"]
+[ext_resource type="Script" path="res://scripts/cards/card_special.gd" id="1_xxxxx"]
 [ext_resource type="Texture2D" uid="uid://xxxxxxxxxxxxx" path="res://icon.svg" id="2_xxxxx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xxxxx"]

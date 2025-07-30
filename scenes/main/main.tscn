@@ -1,16 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bi40ejkwcc5b2"]
+[gd_scene load_steps=8 format=3 uid="uid://c1y4w5j6k7l8g"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_sqydp"]
-[ext_resource type="PackedScene" uid="uid://cgtkwht01e514" path="res://grid_manager.tscn" id="2_76dw7"]
-[ext_resource type="PackedScene" uid="uid://cjn6ecipve4xm" path="res://hud.tscn" id="3_hiluj"]
-[ext_resource type="PackedScene" uid="uid://c6w8f7g6q5k1x" path="res://trash_can.tscn" id="4_trash"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
+[ext_resource type="Script" path="res://scripts/main/main.gd" id="1_sqydp"]
+[ext_resource type="PackedScene" uid="uid://cgtkwht01e514" path="res://scenes/main/grid_manager.tscn" id="2_76dw7"]
+[ext_resource type="PackedScene" uid="uid://cjn6ecipve4xm" path="res://scenes/ui/hud.tscn" id="3_hiluj"]
+[ext_resource type="PackedScene" uid="uid://bgy62i2x5qw13" path="res://scenes/ui/trash_can.tscn" id="4_trash"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
 bg_color = Color(0.9, 0.9, 0.9, 1)
@@ -21,6 +14,13 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
 bg_color = Color(0.8, 0.8, 0.8, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -58,9 +58,9 @@ custom_minimum_size = Vector2(900, 200)
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 80
-theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
+theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
 text = "Start"
 
 [connection signal="pressed" from="StartScreen/CenterContainer/StartButton" to="." method="_on_start_button_pressed"]
