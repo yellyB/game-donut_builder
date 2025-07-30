@@ -47,6 +47,8 @@ func _setup_appearance():
   $MenuName.text = current_donut_name
   $GradeLabel.text = _get_grade_name(grade)
   
+  _setup_border()
+  
   # Ensure the material is unique to this instance
   $Sprite2D.material = $Sprite2D.material.duplicate()
   
@@ -55,6 +57,25 @@ func _setup_appearance():
   ($Sprite2D.material as ShaderMaterial).set_shader_parameter("active", is_prestige)
   
   _update_freshness_visuals()
+
+
+func _setup_border():
+  var sprite_node = get_node("Sprite2D")
+  var border_panel = get_node("BorderPanel")
+  if border_panel and sprite_node and sprite_node.texture:
+    var texture_size = sprite_node.texture.get_size()
+    border_panel.size = texture_size
+    border_panel.position = -texture_size / 2
+    
+    var stylebox = border_panel.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
+    match grade:
+      Constants.DonutGrade.BASIC:
+        stylebox.border_color = Color("#808080")
+      Constants.DonutGrade.PREMIUM:
+        stylebox.border_color = Color("#ff0000")
+      Constants.DonutGrade.PRESTIGE:
+        stylebox.border_color = Color("#00ff00")
+    border_panel.add_theme_stylebox_override("panel", stylebox)
 
 
 func can_overlap_with(other_card: Node) -> bool:

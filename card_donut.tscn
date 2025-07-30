@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bhycrqvxvoey5"]
+[gd_scene load_steps=13 format=3 uid="uid://bhycrqvxvoey5"]
 
 [ext_resource type="Script" path="res://card_donut.gd" id="1_5w2vy"]
 [ext_resource type="Texture2D" uid="uid://crbmigdad8g4p" path="res://images/card/donut/card_donut_milk.png" id="2_4cfqo"]
@@ -11,6 +11,14 @@ shader_parameter/sparkle_speed = 0.5
 shader_parameter/sparkle_density = 0.95
 shader_parameter/sparkle_intensity = 3.0
 shader_parameter/sparkle_size = 80.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_border"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color(1, 1, 1, 1)
 
 [sub_resource type="Gradient" id="Gradient_qahg1"]
 offsets = PackedFloat32Array(0, 0.514286, 1)
@@ -51,6 +59,14 @@ script = ExtResource("1_5w2vy")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_qjblp")
 texture = ExtResource("2_4cfqo")
+
+[node name="BorderPanel" type="Panel" parent="."]
+offset_left = -334.0
+offset_top = -520.0
+offset_right = 334.0
+offset_bottom = 520.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_border")
 
 [node name="SparkleEffect" type="GPUParticles2D" parent="."]
 amount = 20
