@@ -96,8 +96,8 @@ func get_current_material_counts() -> Dictionary:
     return counts
 
 
-func craft_donut(donut_type: Constants.DonutType):
-    var recipe = Constants.DONUT_DATA[donut_type]["recipe"]
+func craft_donut(donut_menu: Constants.DonutMenu):
+    var recipe = Constants.DONUT_DATA[donut_menu]["recipe"]
 
     var slot = _find_empty_slot()
     if not slot:
@@ -116,7 +116,7 @@ func craft_donut(donut_type: Constants.DonutType):
 
     consume_materials_for_recipe(recipe)
 
-    var card = instantiate_donut_card(donut_type)
+    var card = instantiate_donut_card(donut_menu)
     if card:
         slot.add_child(card)
 #endregion
@@ -142,15 +142,15 @@ func spawn_material_card(material_type: Constants.MaterialType) -> void:
   _spawn_card(Callable(self, "instantiate_material_card").bind(material_type))
 
 
-func spawn_donut_card(donut_type: Constants.DonutType) -> void:
-  _spawn_card(Callable(self, "instantiate_donut_card").bind(donut_type))
+func spawn_donut_card(donut_menu: Constants.DonutMenu) -> void:
+  _spawn_card(Callable(self, "instantiate_donut_card").bind(donut_menu))
 
 
 # for test. 나중에 삭제필요
-func spawn_all_donut_types() -> void:
-  var donut_types = Constants.DONUT_DATA.keys()
-  for donut_type in donut_types:
-    spawn_donut_card(donut_type)
+func spawn_all_donut_menus() -> void:
+  var donut_menus = Constants.DONUT_DATA.keys()
+  for donut_menu in donut_menus:
+    spawn_donut_card(donut_menu)
 
 
 func _spawn_card(create_card_func: Callable):
@@ -168,7 +168,7 @@ func instantiate_card_for_slot(card_type: String) -> Node2D:
   match card_type:
     "DONUT":
       card = card_scene_donut.instantiate()
-      card.set_donut_type(Constants.DonutType.MILK)
+      card.set_donut_menu(Constants.DonutMenu.MILK)
     "MATERIAL":
       card = card_scene_material.instantiate()
     _:
@@ -192,9 +192,9 @@ func instantiate_material_card(material_type: Constants.MaterialType) -> Node2D:
   return _setup_card_properties(card)
 
 
-func instantiate_donut_card(donut_type: Constants.DonutType) -> Node2D:
+func instantiate_donut_card(donut_menu: Constants.DonutMenu) -> Node2D:
   var card = card_scene_donut.instantiate()
-  card.initialize(donut_type)
+  card.initialize(donut_menu)
   return _setup_card_properties(card)
 
 

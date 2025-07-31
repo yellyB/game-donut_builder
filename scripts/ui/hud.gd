@@ -117,7 +117,7 @@ func _on_button_pressed() -> void:
 
 
 func _on_button_2_pressed() -> void:
-  grid_manager.spawn_all_donut_types()
+  grid_manager.spawn_all_donut_menus()
 
 
 func _on_button_3_pressed() -> void:
@@ -143,16 +143,16 @@ func _on_restart_button_pressed():
   get_tree().reload_current_scene()
 
 
-func _on_craft_item_pressed(donut_type_string: String) -> void:
-  var donut_type_enum = Constants.DonutType.get(donut_type_string)
+func _on_craft_item_pressed(donut_menu_string: String) -> void:
+  var donut_menu_enum = Constants.DonutMenu.get(donut_menu_string)
   
   var current_materials = grid_manager.get_current_material_counts()
-  var recipe = Constants.DONUT_DATA[donut_type_enum]["recipe"]
+  var recipe = Constants.DONUT_DATA[donut_menu_enum]["recipe"]
   if _is_craftable(recipe, current_materials):
-    grid_manager.craft_donut(donut_type_enum)
+    grid_manager.craft_donut(donut_menu_enum)
     _refresh_craft_list()
   else:
-    print("Cannot craft %s, not enough materials." % donut_type_string)
+    print("Cannot craft %s, not enough materials." % donut_menu_string)
   
   craft_list_container.visible = false
 #endregion
@@ -161,16 +161,16 @@ func _on_craft_item_pressed(donut_type_string: String) -> void:
 #region Helper functions
 func _add_craft_item_nodes_to_list() -> void:
   var all_donut_data = Constants.DONUT_DATA
-  for donut_type_enum in all_donut_data:
-    var donut_info = all_donut_data[donut_type_enum]
+  for donut_menu_enum in all_donut_data:
+    var donut_info = all_donut_data[donut_menu_enum]
     var button = Button.new()
     
     button.text = donut_info["name"]
     button.custom_minimum_size = Vector2(0, 80)
     
-    var donut_type_string = Constants.DonutType.find_key(donut_type_enum)
-    button.set_meta("donut_type_string", donut_type_string)
-    button.pressed.connect(_on_craft_item_pressed.bind(donut_type_string))
+    var donut_menu_string = Constants.DonutMenu.find_key(donut_menu_enum)
+    button.set_meta("donut_menu_string", donut_menu_string)
+    button.pressed.connect(_on_craft_item_pressed.bind(donut_menu_string))
     
     craft_list_vbox.add_child(button)
 
@@ -195,9 +195,9 @@ func _refresh_craft_list() -> void:
   var current_materials = grid_manager.get_current_material_counts()
   
   for button in craft_list_vbox.get_children():
-    var donut_type_string = button.get_meta("donut_type_string")
-    var donut_type_enum = Constants.DonutType.get(donut_type_string)
-    var donut_info = Constants.DONUT_DATA[donut_type_enum]
+    var donut_menu_string = button.get_meta("donut_menu_string")
+    var donut_menu_enum = Constants.DonutMenu.get(donut_menu_string)
+    var donut_info = Constants.DONUT_DATA[donut_menu_enum]
     var recipe = donut_info["recipe"]
     
     button.text = _get_recipe_text(donut_info, current_materials)

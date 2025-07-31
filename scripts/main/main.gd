@@ -6,6 +6,7 @@ extends Node
 
 
 func _ready():
+  randomize()
   grid_manager.visible = false
   hud.visible = false
   start_screen.visible = true

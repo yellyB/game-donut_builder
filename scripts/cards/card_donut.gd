@@ -2,7 +2,7 @@ extends "res://scripts/cards/card_base.gd"
 
 
 var price: int = 0 # Will be set by donut type
-var donut_type: Constants.DonutType = Constants.DonutType.MILK
+var donut_menu: Constants.DonutMenu = Constants.DonutMenu.MILK
 
 var current_donut_name: String
 var flavor_texture: Texture2D
@@ -16,8 +16,8 @@ func _ready():
   $FreshnessTimer.start()
 
 
-func initialize(type: Constants.DonutType):
-  donut_type = type
+func initialize(type: Constants.DonutMenu):
+  donut_menu = type
   _set_random_grade()
   _setup_donut_data()
   _setup_appearance()
@@ -34,7 +34,7 @@ func _set_random_grade():
 
 
 func _setup_donut_data():
-  var data = Constants.DONUT_DATA[donut_type]
+  var data = Constants.DONUT_DATA[donut_menu]
   current_donut_name = data["name"]
   flavor_texture = data["texture"]
   price = data["price"]

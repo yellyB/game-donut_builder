@@ -4,7 +4,7 @@ extends "res://scripts/cards/card_base.gd"
 signal increase_money(price: int)
 
 var order_type: Constants.OrderType
-var order_value
+var order_menu
 var patience: int
 var is_showing_wrong_order_effect = false
 
@@ -25,19 +25,9 @@ func _ready():
 func setup_order():
   var is_specific_donut_request = randf() < 0.5
   if is_specific_donut_request:
-    order_type = Constants.OrderType.DONUT_TYPE
-    var donut_types = Constants.DonutType.values()
-    order_value = donut_types[randi() % donut_types.size()]
-    
-    var donut_name = Constants.DONUT_DATA[order_value]["name"]
-    $OrderedMenu.text = donut_name
+    order_by_menu()
   else:
-    order_type = Constants.OrderType.DONUT_TAG
-    var donut_tags = Constants.DonutTag.values()
-    order_value = donut_tags[randi() % donut_tags.size()]
-    
-    var tag_name = Constants.DonutTag.keys()[order_value].capitalize()
-    $OrderedMenu.text = tag_name + " 도넛!"
+    order_by_property()
 
 
 func can_overlap_with(_other_card: Node) -> bool:
@@ -50,30 +40,13 @@ func on_drag_ended():
     if not other.has_method("get_card_type") or other.get_card_type() != Constants.CardType.DONUT:
       continue
 
-    var order_fulfilled = false
-    if order_type == Constants.OrderType.DONUT_TYPE:
-      if other.donut_type == order_value:
-        order_fulfilled = true
-    elif order_type == Constants.OrderType.DONUT_TAG:
-      var donut_data = Constants.DONUT_DATA[other.donut_type]
-      if donut_data["tags"].has(order_value):
-        order_fulfilled = true
-
+    var order_fulfilled = is_order_fulfilled(other.donut_menu)
+    
     if order_fulfilled:
-      var fresh_bonus = 0
-      var grade_bonus = 0
-      var money_to_receive = other.price
-      if other.is_fresh:
-        fresh_bonus = 5  # todo: 신선 도넛일때 추가금 얼마 붙을지? 고민 필요
-      if other.grade == Constants.DonutGrade.PREMIUM:
-        grade_bonus = 15  # todo: 고급 도넛일때 추가금 얼마 붙을지?
-      if other.grade == Constants.DonutGrade.PRESTIGE:
-        grade_bonus = 50  # todo: 명품 도넛일때 추가금 얼마 붙을지?
-        money_to_receive = money_to_receive + fresh_bonus + grade_bonus
+      var money_to_receive = calc_money_to_receive(other)
       increase_money.emit(money_to_receive)
       other.queue_free()
       queue_free()
-      return
     else:
       show_wrong_order_effect()
 
@@ -108,3 +81,45 @@ func _on_patience_timer_timeout():
   if patience <= 0:
     # todo: 패널티 추가
     queue_free()
+
+
+func order_by_menu():
+  order_type = Constants.OrderType.DONUT_MENU
+  var donut_menu = Constants.DonutMenu.values()
+  order_menu = donut_menu[randi() % donut_menu.size()]
+  var donut_name = Constants.DONUT_DATA[order_menu]["name"]
+  $OrderedMenu.text = donut_name
+  
+
+func order_by_property():
+  order_type = Constants.OrderType.DONUT_TAG
+  var donut_tags = Constants.DonutTag.values()
+  order_menu = donut_tags[randi() % donut_tags.size()]
+  var tag_name = Constants.DonutTag.keys()[order_menu].capitalize()
+  $OrderedMenu.text = tag_name + " 도넛!"
+
+
+func is_order_fulfilled(other_donut_menu) -> bool:
+  if order_type == Constants.OrderType.DONUT_MENU:
+    if other_donut_menu == order_menu:
+      return true
+  elif order_type == Constants.OrderType.DONUT_TAG:
+    var donut_data = Constants.DONUT_DATA[other_donut_menu]
+    if donut_data["tags"].has(order_menu):
+      return true
+  return false
+
+
+func calc_money_to_receive(other) -> int:
+  assert(other.get_card_type() == Constants.CardType.DONUT, "손님이 받는 건 도넛이어야 한다.")
+
+  var menu_price = other.price
+  var fresh_bonus = 0
+  var grade_bonus = 0
+  if other.is_fresh:
+    fresh_bonus = 5  # todo: 신선 도넛일때 추가금 얼마 붙을지? 고민 필요
+  if other.grade == Constants.DonutGrade.PREMIUM:
+    grade_bonus = 15  # todo: 고급 도넛일때 추가금 얼마 붙을지?
+  if other.grade == Constants.DonutGrade.PRESTIGE:
+    grade_bonus = 50  # todo: 명품 도넛일때 추가금 얼마 붙을지?
+  return menu_price + fresh_bonus + grade_bonus

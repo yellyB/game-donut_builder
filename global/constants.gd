@@ -3,39 +3,39 @@ extends Node
 
 enum CardType { MATERIAL, DONUT, CUSTOMER, SPECIAL }
 enum MaterialType { MILK, SUGAR, FLOUR, STRAWBERRY, CHOCOLATE, MINT, RAINBOW }
-enum DonutType { MILK, STRAWBERRY, CHOCOLATE, MINT }
+enum DonutMenu { MILK, STRAWBERRY, CHOCOLATE, MINT }
 enum DonutRarity { COMMON, RARE, EPIC }
 enum DonutTag { BASIC, SWEET, FRUITY, CHOCOLATE, MINTY, FRESH }
 enum CustomerType { WOMAN, MAN }
-enum OrderType { DONUT_TYPE, DONUT_TAG }
+enum OrderType { DONUT_MENU, DONUT_TAG }
 enum MaterialGrade { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
 enum DonutGrade { BASIC, PREMIUM, PRESTIGE }
 enum SpecialCardType { TRASHCAN }
 
 
 const DONUT_DATA = {
-  DonutType.MILK: {
+  DonutMenu.MILK: {
     "name": "우유도넛",
     "texture": preload("res://images/card/donut/milk.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR],
     "price": 100,
     "tags": [DonutTag.BASIC, DonutTag.SWEET]
   },
-  DonutType.STRAWBERRY: {
+  DonutMenu.STRAWBERRY: {
     "name": "딸기도넛",
     "texture": preload("res://images/card/donut/strawberry.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.STRAWBERRY],
     "price": 250,
     "tags": [DonutTag.FRUITY, DonutTag.SWEET]
   },
-  DonutType.CHOCOLATE: {
+  DonutMenu.CHOCOLATE: {
     "name": "초코도넛",
     "texture": preload("res://images/card/donut/chocolate.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.CHOCOLATE],
     "price": 250,
     "tags": [DonutTag.CHOCOLATE, DonutTag.SWEET]
   },
-  DonutType.MINT: {
+  DonutMenu.MINT: {
     "name": "민트도넛",
     "texture": preload("res://images/card/donut/mint.png"),
     "recipe": [MaterialType.MILK, MaterialType.SUGAR, MaterialType.FLOUR, MaterialType.MINT],
