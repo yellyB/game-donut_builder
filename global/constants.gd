@@ -6,11 +6,12 @@ enum MaterialType { MILK, SUGAR, FLOUR, STRAWBERRY, CHOCOLATE, MINT, RAINBOW }
 enum DonutType { MILK, STRAWBERRY, CHOCOLATE, MINT }
 enum DonutRarity { COMMON, RARE, EPIC }
 enum DonutTag { BASIC, SWEET, FRUITY, CHOCOLATE, MINTY, FRESH }
-
 enum CustomerType { WOMAN, MAN }
 enum OrderType { DONUT_TYPE, DONUT_TAG }
 enum MaterialGrade { COMMON, UNCOMMON, RARE, EPIC, LEGENDARY }
 enum DonutGrade { BASIC, PREMIUM, PRESTIGE }
+enum SpecialCardType { TRASHCAN }
+
 
 const DONUT_DATA = {
   DonutType.MILK: {

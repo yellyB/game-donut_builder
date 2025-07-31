@@ -9,6 +9,7 @@ const SLOT_MARGIN_Y = 50
 @export var card_scene_material: PackedScene
 @export var card_scene_donut: PackedScene
 @export var card_scene_customer: PackedScene
+@export var card_scene_special: PackedScene
 @export var slot_scene: PackedScene
 var hud: Node = null  # Main에서 할당
 var slot_size = Vector2(100, 150)  # todo: 아래에서 설정되기 때문에 아무값이나 넣어둠. 나중엔 제대로 된 값으로 수정필요
@@ -122,7 +123,11 @@ func craft_donut(donut_type: Constants.DonutType):
 
 
 #region Card Spawning
-func spawn_customer_cards() -> void:
+func spawn_special_card(card_type: Constants.SpecialCardType) -> void:
+  _spawn_card(Callable(self, "instantiate_special_card").bind(card_type))
+
+
+func spawn_customer_card() -> void:
   var slot = _find_empty_slot()
   if not slot:
     _game_over()
@@ -133,7 +138,7 @@ func spawn_customer_cards() -> void:
     slot.add_child(card)
 
 
-func spawn_material_cards(material_type: Constants.MaterialType) -> void:
+func spawn_material_card(material_type: Constants.MaterialType) -> void:
   _spawn_card(Callable(self, "instantiate_material_card").bind(material_type))
 
 
@@ -174,6 +179,12 @@ func instantiate_card_for_slot(card_type: String) -> Node2D:
   
   return _setup_card_properties(card)
 
+
+func instantiate_special_card(card_type: Constants.SpecialCardType) -> Node2D:
+  var card = card_scene_special.instantiate()
+  card.initialize(card_type)
+  return _setup_card_properties(card)
+  
 
 func instantiate_material_card(material_type: Constants.MaterialType) -> Node2D:
   var card = card_scene_material.instantiate()
@@ -278,7 +289,7 @@ func create_slot(pos: Vector2) -> Node2D:
 
 #region Signal handlers
 func _on_timer_finished():
-  spawn_customer_cards()
+  spawn_customer_card()
 
 
 func _game_over():
