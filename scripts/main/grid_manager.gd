@@ -201,6 +201,7 @@ func instantiate_donut_card(donut_menu: Constants.DonutMenu) -> Node2D:
 func instantiate_customer_card() -> Node2D:
   var card = card_scene_customer.instantiate()
   card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
+  card.connect("increase_rep", Callable(hud, "_on_rep_increase"))
   return _setup_card_properties(card)
 
 

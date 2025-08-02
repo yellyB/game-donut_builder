@@ -3,10 +3,14 @@ extends CanvasLayer
 @onready var card_pack_grid = $MarginContainer/VBoxContainer/CardPackContainer
 @onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
+@onready var rep_label = $TopBar/HBoxContainer/RepContainer/RepLabel
 @onready var craft_list_container = $CraftListContainer
 @onready var craft_list_vbox = $CraftListContainer/VBoxContainer
 @onready var purchase_button = $MarginContainer/VBoxContainer/FooterContainer/PurchaseButton
+@onready var game_over_screen = $GameOverScreen
+
 @export var cardpack_scene: PackedScene
+
 var grid_manager: Node = null  # Main에서 할당
 var selected_card_pack_index = -1  # 선택된 카드 팩 인덱스
 var card_packs_data = [
@@ -16,14 +20,13 @@ var card_packs_data = [
   { "image": preload("res://images/card/pack/card_pack_1.png"), "price": 5, "description": "전설 재료 팩: 전설 등급 재료 3개", "grade": Constants.MaterialGrade.EPIC },
   { "image": preload("res://images/card/pack/card_pack_2.png"), "price": 10, "description": "신화 재료 팩: 신화 등급 재료 3개", "grade": Constants.MaterialGrade.LEGENDARY }
 ]
-@onready var game_over_screen = $GameOverScreen
-
 
 #region Godot's built-in functions
 func _ready() -> void:
   _add_craft_item_nodes_to_list()
   TimerManager.time_updated.connect(_on_time_updated)
   update_money_display()
+  update_rep_display()
   
   # 구매 버튼 초기 상태 설정
   purchase_button.disabled = true
@@ -58,6 +61,10 @@ func initialize(grid_manager_node: Node) -> void:
 
 func update_money_display():
   money_label.text = str(UserData.money)
+
+
+func update_rep_display():
+  rep_label.text = str(UserData.reputation)
 
 
 func update_timer_label(new_time) -> void:
@@ -104,8 +111,11 @@ func _on_purchase_button_pressed() -> void:
 
 
 func _on_moeny_increase(price: int):
-  UserData.add_money(price)
   update_money_display()
+  
+
+func _on_rep_increase(price: int):
+  update_rep_display()
   
   
 func _on_time_updated(new_time: int) -> void:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://cjn6ecipve4xm"]
+[gd_scene load_steps=11 format=3 uid="uid://cjn6ecipve4xm"]
 
 [ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_6uaap"]
 [ext_resource type="PackedScene" uid="uid://d4axhjf88x8dl" path="res://scenes/cards/card_pack.tscn" id="1_vslgj"]
+[ext_resource type="Texture2D" uid="uid://cbpft3ltfg41v" path="res://images/star.png" id="3_it4wx"]
 [ext_resource type="Texture2D" uid="uid://d1i0s0jl1xjf5" path="res://images/hourglass.png" id="3_qlpow"]
 [ext_resource type="Texture2D" uid="uid://ccovrgman033m" path="res://images/coin.png" id="3_v40vp"]
 
@@ -39,6 +40,23 @@ theme_override_constants/margin_bottom = 20
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TopBar"]
 layout_mode = 2
+
+[node name="RepContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="Star" type="TextureRect" parent="TopBar/HBoxContainer/RepContainer"]
+layout_mode = 2
+texture = ExtResource("3_it4wx")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="RepLabel" type="Label" parent="TopBar/HBoxContainer/RepContainer"]
+layout_mode = 2
+text = "-1"
+label_settings = SubResource("LabelSettings_58vxo")
 
 [node name="TimerContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
 custom_minimum_size = Vector2(10, 10)

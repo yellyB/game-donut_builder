@@ -2,6 +2,7 @@ extends "res://scripts/cards/card_base.gd"
 
 
 signal increase_money(price: int)
+signal increase_rep(rep: int)
 
 var order_type: Constants.OrderType
 var order_menu
@@ -9,6 +10,7 @@ var patience: int
 var is_showing_wrong_order_effect = false
 
 
+#region Godot's built-in functions
 func _ready():
   card_type = Constants.CardType.CUSTOMER
   var customer_types = Constants.CUSTOMER_DATA.keys()
@@ -20,16 +22,10 @@ func _ready():
   setup_order()
   $PatienceLabel.text = str(patience)
   $PatienceTimer.connect("timeout", self._on_patience_timer_timeout)
+#endregion
 
 
-func setup_order():
-  var is_specific_donut_request = randf() < 0.5
-  if is_specific_donut_request:
-    order_by_menu()
-  else:
-    order_by_property()
-
-
+#region Public functions
 func can_overlap_with(_other_card: Node) -> bool:
   return false
 
@@ -40,47 +36,30 @@ func on_drag_ended():
     if not other.has_method("get_card_type") or other.get_card_type() != Constants.CardType.DONUT:
       continue
 
-    var order_fulfilled = is_order_fulfilled(other.donut_menu)
-    
-    if order_fulfilled:
-      var money_to_receive = calc_money_to_receive(other)
-      increase_money.emit(money_to_receive)
-      other.queue_free()
-      queue_free()
+    if is_order_fulfilled(other.donut_menu):
+      _process_successful_order(other)
     else:
       show_wrong_order_effect()
+#endregion
 
 
-func show_wrong_order_effect():
-  if is_showing_wrong_order_effect:
-    return
-    
-  is_showing_wrong_order_effect = true
-  
-  # 빨간색 깜박임 효과
-  var tween = create_tween()
-  tween.set_loops(3)
-  tween.tween_property(self, "modulate", Color.RED, 0.1)
-  tween.tween_property(self, "modulate", Color.WHITE, 0.1)
-  
-  # 좌우 흔들림 효과
-  var shake_tween = create_tween()
-  shake_tween.set_loops(3)
-  shake_tween.tween_property(self, "position:x", position.x + 10, 0.05)
-  shake_tween.tween_property(self, "position:x", position.x - 10, 0.05)
-  shake_tween.tween_property(self, "position:x", position.x, 0.05)
-  
-  # 효과 완료 후 상태 초기화
-  await tween.finished
-  is_showing_wrong_order_effect = false
-
-
+#region Signal handlers
 func _on_patience_timer_timeout():
   patience -= 1
   $PatienceLabel.text = str(patience)
   if patience <= 0:
     # todo: 패널티 추가
     queue_free()
+#endregion
+
+
+#region Private functions
+func setup_order():
+  var is_specific_donut_request = randf() < 0.5
+  if is_specific_donut_request:
+    order_by_menu()
+  else:
+    order_by_property()
 
 
 func order_by_menu():
@@ -89,7 +68,7 @@ func order_by_menu():
   order_menu = donut_menu[randi() % donut_menu.size()]
   var donut_name = Constants.DONUT_DATA[order_menu]["name"]
   $OrderedMenu.text = donut_name
-  
+
 
 func order_by_property():
   order_type = Constants.OrderType.DONUT_TAG
@@ -97,6 +76,18 @@ func order_by_property():
   order_menu = donut_tags[randi() % donut_tags.size()]
   var tag_name = Constants.DonutTag.keys()[order_menu].capitalize()
   $OrderedMenu.text = tag_name + " 도넛!"
+
+
+func _process_successful_order(donut_card):
+  var money_to_receive = calc_money_to_receive(donut_card)
+  var to_add_rep = 1
+  UserData.add_money(money_to_receive)
+  UserData.add_reputation(to_add_rep)
+  increase_money.emit(money_to_receive)
+  increase_rep.emit(to_add_rep)
+  
+  donut_card.queue_free()
+  queue_free()
 
 
 func is_order_fulfilled(other_donut_menu) -> bool:
@@ -123,3 +114,28 @@ func calc_money_to_receive(other) -> int:
   if other.grade == Constants.DonutGrade.PRESTIGE:
     grade_bonus = 50  # todo: 명품 도넛일때 추가금 얼마 붙을지?
   return menu_price + fresh_bonus + grade_bonus
+
+
+func show_wrong_order_effect():
+  if is_showing_wrong_order_effect:
+    return
+    
+  is_showing_wrong_order_effect = true
+  
+  # 빨간색 깜박임 효과
+  var tween = create_tween()
+  tween.set_loops(3)
+  tween.tween_property(self, "modulate", Color.RED, 0.1)
+  tween.tween_property(self, "modulate", Color.WHITE, 0.1)
+  
+  # 좌우 흔들림 효과
+  var shake_tween = create_tween()
+  shake_tween.set_loops(3)
+  shake_tween.tween_property(self, "position:x", position.x + 10, 0.05)
+  shake_tween.tween_property(self, "position:x", position.x - 10, 0.05)
+  shake_tween.tween_property(self, "position:x", position.x, 0.05)
+  
+  # 효과 완료 후 상태 초기화
+  await tween.finished
+  is_showing_wrong_order_effect = false
+#endregion
