@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameState="*res://global/game_state.gd"
 Constants="*res://global/constants.gd"
 TimerManager="*res://global/timer_manager.gd"
+UserData="*res://global/user_data.gd"
 
 [display]
 

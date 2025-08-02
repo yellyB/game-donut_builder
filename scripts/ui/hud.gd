@@ -57,7 +57,7 @@ func initialize(grid_manager_node: Node) -> void:
 
 
 func update_money_display():
-  money_label.text = str(GameState.money)
+  money_label.text = str(UserData.money)
 
 
 func update_timer_label(new_time) -> void:
@@ -89,8 +89,8 @@ func _on_purchase_button_pressed() -> void:
   var pack_price = card_packs_data[selected_card_pack_index]["price"]
   var pack_grade = card_packs_data[selected_card_pack_index]["grade"]
   
-  if GameState.money >= pack_price:
-    GameState.add_money(-pack_price)
+  if UserData.money >= pack_price:
+    UserData.add_money(-pack_price)
     update_money_display()
     
     # 선택된 등급의 재료 카드 3개 생성
@@ -104,7 +104,7 @@ func _on_purchase_button_pressed() -> void:
 
 
 func _on_moeny_increase(price: int):
-  GameState.add_money(price)
+  UserData.add_money(price)
   update_money_display()
   
   
