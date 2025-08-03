@@ -8,6 +8,7 @@ extends CanvasLayer
 @onready var craft_list_vbox = $CraftListContainer/VBoxContainer
 @onready var purchase_button = $MarginContainer/VBoxContainer/FooterContainer/PurchaseButton
 @onready var game_over_screen = $GameOverScreen
+@onready var game_clear_screen = $GameClearScreen
 
 @export var cardpack_scene: PackedScene
 
@@ -146,7 +147,19 @@ func show_game_over_screen():
   game_over_screen.visible = true
 
 
+func show_game_clear_screen():
+  game_clear_screen.visible = true
+
+
 func _on_restart_button_pressed():
+  GameState.reset()
+  TimerManager.stop()
+  get_tree().paused = false
+  get_tree().reload_current_scene()
+
+
+func _on_continue_button_pressed() -> void:
+  #todo: 다음 라운드 진행으로 수정
   GameState.reset()
   TimerManager.stop()
   get_tree().paused = false

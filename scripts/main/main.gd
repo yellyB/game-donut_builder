@@ -11,6 +11,9 @@ func _ready():
   hud.visible = false
   start_screen.visible = true
 
+  UserData.set_clear_reputation(2)
+  UserData.game_cleared.connect(_on_game_cleared)
+
 
 func _on_start_button_pressed():
   game_start()
@@ -53,3 +56,13 @@ func _input(event):
       KEY_6:
         $GridManager.spawn_material_card(Constants.MaterialType.MINT)
         print("민트 카드 생성됨")
+
+
+func _on_timeout():
+  hud.show_game_over_screen()
+  get_tree().paused = true
+
+
+func _on_game_cleared():
+  hud.show_game_clear_screen()
+  get_tree().paused = true
