@@ -64,6 +64,16 @@ layout_mode = 2
 text = "-1"
 label_settings = SubResource("LabelSettings_58vxo")
 
+[node name="DividerLabel" type="Label" parent="TopBar/HBoxContainer/RepContainer"]
+layout_mode = 2
+text = "/"
+label_settings = SubResource("LabelSettings_58vxo")
+
+[node name="RepGoalLabel" type="Label" parent="TopBar/HBoxContainer/RepContainer"]
+layout_mode = 2
+text = "-1"
+label_settings = SubResource("LabelSettings_58vxo")
+
 [node name="TimerContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
@@ -97,6 +107,33 @@ stretch_mode = 5
 layout_mode = 2
 text = "1,000"
 label_settings = SubResource("LabelSettings_dluk8")
+
+[node name="CustomerTimerContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(10, 10)
+anchors_preset = -1
+anchor_left = 0.794
+anchor_top = 0.63
+anchor_right = 0.981
+anchor_bottom = 0.665
+offset_left = 0.47998
+offset_top = -0.600098
+offset_right = 0.519897
+offset_bottom = -0.800049
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="Hourglass" type="TextureRect" parent="CustomerTimerContainer"]
+layout_mode = 2
+texture = ExtResource("3_qlpow")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="TimerLabel" type="Label" parent="CustomerTimerContainer"]
+layout_mode = 2
+text = "00:00"
+label_settings = SubResource("LabelSettings_58vxo")
 
 [node name="ForDebugging" type="HBoxContainer" parent="."]
 anchors_preset = -1

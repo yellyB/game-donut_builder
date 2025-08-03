@@ -13,6 +13,7 @@ func _ready():
 
   UserData.set_clear_reputation(2)
   UserData.game_cleared.connect(_on_game_cleared)
+  RoundTimerManager.time_finished.connect(_on_timeout)
 
 
 func _on_start_button_pressed():
@@ -26,7 +27,8 @@ func game_start():
   
   grid_manager.initialize(hud)
   hud.initialize(grid_manager)
-  TimerManager.start()
+  CustomerSpawnTimer.start()
+  RoundTimerManager.start()
   
   $GridManager.spawn_special_card(Constants.SpecialCardType.TRASHCAN)
   

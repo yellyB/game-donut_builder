@@ -20,7 +20,7 @@ var card_counter: int = 0
 
 #region Godot's built-in functions
 func _ready():
-  TimerManager.time_finished.connect(_on_timer_finished)
+  CustomerSpawnTimer.time_finished.connect(_on_timer_finished)
   set_slot_size_from_scene()
 #endregion
 

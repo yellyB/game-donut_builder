@@ -4,6 +4,7 @@ extends CanvasLayer
 @onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
 @onready var rep_label = $TopBar/HBoxContainer/RepContainer/RepLabel
+@onready var rep_goal_label = $TopBar/HBoxContainer/RepContainer/RepGoalLabel
 @onready var craft_list_container = $CraftListContainer
 @onready var craft_list_vbox = $CraftListContainer/VBoxContainer
 @onready var purchase_button = $MarginContainer/VBoxContainer/FooterContainer/PurchaseButton
@@ -25,7 +26,8 @@ var card_packs_data = [
 #region Godot's built-in functions
 func _ready() -> void:
   _add_craft_item_nodes_to_list()
-  TimerManager.time_updated.connect(_on_time_updated)
+  RoundTimerManager.time_updated.connect(_on_round_time_updated)
+  CustomerSpawnTimer.time_updated.connect(_on_customer_spawn_time_updated)
   update_money_display()
   update_rep_display()
   
@@ -57,6 +59,7 @@ func _ready() -> void:
 #region Public functions
 func initialize(grid_manager_node: Node) -> void:
   grid_manager = grid_manager_node
+  rep_goal_label.text = str(UserData.clear_reputation)
   _refresh_craft_list()
 
 
@@ -68,7 +71,14 @@ func update_rep_display():
   rep_label.text = str(UserData.reputation)
 
 
-func update_timer_label(new_time) -> void:
+func update_customer_timer_label(new_time) -> void:
+  var timer_label = $CustomerTimerContainer/TimerLabel
+  var minutes = new_time / 60
+  var seconds = new_time % 60
+  timer_label.text = "%02d:%02d" % [minutes, seconds]
+  
+  
+func update_round_timer_label(new_time) -> void:
   var timer_label = $TopBar/HBoxContainer/TimerContainer/TimerLabel
   var minutes = new_time / 60
   var seconds = new_time % 60
@@ -119,9 +129,13 @@ func _on_rep_increase(price: int):
   update_rep_display()
   
   
-func _on_time_updated(new_time: int) -> void:
-  update_timer_label(new_time)
+func _on_customer_spawn_time_updated(new_time: int) -> void:
+  update_customer_timer_label(new_time)
 
+
+func _on_round_time_updated(new_time: int) -> void:
+  update_round_timer_label(new_time)
+  
 
 func _on_button_pressed() -> void:
   grid_manager.spawn_material_card(Constants.MaterialType.MILK)
@@ -153,7 +167,7 @@ func show_game_clear_screen():
 
 func _on_restart_button_pressed():
   GameState.reset()
-  TimerManager.stop()
+  CustomerSpawnTimer.stop()
   get_tree().paused = false
   get_tree().reload_current_scene()
 
@@ -161,7 +175,7 @@ func _on_restart_button_pressed():
 func _on_continue_button_pressed() -> void:
   #todo: 다음 라운드 진행으로 수정
   GameState.reset()
-  TimerManager.stop()
+  CustomerSpawnTimer.stop()
   get_tree().paused = false
   get_tree().reload_current_scene()
 
