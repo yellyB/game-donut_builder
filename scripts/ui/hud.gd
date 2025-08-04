@@ -1,5 +1,8 @@
 extends CanvasLayer
 
+
+signal game_continue
+
 @onready var card_pack_grid = $MarginContainer/VBoxContainer/CardPackContainer
 @onready var description_label = $MarginContainer/VBoxContainer/FooterContainer/Description
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
@@ -28,6 +31,7 @@ func _ready() -> void:
   _add_craft_item_nodes_to_list()
   RoundTimerManager.time_updated.connect(_on_round_time_updated)
   CustomerSpawnTimer.time_updated.connect(_on_customer_spawn_time_updated)
+  GameState.reputation_goal_changed.connect(_on_reputation_goal_changed)
   update_money_display()
   update_rep_display()
   
@@ -59,7 +63,7 @@ func _ready() -> void:
 #region Public functions
 func initialize(grid_manager_node: Node) -> void:
   grid_manager = grid_manager_node
-  rep_goal_label.text = str(UserData.clear_reputation)
+  rep_goal_label.text = str(GameState.round_clear_reputation_goal)
   _refresh_craft_list()
 
 
@@ -125,7 +129,7 @@ func _on_moeny_increase(price: int):
   update_money_display()
   
 
-func _on_rep_increase(price: int):
+func _on_rep_increase(rep: int):
   update_rep_display()
   
   
@@ -135,6 +139,10 @@ func _on_customer_spawn_time_updated(new_time: int) -> void:
 
 func _on_round_time_updated(new_time: int) -> void:
   update_round_timer_label(new_time)
+
+
+func _on_reputation_goal_changed(new_goal: int) -> void:
+  rep_goal_label.text = str(new_goal)
   
 
 func _on_button_pressed() -> void:
@@ -173,11 +181,10 @@ func _on_restart_button_pressed():
 
 
 func _on_continue_button_pressed() -> void:
-  #todo: 다음 라운드 진행으로 수정
-  GameState.reset()
-  CustomerSpawnTimer.stop()
+  RoundTimerManager.start()
   get_tree().paused = false
-  get_tree().reload_current_scene()
+  game_clear_screen.visible = false
+  emit_signal("game_continue")
 
 
 func _on_craft_item_pressed(donut_menu_string: String) -> void:

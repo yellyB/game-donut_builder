@@ -11,9 +11,8 @@ func _ready():
   hud.visible = false
   start_screen.visible = true
 
-  UserData.set_clear_reputation(2)
-  UserData.game_cleared.connect(_on_game_cleared)
-  RoundTimerManager.time_finished.connect(_on_timeout)
+  GameState.set_next_round_clear_reputation_goal(2)
+  RoundTimerManager.time_finished.connect(_on_round_timer_timeout)
 
 
 func _on_start_button_pressed():
@@ -25,13 +24,14 @@ func game_start():
   hud.visible = true
   start_screen.visible = false
   
+  grid_manager.main = self
   grid_manager.initialize(hud)
   hud.initialize(grid_manager)
   CustomerSpawnTimer.start()
   RoundTimerManager.start()
   
   $GridManager.spawn_special_card(Constants.SpecialCardType.TRASHCAN)
-  
+
 
 # 테스트용: 키보드 입력으로 재료 카드 생성
 func _input(event):
@@ -60,11 +60,25 @@ func _input(event):
         print("민트 카드 생성됨")
 
 
-func _on_timeout():
+func _on_round_timer_timeout():
   hud.show_game_over_screen()
   get_tree().paused = true
 
 
-func _on_game_cleared():
+func _on_round_cleared():
   hud.show_game_clear_screen()
   get_tree().paused = true
+  CustomerSpawnTimer.stop()
+  RoundTimerManager.stop()
+
+
+func _on_hud_game_continue() -> void:
+  get_tree().paused = false
+  GameState.set_next_round_clear_reputation_goal(GameState.round_clear_reputation_goal + 2)
+  CustomerSpawnTimer.start()
+  RoundTimerManager.start()
+  
+
+func _on_rep_increase(value: int):
+  if UserData.reputation >= GameState.round_clear_reputation_goal:
+    _on_round_cleared()

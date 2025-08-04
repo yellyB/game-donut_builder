@@ -11,6 +11,7 @@ const SLOT_MARGIN_Y = 50
 @export var card_scene_customer: PackedScene
 @export var card_scene_special: PackedScene
 @export var slot_scene: PackedScene
+var main: Node
 var hud: Node = null  # Main에서 할당
 var slot_size = Vector2(100, 150)  # todo: 아래에서 설정되기 때문에 아무값이나 넣어둠. 나중엔 제대로 된 값으로 수정필요
 var grid_slots = []
@@ -62,7 +63,6 @@ func move_card_to_best_slot(card: Node2D):
           break
 
       if not can_place:
-        print("슬롯에 카드가 있어서 못놓음:", slot.name)
         continue
         
       if can_place and overlap_area > max_overlap:
@@ -74,7 +74,6 @@ func move_card_to_best_slot(card: Node2D):
     best_slot.add_child(card)
     card.global_position = best_slot.global_position
   else:
-    print("🔄 적절한 슬롯이 없어서 제자리 복귀!")
     if current_slot:
       card.global_position = current_slot.global_position
 
@@ -202,6 +201,7 @@ func instantiate_customer_card() -> Node2D:
   var card = card_scene_customer.instantiate()
   card.connect("increase_money", Callable(hud, "_on_moeny_increase"))
   card.connect("increase_rep", Callable(hud, "_on_rep_increase"))
+  card.connect("increase_rep", Callable(main, "_on_rep_increase"))
   return _setup_card_properties(card)
 
 

@@ -58,4 +58,5 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_pressed")
 theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
 text = "Start"
 
+[connection signal="game_continue" from="HUD" to="." method="_on_hud_game_continue"]
 [connection signal="pressed" from="StartScreen/CenterContainer/StartButton" to="." method="_on_start_button_pressed"]
