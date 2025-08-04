@@ -68,7 +68,7 @@ func initialize(grid_manager_node: Node) -> void:
 
 
 func update_money_display():
-  money_label.text = str(UserData.money)
+  money_label.text = _format_number_with_commas(UserData.money)
 
 
 func update_rep_display():
@@ -278,4 +278,19 @@ func _get_grade_name(grade: Constants.MaterialGrade) -> String:
       return "신화"
     _:
       return "알 수 없음"
+
+
+func _format_number_with_commas(number: int) -> String:
+  var number_str = str(number)
+  var formatted_number = ""
+  var count = 0
+  
+  for i in range(number_str.length() - 1, -1, -1):
+    if count > 0 and count % 3 == 0:
+      formatted_number = "," + formatted_number
+    formatted_number = number_str[i] + formatted_number
+    count += 1
+  
+  return formatted_number
 #endregion
+
