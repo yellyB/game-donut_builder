@@ -13,6 +13,7 @@ signal game_continue
 @onready var purchase_button = $MarginContainer/VBoxContainer/FooterContainer/PurchaseButton
 @onready var game_over_screen = $GameOverScreen
 @onready var game_clear_screen = $GameClearScreen
+@onready var round_timer_label = $TopBar/HBoxContainer/TimerContainer/TimerLabel
 
 @export var cardpack_scene: PackedScene
 
@@ -26,6 +27,12 @@ var card_packs_data = [
   { "image": preload("res://images/card/pack/card_pack_2.png"), "price": 10, "description": "신화 재료 팩: 신화 등급 재료 3개", "grade": Constants.MaterialGrade.LEGENDARY }
 ]
 
+# 타이머 효과 관련 변수
+var original_timer_color: Color
+var original_timer_position: Vector2
+var is_timer_warning = false
+var shake_tween: Tween
+
 #region Godot's built-in functions
 func _ready() -> void:
   _add_craft_item_nodes_to_list()
@@ -34,6 +41,10 @@ func _ready() -> void:
   GameState.reputation_goal_changed.connect(_on_reputation_goal_changed)
   update_money_display()
   update_rep_display()
+  
+  # 타이머 라벨의 원래 색상 저장
+  original_timer_color = round_timer_label.modulate
+  original_timer_position = round_timer_label.position
   
   # 구매 버튼 초기 상태 설정
   purchase_button.disabled = true
@@ -83,10 +94,15 @@ func update_customer_timer_label(new_time) -> void:
   
   
 func update_round_timer_label(new_time) -> void:
-  var timer_label = $TopBar/HBoxContainer/TimerContainer/TimerLabel
   var minutes = new_time / 60
   var seconds = new_time % 60
-  timer_label.text = "%02d:%02d" % [minutes, seconds]
+  round_timer_label.text = "%02d:%02d" % [minutes, seconds]
+  
+  # 3초 이하일 때 경고 효과 적용
+  if new_time <= 3 and not is_timer_warning:
+    _start_timer_warning_effect()
+  elif new_time > 3 and is_timer_warning:
+    _stop_timer_warning_effect()
 #endregion
 
 
@@ -292,5 +308,50 @@ func _format_number_with_commas(number: int) -> String:
     count += 1
   
   return formatted_number
-#endregion
 
+
+func _start_timer_warning_effect() -> void:
+  is_timer_warning = true
+  
+  # 타이머 색상을 빨간색으로 변경
+  round_timer_label.modulate = Color.RED
+  
+  # 흔들림 효과 시작
+  _start_shake_effect()
+
+
+func _stop_timer_warning_effect() -> void:
+  is_timer_warning = false
+  
+  # 타이머 색상을 원래대로 복원
+  round_timer_label.modulate = original_timer_color
+  round_timer_label.position = original_timer_position # 원래 위치로 복원
+  
+  # 흔들림 효과 중지
+  if shake_tween:
+    shake_tween.kill()
+
+
+func _start_shake_effect() -> void:
+  if shake_tween:
+    shake_tween.kill()
+  
+  shake_tween = create_tween()
+  shake_tween.set_loops()
+  
+  # 원래 위치 저장
+  original_timer_position = round_timer_label.position
+  
+  # 흔들림 애니메이션 설정
+  shake_tween.tween_method(_shake_timer_label, 0.0, 1.0, 0.1)
+  shake_tween.tween_method(_shake_timer_label, 1.0, 0.0, 0.1)
+
+
+func _shake_timer_label(progress: float) -> void:
+  var shake_intensity = 3.0
+  var x_offset = sin(progress * 20.0) * shake_intensity
+  var y_offset = cos(progress * 15.0) * shake_intensity
+  
+  round_timer_label.position.x = original_timer_position.x + x_offset
+  round_timer_label.position.y = original_timer_position.y + y_offset
+#endregion
