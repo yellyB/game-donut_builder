@@ -93,13 +93,13 @@ const CUSTOMER_DATA = {
   CustomerType.WOMAN: {
     "name": "여자 손님",
     "texture": preload("res://images/card/customer/woman.png"),
-    "patience": 60,
+    "patience": 6,  # 테스트를 위해 인내심 1/10으로 낮춤
     "order": null
   },
   CustomerType.MAN: {
     "name": "남자 손님",
     "texture": preload("res://images/card/customer/man.png"),
-    "patience": 50,
+    "patience": 5,
     "order": null
   }
 }

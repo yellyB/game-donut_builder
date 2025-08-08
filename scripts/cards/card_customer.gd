@@ -48,7 +48,13 @@ func _on_patience_timer_timeout():
   patience -= 1
   $PatienceLabel.text = str(patience)
   if patience <= 0:
-    # todo: 패널티 추가
+
+    var penalty_rep = -5
+    UserData.add_reputation(penalty_rep)
+    increase_rep.emit(penalty_rep)
+    
+    show_angry_effect()
+    await get_tree().create_timer(1.0).timeout
     queue_free()
 #endregion
 
@@ -138,4 +144,26 @@ func show_wrong_order_effect():
   # 효과 완료 후 상태 초기화
   await tween.finished
   is_showing_wrong_order_effect = false
+
+
+func show_angry_effect():
+  # 더 강한 빨간색 깜박임 효과 (화난 표시)
+  var angry_tween = create_tween()
+  angry_tween.set_loops(5)
+  angry_tween.tween_property(self, "modulate", Color.RED, 0.15)
+  angry_tween.tween_property(self, "modulate", Color.WHITE, 0.15)
+  
+  # 더 강한 흔들림 효과
+  var angry_shake_tween = create_tween()
+  angry_shake_tween.set_loops(5)
+  angry_shake_tween.tween_property(self, "position:x", position.x + 15, 0.08)
+  angry_shake_tween.tween_property(self, "position:x", position.x - 15, 0.08)
+  angry_shake_tween.tween_property(self, "position:x", position.x, 0.08)
+  
+  # 위아래로도 흔들림 추가
+  var vertical_shake_tween = create_tween()
+  vertical_shake_tween.set_loops(5)
+  vertical_shake_tween.tween_property(self, "position:y", position.y + 8, 0.08)
+  vertical_shake_tween.tween_property(self, "position:y", position.y - 8, 0.08)
+  vertical_shake_tween.tween_property(self, "position:y", position.y, 0.08)
 #endregion
