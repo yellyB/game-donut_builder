@@ -48,13 +48,14 @@ func _on_patience_timer_timeout():
   patience -= 1
   $PatienceLabel.text = str(patience)
   if patience <= 0:
-
+    # 화난 효과를 보여주고 완료까지 기다림
+    await show_angry_effect()
+    
+    # 화면에서 완전히 사라진 후 평판 감소
     var penalty_rep = -5
     UserData.add_reputation(penalty_rep)
     increase_rep.emit(penalty_rep)
     
-    show_angry_effect()
-    await get_tree().create_timer(1.0).timeout
     queue_free()
 #endregion
 
@@ -166,4 +167,7 @@ func show_angry_effect():
   vertical_shake_tween.tween_property(self, "position:y", position.y + 8, 0.08)
   vertical_shake_tween.tween_property(self, "position:y", position.y - 8, 0.08)
   vertical_shake_tween.tween_property(self, "position:y", position.y, 0.08)
+  
+  # 모든 애니메이션이 완료될 때까지 기다림
+  await angry_tween.finished
 #endregion
