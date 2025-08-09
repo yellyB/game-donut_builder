@@ -97,5 +97,11 @@ func _on_hud_game_continue() -> void:
   
 
 func _on_rep_increase(value: int):
+  # 평판이 음수가 되면 게임 오버. 이 케이스로 게임 오버 시, 평판 망한 엔딩 노출.
+  if UserData.reputation < 0:
+    game_over()
+    return
+    
+  # 평판이 목표치에 도달하면 라운드 클리어
   if UserData.reputation >= GameState.round_clear_reputation_goal:
     _on_round_cleared()
