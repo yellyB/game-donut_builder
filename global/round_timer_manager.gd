@@ -4,7 +4,7 @@ extends Node
 signal time_updated(new_seconds: int)
 signal time_finished
 
-var timer_duration: int = 10
+var timer_duration: int = 7
 var remaining_seconds: int
 var _timer: Timer
 
@@ -40,3 +40,8 @@ func _on_timer_tick() -> void:
 
   if remaining_seconds == 0:
     emit_signal("time_finished")
+
+
+func reset():
+  stop()
+  remaining_seconds = timer_duration

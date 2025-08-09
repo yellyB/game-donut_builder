@@ -6,12 +6,9 @@ extends Node
 
 
 func _ready():
-  randomize()
   grid_manager.visible = false
   hud.visible = false
   start_screen.visible = true
-
-  GameState.set_next_round_clear_reputation_goal(2)
   RoundTimerManager.time_finished.connect(_on_round_timer_timeout)
 
 
@@ -20,6 +17,8 @@ func _on_start_button_pressed():
 
 
 func game_start():
+  reset_game_state()
+  
   grid_manager.visible = true
   hud.visible = true
   start_screen.visible = false
@@ -31,6 +30,19 @@ func game_start():
   RoundTimerManager.start()
   
   $GridManager.spawn_special_card(Constants.SpecialCardType.TRASHCAN)
+
+
+func reset_game_state():
+  # 게임 일시정지 해제
+  # get_tree().paused = false
+  randomize()
+  GameState.reset()
+  UserData.reset()
+  CustomerSpawnTimer.reset()
+  RoundTimerManager.reset()
+  GameState.set_next_round_clear_reputation_goal(2)
+  hud.update_money_display()
+  hud.update_rep_display()
 
 
 # 테스트용: 키보드 입력으로 재료 카드 생성
@@ -61,6 +73,11 @@ func _input(event):
 
 
 func _on_round_timer_timeout():
+  game_over()
+
+
+func game_over():
+  print("GAME OVER!")
   hud.show_game_over_screen()
   get_tree().paused = true
 

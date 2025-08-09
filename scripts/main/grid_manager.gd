@@ -129,7 +129,7 @@ func spawn_special_card(card_type: Constants.SpecialCardType) -> void:
 func spawn_customer_card() -> void:
   var slot = _find_empty_slot()
   if not slot:
-    _game_over()
+    main.game_over()
     return
 
   var card = instantiate_customer_card()
@@ -291,13 +291,6 @@ func create_slot(pos: Vector2) -> Node2D:
 #region Signal handlers
 func _on_timer_finished():
   spawn_customer_card()
-
-
-func _game_over():
-  print("GAME OVER: No more empty slots!")
-  get_tree().paused = true
-  if hud:
-    hud.show_game_over_screen()
 #endregion
 
 
