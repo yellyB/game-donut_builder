@@ -3,6 +3,7 @@ extends Node
 @onready var grid_manager = $GridManager
 @onready var hud = $HUD
 @onready var start_screen = $StartScreen
+@onready var reputation_goal_popup = $ReputationGoalPopup
 
 
 func _ready():
@@ -13,10 +14,6 @@ func _ready():
 
 
 func _on_start_button_pressed():
-  game_start()
-
-
-func game_start():
   reset_game_state()
   
   grid_manager.visible = true
@@ -26,15 +23,18 @@ func game_start():
   grid_manager.main = self
   grid_manager.initialize(hud)
   hud.initialize(grid_manager)
-  CustomerSpawnTimer.start()
-  RoundTimerManager.start()
+  
+  reputation_goal_popup.show_popup(GameState.round_clear_reputation_goal)
   
   $GridManager.spawn_special_card(Constants.SpecialCardType.TRASHCAN)
 
 
+func game_start():
+  CustomerSpawnTimer.start()
+  RoundTimerManager.start()
+
+
 func reset_game_state():
-  # 게임 일시정지 해제
-  # get_tree().paused = false
   randomize()
   GameState.reset()
   UserData.reset()
@@ -94,6 +94,12 @@ func _on_hud_game_continue() -> void:
   GameState.set_next_round_clear_reputation_goal(GameState.round_clear_reputation_goal + 2)
   CustomerSpawnTimer.start()
   RoundTimerManager.start()
+
+
+func _on_reputation_popup_closed() -> void:
+  print("메인에서 popup_closed 시그널 받음")
+  game_start()
+  print("game_start() 호출됨")
   
 
 func _on_rep_increase(value: int):

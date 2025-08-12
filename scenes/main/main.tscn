@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://c1y4w5j6k7l8g"]
+[gd_scene load_steps=8 format=3 uid="uid://c1y4w5j6k7l8g"]
 
 [ext_resource type="Script" path="res://scripts/main/main.gd" id="1_sqydp"]
 [ext_resource type="PackedScene" uid="uid://cgtkwht01e514" path="res://scenes/main/grid_manager.tscn" id="2_76dw7"]
 [ext_resource type="PackedScene" uid="uid://cjn6ecipve4xm" path="res://scenes/ui/hud.tscn" id="3_hiluj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/reputation_goal_popup.tscn" id="4_popup"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
 bg_color = Color(0.9, 0.9, 0.9, 1)
@@ -32,6 +33,8 @@ script = ExtResource("1_sqydp")
 
 [node name="GridManager" parent="." instance=ExtResource("2_76dw7")]
 
+[node name="ReputationGoalPopup" parent="." instance=ExtResource("4_popup")]
+
 [node name="StartScreen" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
@@ -59,4 +62,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_normal")
 text = "Start"
 
 [connection signal="game_continue" from="HUD" to="." method="_on_hud_game_continue"]
+[connection signal="popup_closed" from="ReputationGoalPopup" to="." method="_on_reputation_popup_closed"]
 [connection signal="pressed" from="StartScreen/CenterContainer/StartButton" to="." method="_on_start_button_pressed"]
