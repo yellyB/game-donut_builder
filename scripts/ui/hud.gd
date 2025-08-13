@@ -197,8 +197,6 @@ func _on_restart_button_pressed():
 
 
 func _on_continue_button_pressed() -> void:
-  RoundTimerManager.start()
-  get_tree().paused = false
   game_clear_screen.visible = false
   emit_signal("game_continue")
 

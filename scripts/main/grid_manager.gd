@@ -307,6 +307,18 @@ func _find_empty_slot() -> Node2D:
   return null
 
 
+func clear_all_customer_cards():
+  for slot in grid_slots:
+    var cards_to_remove = []
+    for child in slot.get_children():
+      if child.is_in_group("cards") and child.get_card_type() == Constants.CardType.CUSTOMER:
+        cards_to_remove.append(child)
+    
+    for card in cards_to_remove:
+      slot.remove_child(card)
+      card.queue_free()
+
+
 func consume_materials_for_recipe(recipe: Array) -> void:
     var materials_to_consume = {}
     for material in recipe:

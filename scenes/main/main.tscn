@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/main/main.gd" id="1_sqydp"]
 [ext_resource type="PackedScene" uid="uid://cgtkwht01e514" path="res://scenes/main/grid_manager.tscn" id="2_76dw7"]
 [ext_resource type="PackedScene" uid="uid://cjn6ecipve4xm" path="res://scenes/ui/hud.tscn" id="3_hiluj"]
-[ext_resource type="PackedScene" path="res://scenes/ui/reputation_goal_popup.tscn" id="4_popup"]
+[ext_resource type="PackedScene" uid="uid://dfb6tyyife6l2" path="res://scenes/ui/reputation_goal_popup.tscn" id="4_popup"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
 bg_color = Color(0.9, 0.9, 0.9, 1)
