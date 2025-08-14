@@ -34,6 +34,7 @@ func game_start():
   grid_manager.main = self
   grid_manager.initialize(hud)
   hud.initialize(grid_manager)
+  reputation_goal_popup.initialize(hud)
   
   reputation_goal_popup.show_popup(GameState.round_clear_reputation_goal)
   $GridManager.spawn_special_card(Constants.SpecialCardType.TRASHCAN)
@@ -97,6 +98,7 @@ func _on_round_cleared():
 
 func _on_hud_game_continue() -> void:
   GameState.set_next_round_clear_reputation_goal(GameState.round_clear_reputation_goal + 2)
+  reputation_goal_popup.initialize(hud)
   reputation_goal_popup.show_popup(GameState.round_clear_reputation_goal)
   stage_start()
 
