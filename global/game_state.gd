@@ -1,6 +1,7 @@
 extends Node
 
 signal reputation_goal_changed(new_goal: int)
+signal round_changed(new_round: int)
 
 const STAGE_1_MONEY = 100
 var z_counter = 100
@@ -24,6 +25,21 @@ func add_money(amount: int):
 func reset():
   money = STAGE_1_MONEY
   current_round = 1
+  round_changed.emit(current_round)
+
+
+func get_current_round() -> int:
+  return current_round
+
+
+func set_current_round(round_number: int):
+  current_round = round_number
+  round_changed.emit(current_round)
+
+
+func advance_round():
+  current_round += 1
+  round_changed.emit(current_round)
 
 
 # todo: 라운드 숫자에 따라 평판 목표치 계산하게 개선

@@ -91,6 +91,22 @@ layout_mode = 2
 text = "00:00"
 label_settings = SubResource("LabelSettings_58vxo")
 
+[node name="RoundContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+
+[node name="RoundLabel" type="Label" parent="TopBar/HBoxContainer/RoundContainer"]
+layout_mode = 2
+text = "라운드"
+label_settings = SubResource("LabelSettings_58vxo")
+
+[node name="RoundNumberLabel" type="Label" parent="TopBar/HBoxContainer/RoundContainer"]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_58vxo")
+
 [node name="MoneyContainer" type="HBoxContainer" parent="TopBar/HBoxContainer"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2

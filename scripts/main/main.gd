@@ -50,6 +50,7 @@ func reset_game_state():
   GameState.set_next_round_clear_reputation_goal(2)
   hud.update_money_display()
   hud.update_rep_display()
+  hud.update_round_display()
 
 
 # 테스트용: 키보드 입력으로 재료 카드 생성
@@ -97,6 +98,7 @@ func _on_round_cleared():
 
 
 func _on_hud_game_continue() -> void:
+  GameState.advance_round()
   GameState.set_next_round_clear_reputation_goal(GameState.round_clear_reputation_goal + 2)
   reputation_goal_popup.initialize(hud)
   reputation_goal_popup.show_popup(GameState.round_clear_reputation_goal)

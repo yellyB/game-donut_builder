@@ -8,6 +8,7 @@ signal game_continue
 @onready var money_label = $TopBar/HBoxContainer/MoneyContainer/MoneyLabel
 @onready var rep_label = $TopBar/HBoxContainer/RepContainer/RepLabel
 @onready var rep_goal_label = $TopBar/HBoxContainer/RepContainer/RepGoalLabel
+@onready var round_number_label = $TopBar/HBoxContainer/RoundContainer/RoundNumberLabel
 @onready var craft_list_container = $CraftListContainer
 @onready var craft_list_vbox = $CraftListContainer/VBoxContainer
 @onready var purchase_button = $MarginContainer/VBoxContainer/FooterContainer/PurchaseButton
@@ -39,8 +40,10 @@ func _ready() -> void:
   RoundTimerManager.time_updated.connect(_on_round_time_updated)
   CustomerSpawnTimer.time_updated.connect(_on_customer_spawn_time_updated)
   GameState.reputation_goal_changed.connect(_on_reputation_goal_changed)
+  GameState.round_changed.connect(_on_round_changed)
   update_money_display()
   update_rep_display()
+  update_round_display()
   
   # 타이머 라벨의 원래 색상 저장
   original_timer_color = round_timer_label.modulate
@@ -75,6 +78,7 @@ func _ready() -> void:
 func initialize(grid_manager_node: Node) -> void:
   grid_manager = grid_manager_node
   rep_goal_label.text = str(GameState.round_clear_reputation_goal)
+  update_round_display()
   _refresh_craft_list()
 
 
@@ -84,6 +88,10 @@ func update_money_display():
 
 func update_rep_display():
   rep_label.text = str(UserData.reputation)
+
+
+func update_round_display():
+  round_number_label.text = str(GameState.get_current_round())
 
 
 func update_customer_timer_label(new_time) -> void:
@@ -159,6 +167,10 @@ func _on_round_time_updated(new_time: int) -> void:
 
 func _on_reputation_goal_changed(new_goal: int) -> void:
   rep_goal_label.text = str(new_goal)
+
+
+func _on_round_changed(new_round: int) -> void:
+  update_round_display()
   
 
 func _on_button_pressed() -> void:

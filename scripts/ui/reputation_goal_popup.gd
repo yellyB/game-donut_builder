@@ -3,6 +3,7 @@ extends Control
 signal popup_closed
 
 @onready var reputation_goal_label = $CenterContainer/PopupPanel/VBoxContainer/ReputationGoalLabel
+@onready var round_label = $CenterContainer/PopupPanel/VBoxContainer/RoundLabel
 
 var hud: Node = null
 
@@ -17,6 +18,7 @@ func initialize(hud_node: Node) -> void:
 
 func show_popup(reputation_goal: int):
   reputation_goal_label.text = "평판 %d 달성하기" % reputation_goal
+  round_label.text = "라운드 %d" % GameState.get_current_round()
   visible = true
   get_tree().paused = true
   
